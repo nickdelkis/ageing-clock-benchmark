@@ -8,6 +8,10 @@ The dataset is GSE41169: whole blood on the Illumina 450K array, 62 people with 
 
 Schizophrenia showed faster ageing on GrimAge2 (+4.3 years) and DunedinPACE (+7%), but not on the other four clocks. Both effects disappeared after adjusting for a methylation-based smoking score. This reproduces the result Shirai et al. (2024) reported for the same dataset. Larger cohorts still show a residual effect, which a sample of 95 is not powered to detect.
 
+![Effect of schizophrenia on each clock before and after adjusting for smoking and blood cells](results/fig4_adjustment_effect.png)
+
+*Schizophrenia minus control, in SD units of age deviation (95% CI). Blue: adjusted for sex only. Orange: plus a methylation smoking score. Green: plus blood cell proportions. QC-passed samples.*
+
 The full write-up, with methods and the literature comparison, is in [WRITEUP.md](WRITEUP.md).
 
 | Figure | Shows |
