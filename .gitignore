@@ -1,0 +1,13 @@
+# Container home: Biolearn download cache, Jupyter state
+.home/
+
+# Raw or cached data never goes in the repo
+data/
+
+# Generated outputs (commit the figures you want to show, not the whole folder)
+results/*
+!results/.gitkeep
+
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/

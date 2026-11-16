@@ -1,0 +1,11 @@
+# Left unpinned so pip can resolve Biolearn's own constraints.
+# The notebook writes the exact versions it ran with to results/environment.txt.
+biolearn
+jupyterlab>=4
+nbconvert
+pandas<3
+numpy
+scipy
+matplotlib
+seaborn
+pytest

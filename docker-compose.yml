@@ -1,0 +1,16 @@
+services:
+  clocks:
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: ageing-clock-benchmark:latest
+    # Only this project folder is visible inside the container.
+    volumes:
+      - ./:/work
+    # Jupyter is reachable from this machine only, never from the network.
+    ports:
+      - "127.0.0.1:8888:8888"
+    # A 450K dataset of ~100 samples needs a few GB; this caps runaway jobs.
+    mem_limit: 12g

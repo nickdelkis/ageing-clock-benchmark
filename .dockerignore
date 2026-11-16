@@ -1,0 +1,6 @@
+.home/
+data/
+results/
+.git/
+**/__pycache__/
+**/.ipynb_checkpoints/
