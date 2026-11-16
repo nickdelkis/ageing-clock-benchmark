@@ -20,6 +20,7 @@ The full write-up, with methods and the literature comparison, is in [WRITEUP.md
 | `results/fig2_deviation_correlation.png` | How the clocks' age deviations correlate |
 | `results/fig3_case_control_effect.png` | Effect of schizophrenia on each clock |
 | `results/fig4_adjustment_effect.png` | That effect after adjusting for smoking and blood cells |
+<<<<<<< HEAD
 
 ## Part 2: agentic target annotation
 
@@ -30,6 +31,8 @@ GrimAge is built from methylation surrogates of seven plasma proteins (ADM, B2M,
 - **Every citation is checked against the evidence.** The agent is also compared with a rule-based baseline and run several times to measure stability.
 
 The agent works with Anthropic, OpenAI or a local model (e.g. Ollama): copy `.env.example` to `.env` and fill in one option.
+=======
+>>>>>>> 94fdda5a1f7e7853980ce239908a16eb02525b49
 
 ## Run it
 
@@ -37,11 +40,19 @@ Requires Docker.
 
 ```bash
 docker compose build                       # once
+<<<<<<< HEAD
 docker compose run --rm clocks pytest -q   # optional: run the tests
 docker compose up                          # open the http://127.0.0.1:8888 link it prints
 ```
 
 Then run `notebooks/clock_benchmark.ipynb` (part 1) or `notebooks/target_ranking.ipynb` (part 2) top to bottom. The dataset downloads from GEO on the first run.
+=======
+docker compose run --rm clocks pytest -q   # optional: 9 tests
+docker compose up                          # open the http://127.0.0.1:8888 link it prints
+```
+
+Then run `notebooks/clock_benchmark.ipynb` top to bottom. The dataset downloads from GEO on the first run.
+>>>>>>> 94fdda5a1f7e7853980ce239908a16eb02525b49
 
 ## References
 
