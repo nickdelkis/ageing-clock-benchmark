@@ -1,0 +1,15 @@
+{
+ "target": "B2M",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 0,
+ "assessment": null,
+ "tools_called": [],
+ "n_turns": 1,
+ "error": "HTTPFailure: HTTP 400 from https://api.anthropic.com/v1/messages: b'{\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"`temperature` is deprecated for this model.\"},\"request_id\":\"req_011Ch7LbjNvqh8ppvUDjzm9M\"}'",
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target B2M. Gather evidence with the tools, then call submit_assessment."
+  }
+ ]
+}

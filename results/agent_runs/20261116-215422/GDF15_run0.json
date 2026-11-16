@@ -1,0 +1,453 @@
+{
+ "target": "GDF15",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 0,
+ "assessment": {
+  "target": "GDF15",
+  "proposed_modulation": "unclear",
+  "recommendation": "consider",
+  "scores": {
+   "ageing_relevance": {
+    "score": 4,
+    "rationale": "GDF15 has a high share of ageing papers and weak-to-moderate associations with many age-related diseases. It is also a GrimAge surrogate. Evidence that it causes ageing is lacking, so it may be mostly a biomarker.",
+    "evidence": [
+     {
+      "fact_id": "literature.ageing_share",
+      "value": 0.3471
+     },
+     {
+      "fact_id": "literature.senescence_share",
+      "value": 0.1953
+     },
+     {
+      "fact_id": "associations.n_ageing",
+      "value": 12
+     },
+     {
+      "fact_id": "context.project",
+      "value": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis."
+     }
+    ],
+    "background_knowledge": [
+     "Circulating GDF15 rises with age and predicts mortality and morbidity in human cohorts, which makes it an established ageing biomarker."
+    ]
+   },
+   "mechanism": {
+    "score": 3,
+    "rationale": "The GDF15\u2013GFRAL axis in the brainstem is well characterised. It drives aversion, appetite suppression and weight loss. Its role in ageing is unclear, and it looks like a stress-response hormone with both protective and harmful effects, so the direction is ambiguous.",
+    "evidence": [
+     {
+      "fact_id": "uniprot.function",
+      "value": "Hormone produced in response to various stresses to confer information about those stresses to the brain, and trigger an aversive response, characterized by nausea, vomiting, and/or loss of appetite"
+     },
+     {
+      "fact_id": "associations.ageing",
+      "value": "sarcopenia (0.111)"
+     }
+    ],
+    "background_knowledge": [
+     "Blocking GDF15 or GFRAL is proposed for cachexia. Raising GDF15 signalling is proposed for obesity. Which direction slows ageing is unresolved."
+    ]
+   },
+   "tractability": {
+    "score": 3,
+    "rationale": "As a secreted protein it is antibody-tractable. There is no small-molecule or other-modality evidence. PROTAC evidence is only generic and unlikely to apply to a secreted ligand.",
+    "evidence": [
+     {
+      "fact_id": "tractability.antibody",
+      "value": [
+       "UniProt loc high conf",
+       "GO CC high conf",
+       "UniProt SigP or TMHMM"
+      ]
+     },
+     {
+      "fact_id": "tractability.small_molecule",
+      "value": []
+     }
+    ],
+    "background_knowledge": []
+   },
+   "safety": {
+    "score": 3,
+    "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. The biology suggests risks if GDF15 is inhibited, such as loss of tissue tolerance in infection and myocardial infarction. Raising GDF15 would cause nausea and anorexia.",
+    "evidence": [
+     {
+      "fact_id": "safety.n_liabilities",
+      "value": 0
+     },
+     {
+      "fact_id": "uniprot.function",
+      "value": "Required for tissue tolerance in response to myocardial infarction by acting as an inhibitor of leukocyte integring activation, thereby protecting against cardiac rupture (By similarity)"
+     }
+    ],
+    "background_knowledge": []
+   },
+   "clinical_precedence": {
+    "score": 1,
+    "rationale": "The tools list no drugs acting on GDF15 itself.",
+    "evidence": [
+     {
+      "fact_id": "clinical.max_stage_label",
+      "value": "none"
+     },
+     {
+      "fact_id": "clinical.n_drugs",
+      "value": 0
+     }
+    ],
+    "background_knowledge": [
+     "Anti-GDF15 antibodies have been tested in cachexia in clinical trials, but the tools did not return them, so they are not scored."
+    ]
+   }
+  },
+  "summary": "GDF15 is a stress-induced secreted hormone that acts through GFRAL in the brainstem. It is strongly linked to ageing in the literature, with about 35% of its papers on ageing. It is also one of the GrimAge surrogate proteins, and it has weak associations with many age-related diseases. It is most likely an ageing biomarker, and there is no clear evidence that it drives ageing. It is antibody-tractable, has no drugs listed in the tools and no recorded safety liabilities. The right direction of modulation is unclear: inhibition is a cachexia and nausea concept, while the protein also appears protective. I would consider it mainly as a biomarker or pathway-readout target.",
+  "key_uncertainties": [
+   "Whether GDF15 is causal in ageing or only a biomarker of stress",
+   "Whether inhibiting or activating GDF15-GFRAL would slow ageing",
+   "The GrimAge link is a methylation surrogate, not measured protein, and was not significant in the main meta-analysis model",
+   "No safety data; the biology suggests risks in infection and cardiac injury",
+   "No drugs listed in the tools"
+  ]
+ },
+ "tools_called": [
+  "get_identity_and_function",
+  "get_tractability",
+  "get_safety",
+  "get_clinical_candidates",
+  "get_disease_associations",
+  "get_literature_counts",
+  "get_project_context"
+ ],
+ "n_turns": 3,
+ "error": null,
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target GDF15. Gather evidence with the tools, then call submit_assessment."
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01TxnyBXsudiHjXEJEeFDehR",
+     "name": "get_identity_and_function",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01D5hSzexnB1SrGnGMwiVbZV",
+     "name": "get_tractability",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01KrDEJRbeNayFQbv7apSQRw",
+     "name": "get_safety",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01L74aRZZQ1qhw2iTRy7qTSw",
+     "name": "get_clinical_candidates",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01Pc1u5vK4QVUQJzTVZB7QRf",
+     "name": "get_disease_associations",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_0166MzcLu12yqvnHr9DTtuQ5",
+     "name": "get_literature_counts",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01SM9sjiNTicdS9aVV9MmoSa",
+     "name": "get_project_context",
+     "arguments": {}
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01TxnyBXsudiHjXEJEeFDehR",
+   "name": "get_identity_and_function",
+   "content": "{\"identity.symbol\": \"GDF15\", \"identity.ensembl_id\": \"ENSG00000130513\", \"identity.approved_name\": \"growth differentiation factor 15\", \"uniprot.protein_name\": \"Growth/differentiation factor 15\", \"uniprot.function\": \"Hormone produced in response to various stresses to confer information about those stresses to the brain, and trigger an aversive response, characterized by nausea, vomiting, and/or loss of appetite (PubMed:23468844, PubMed:24971956, PubMed:28846097, PubMed:28846098, PubMed:28846099, PubMed:28953886, PubMed:29046435, PubMed:30639358, PubMed:31875646, PubMed:33589633, PubMed:38092039). The aversive response is both required to reduce continuing exposure to those stresses at the time of exposure and to promote avoidance behavior in the future (PubMed:30639358, PubMed:33589633, PubMed:38092039). Acts by binding to its receptor, GFRAL, activating GFRAL-expressing neurons localized in the area postrema and nucleus tractus solitarius of the brainstem (PubMed:28846097, PubMed:28846098, PubMed:28846099, PubMed:28953886, PubMed:31535977). It then triggers the activation of neurons localized within the parabrachial nucleus and central amygdala, which constitutes part of the 'emergency circuit' that shapes responses to stressful conditions (PubMed:28953886). The GDF15-GFRAL signal induces expression of genes involved in metabolism, such as lipid metabolism in adipose tissues (PubMed:31402172). Required for avoidance behavior in response to food allergens: induced downstream of mast cell activation to promote aversion and minimize harmful effects of exposure to noxious substances (By similarity). In addition to suppress appetite, also promotes weight loss by enhancing energy expenditure in muscle: acts by increasing calcium futile cycling in muscle (By similarity). Contributes to the effect of metformin, an anti-diabetic drug, on appetite reduction and weight loss: produced in the kidney in response to metformin treatment, thereby activating the GDF15-GFRAL response, leading to reduced appetite and weight (PubMed:31875646, PubMed:37060902). The contribution of GDF15 to weight loss following metformin treatment is however limited and subject to discussion (PubMed:36001956). Produced in response to anticancer drugs, such as camptothecin or cisplatin, promoting nausea, vomiting and contributing to malnutrition (By similarity). Overproduced in many cancers, promoting anorexia in cancer (cachexia) (PubMed:32661391). Responsible for the risk of nausea and vomiting during pregnancy: high levels of GDF15 during pregnancy, mostly originating from the fetus, are associated with increased nausea and vomiting (PubMed:38092039). Maternal sensitivity to nausea is probably determined by pre-pregnancy exposure to GDF15, women with naturally high level of GDF15 being less susceptible to nausea than women with low levels of GDF15 before pregnancy (PubMed:38092039). Promotes metabolic adaptation in response to systemic inflammation caused by bacterial and viral infections in order to promote tissue tolerance and prevent tissue damage (PubMed:31402172). Required for tissue tolerance in response to myocardial infarction by acting as an inhibitor of leukocyte integring activation, thereby protecting against cardiac rupture (By similarity). Inhibits growth hormone signaling on hepatocytes (By similarity)\", \"uniprot.locations\": [\"Secreted\"], \"uniprot.secreted\": true}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01D5hSzexnB1SrGnGMwiVbZV",
+   "name": "get_tractability",
+   "content": "{\"tractability.small_molecule\": [], \"tractability.antibody\": [\"UniProt loc high conf\", \"GO CC high conf\", \"UniProt SigP or TMHMM\"], \"tractability.protac\": [\"Database Ubiquitination\", \"Half-life Data\"], \"tractability.other_modality\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01KrDEJRbeNayFQbv7apSQRw",
+   "name": "get_safety",
+   "content": "{\"safety.n_liabilities\": 0, \"safety.events\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01L74aRZZQ1qhw2iTRy7qTSw",
+   "name": "get_clinical_candidates",
+   "content": "{\"clinical.max_stage\": 0, \"clinical.max_stage_label\": \"none\", \"clinical.n_drugs\": 0, \"clinical.drugs\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Pc1u5vK4QVUQJzTVZB7QRf",
+   "name": "get_disease_associations",
+   "content": "{\"associations.n_ageing\": 12, \"associations.ageing\": [\"type 2 diabetes mellitus (0.117)\", \"coronary artery disorder (0.114)\", \"atherosclerosis (0.114)\", \"chronic obstructive pulmonary disease (0.113)\", \"sarcopenia (0.111)\", \"Alzheimer disease (0.108)\", \"pulmonary arterial hypertension (0.106)\", \"stroke disorder (0.103)\", \"cardiovascular disorder (0.102)\", \"Parkinson disease (0.1)\", \"dementia (0.098)\", \"heart failure (0.088)\"], \"associations.top\": [\"hyperemesis gravidarum (0.602)\", \"coffee consumption (0.384)\", \"Abnormality of the skeletal system (0.344)\", \"diaphragmatic hernia (0.15)\", \"obesity disorder (0.129)\", \"obesity due to melanocortin 4 receptor deficiency (0.127)\", \"posterior cortical atrophy (0.125)\", \"central nervous system cancer (0.124)\", \"neoplasm (0.12)\", \"glioblastoma (0.119)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_0166MzcLu12yqvnHr9DTtuQ5",
+   "name": "get_literature_counts",
+   "content": "{\"literature.any\": 16852, \"literature.ageing\": 5850, \"literature.senescence\": 3292, \"literature.schizophrenia\": 337, \"literature.ageing_share\": 0.3471, \"literature.senescence_share\": 0.1953, \"literature.schizophrenia_share\": 0.02, \"literature.search_terms\": [\"GDF15\", \"GDF-15\", \"growth differentiation factor 15\", \"growth differentiation factor-15\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01SM9sjiNTicdS9aVV9MmoSa",
+   "name": "get_project_context",
+   "content": "{\"context.project\": \"One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis.\"}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01J9vDdP9562ZbMcTdsFG8X7",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "GDF15",
+      "proposed_modulation": "unclear",
+      "scores": {
+       "ageing_relevance": {
+        "score": 4,
+        "rationale": "GDF15 has a high share of ageing papers and weak-to-moderate associations with many age-related diseases. It is also a GrimAge surrogate. Evidence that it causes ageing is lacking, so it may be mostly a biomarker.",
+        "evidence": [
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.3471
+         },
+         {
+          "fact_id": "literature.senescence_share",
+          "value": 0.1953
+         },
+         {
+          "fact_id": "associations.n_ageing",
+          "value": 12
+         },
+         {
+          "fact_id": "context.project",
+          "value": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis."
+         }
+        ],
+        "background_knowledge": [
+         "Circulating GDF15 rises with age and predicts mortality and morbidity in human cohorts, which makes it an established ageing biomarker."
+        ]
+       },
+       "mechanism": {
+        "score": 3,
+        "rationale": "The GDF15\u2013GFRAL axis in the brainstem is well characterised. It drives aversion, appetite suppression and weight loss. Its role in ageing is unclear, and it looks like a stress-response hormone with both protective and harmful effects, so the direction is ambiguous.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "Hormone produced in response to various stresses to confer information about those stresses to the brain, and trigger an aversive response, characterized by nausea, vomiting, and/or loss of appetite"
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": "sarcopenia (0.111)"
+         }
+        ],
+        "background_knowledge": [
+         "Blocking GDF15 or GFRAL is proposed for cachexia. Raising GDF15 signalling is proposed for obesity. Which direction slows ageing is unresolved."
+        ]
+       },
+       "tractability": {
+        "score": 3,
+        "rationale": "As a secreted protein it is antibody-tractable. There is no small-molecule or other-modality evidence. PROTAC evidence is only generic and unlikely to apply to a secreted ligand.",
+        "evidence": [
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": []
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 3,
+        "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. The biology suggests risks if GDF15 is inhibited, such as loss of tissue tolerance in infection and myocardial infarction. Raising GDF15 would cause nausea and anorexia.",
+        "evidence": [
+         {
+          "fact_id": "safety.n_liabilities",
+          "value": 0
+         },
+         {
+          "fact_id": "uniprot.function",
+          "value": "Required for tissue tolerance in response to myocardial infarction by acting as an inhibitor of leukocyte integring activation, thereby protecting against cardiac rupture (By similarity)"
+         }
+        ],
+        "background_knowledge": []
+       },
+       "clinical_precedence": {
+        "score": 1,
+        "rationale": "The tools list no drugs acting on GDF15 itself.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "none"
+         },
+         {
+          "fact_id": "clinical.n_drugs",
+          "value": 0
+         }
+        ],
+        "background_knowledge": [
+         "Anti-GDF15 antibodies have been tested in cachexia in clinical trials, but the tools did not return them, so they are not scored."
+        ]
+       }
+      },
+      "summary": "GDF15 is a stress-induced secreted hormone that acts through GFRAL in the brainstem. It is strongly linked to ageing in the literature, with about 35% of its papers on ageing. It is also one of the GrimAge surrogate proteins, and it has weak associations with many age-related diseases. It is most likely an ageing biomarker, and there is no clear evidence that it drives ageing. It is antibody-tractable, has no drugs listed in the tools and no recorded safety liabilities. The right direction of modulation is unclear: inhibition is a cachexia and nausea concept, while the protein also appears protective. I would consider it mainly as a biomarker or pathway-readout target."
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01J9vDdP9562ZbMcTdsFG8X7",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"rejected\", \"problems\": [\"recommendation must be prioritise, consider or deprioritise\"]}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_018w3eAXBjzhr12Yep6gicaf",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "GDF15",
+      "proposed_modulation": "unclear",
+      "recommendation": "consider",
+      "scores": {
+       "ageing_relevance": {
+        "score": 4,
+        "rationale": "GDF15 has a high share of ageing papers and weak-to-moderate associations with many age-related diseases. It is also a GrimAge surrogate. Evidence that it causes ageing is lacking, so it may be mostly a biomarker.",
+        "evidence": [
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.3471
+         },
+         {
+          "fact_id": "literature.senescence_share",
+          "value": 0.1953
+         },
+         {
+          "fact_id": "associations.n_ageing",
+          "value": 12
+         },
+         {
+          "fact_id": "context.project",
+          "value": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis."
+         }
+        ],
+        "background_knowledge": [
+         "Circulating GDF15 rises with age and predicts mortality and morbidity in human cohorts, which makes it an established ageing biomarker."
+        ]
+       },
+       "mechanism": {
+        "score": 3,
+        "rationale": "The GDF15\u2013GFRAL axis in the brainstem is well characterised. It drives aversion, appetite suppression and weight loss. Its role in ageing is unclear, and it looks like a stress-response hormone with both protective and harmful effects, so the direction is ambiguous.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "Hormone produced in response to various stresses to confer information about those stresses to the brain, and trigger an aversive response, characterized by nausea, vomiting, and/or loss of appetite"
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": "sarcopenia (0.111)"
+         }
+        ],
+        "background_knowledge": [
+         "Blocking GDF15 or GFRAL is proposed for cachexia. Raising GDF15 signalling is proposed for obesity. Which direction slows ageing is unresolved."
+        ]
+       },
+       "tractability": {
+        "score": 3,
+        "rationale": "As a secreted protein it is antibody-tractable. There is no small-molecule or other-modality evidence. PROTAC evidence is only generic and unlikely to apply to a secreted ligand.",
+        "evidence": [
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": []
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 3,
+        "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. The biology suggests risks if GDF15 is inhibited, such as loss of tissue tolerance in infection and myocardial infarction. Raising GDF15 would cause nausea and anorexia.",
+        "evidence": [
+         {
+          "fact_id": "safety.n_liabilities",
+          "value": 0
+         },
+         {
+          "fact_id": "uniprot.function",
+          "value": "Required for tissue tolerance in response to myocardial infarction by acting as an inhibitor of leukocyte integring activation, thereby protecting against cardiac rupture (By similarity)"
+         }
+        ],
+        "background_knowledge": []
+       },
+       "clinical_precedence": {
+        "score": 1,
+        "rationale": "The tools list no drugs acting on GDF15 itself.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "none"
+         },
+         {
+          "fact_id": "clinical.n_drugs",
+          "value": 0
+         }
+        ],
+        "background_knowledge": [
+         "Anti-GDF15 antibodies have been tested in cachexia in clinical trials, but the tools did not return them, so they are not scored."
+        ]
+       }
+      },
+      "summary": "GDF15 is a stress-induced secreted hormone that acts through GFRAL in the brainstem. It is strongly linked to ageing in the literature, with about 35% of its papers on ageing. It is also one of the GrimAge surrogate proteins, and it has weak associations with many age-related diseases. It is most likely an ageing biomarker, and there is no clear evidence that it drives ageing. It is antibody-tractable, has no drugs listed in the tools and no recorded safety liabilities. The right direction of modulation is unclear: inhibition is a cachexia and nausea concept, while the protein also appears protective. I would consider it mainly as a biomarker or pathway-readout target.",
+      "key_uncertainties": [
+       "Whether GDF15 is causal in ageing or only a biomarker of stress",
+       "Whether inhibiting or activating GDF15-GFRAL would slow ageing",
+       "The GrimAge link is a methylation surrogate, not measured protein, and was not significant in the main meta-analysis model",
+       "No safety data; the biology suggests risks in infection and cardiac injury",
+       "No drugs listed in the tools"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_018w3eAXBjzhr12Yep6gicaf",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"accepted\"}"
+  }
+ ]
+}

@@ -1,0 +1,399 @@
+{
+ "target": "ADM",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 0,
+ "assessment": {
+  "target": "ADM",
+  "proposed_modulation": "unclear",
+  "scores": {
+   "ageing_relevance": {
+    "score": 3,
+    "rationale": "About 18% of ADM papers mention ageing and associations with age-related cardiovascular and renal disease are moderate. ADM is one of seven GrimAge plasma-protein surrogates, but that is a surrogate finding, not a measured-protein result.",
+    "evidence": [
+     {
+      "fact_id": "literature.ageing_share",
+      "value": 0.1774
+     },
+     {
+      "fact_id": "literature.senescence_share",
+      "value": 0.078
+     },
+     {
+      "fact_id": "associations.ageing",
+      "value": [
+       "congestive heart failure (0.331)",
+       "cardiovascular disorder (0.253)",
+       "skin aging (0.14)",
+       "essential hypertension (0.132)",
+       "chronic kidney disease (0.117)",
+       "pulmonary arterial hypertension (0.098)",
+       "heart failure (0.091)",
+       "coronary artery disorder (0.077)",
+       "type 2 diabetes mellitus (0.069)",
+       "stroke disorder (0.064)",
+       "osteoporosis (0.056)"
+      ]
+     },
+     {
+      "fact_id": "context.project",
+      "value": "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock."
+     }
+    ],
+    "background_knowledge": [
+     "Circulating ADM / MR-proADM is a known prognostic marker for cardiovascular mortality (not returned by tools)."
+    ]
+   },
+   "mechanism": {
+    "score": 3,
+    "rationale": "ADM is a secreted hypotensive and vasodilatory peptide hormone with well-described physiology. Its link to ageing is correlative, and the direction is unclear: higher levels mark disease risk but the peptide is also vasoprotective.",
+    "evidence": [
+     {
+      "fact_id": "uniprot.function",
+      "value": "Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)"
+     },
+     {
+      "fact_id": "context.project",
+      "value": "Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years."
+     }
+    ],
+    "background_knowledge": [
+     "ADM acts mainly through CALCRL/RAMP receptor complexes and has protective cardiovascular and endothelial-barrier roles.",
+     "The antibody enibarcimab (adrecizumab) is thought to be non-neutralising and to raise plasma ADM, which suggests the direction is not simply inhibition."
+    ]
+   },
+   "tractability": {
+    "score": 4,
+    "rationale": "The antibody modality has advanced-clinical evidence and ADM is a secreted target. Small molecules have ligand structures and high-quality ligands but no clinical evidence, and PROTAC evidence is weak.",
+    "evidence": [
+     {
+      "fact_id": "tractability.antibody",
+      "value": [
+       "Advanced Clinical",
+       "UniProt loc high conf",
+       "GO CC high conf",
+       "UniProt SigP or TMHMM"
+      ]
+     },
+     {
+      "fact_id": "tractability.small_molecule",
+      "value": [
+       "Structure with Ligand",
+       "High-Quality Ligand"
+      ]
+     },
+     {
+      "fact_id": "tractability.protac",
+      "value": [
+       "Database Ubiquitination"
+      ]
+     }
+    ],
+    "background_knowledge": []
+   },
+   "safety": {
+    "score": 3,
+    "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. ADM regulates blood pressure and vascular tone, so systemic modulation could carry cardiovascular risk.",
+    "evidence": [
+     {
+      "fact_id": "safety.n_liabilities",
+      "value": 0
+     },
+     {
+      "fact_id": "safety.events",
+      "value": []
+     }
+    ],
+    "background_knowledge": [
+     "Mouse Adm knockout is reported to be embryonically lethal, and ADM has a role in vascular homeostasis."
+    ]
+   },
+   "clinical_precedence": {
+    "score": 3,
+    "rationale": "One antibody, enibarcimab, has reached Phase 2/3. Nothing is approved and the indication is not given by the tools.",
+    "evidence": [
+     {
+      "fact_id": "clinical.max_stage_label",
+      "value": "PHASE_2_3"
+     },
+     {
+      "fact_id": "clinical.drugs",
+      "value": [
+       "ENIBARCIMAB (PHASE_2_3)"
+      ]
+     }
+    ],
+    "background_knowledge": [
+     "Enibarcimab is also known as adrecizumab and has been studied in septic shock and heart failure."
+    ]
+   }
+  },
+  "summary": "ADM (adrenomedullin) is a secreted vasoactive peptide. It is one of seven GrimAge plasma-protein surrogates, and its ageing associations are mostly cardiovascular and renal. It is tractable by antibody, and enibarcimab has reached Phase 2/3. No safety liabilities are listed, but this reflects missing data and ADM's role in blood pressure control. The direction of modulation for ageing is unclear because ADM is both a risk marker and a protective peptide, and the clinical antibody may act by stabilising it. Recommendation: consider.",
+  "key_uncertainties": [
+   "Whether lowering or raising ADM activity slows ageing: needs causal evidence such as Mendelian randomisation or intervention data on ageing outcomes.",
+   "Mechanism and indication of enibarcimab: is it neutralising or stabilising, and what trial endpoint is used?",
+   "Whether the GrimAge ADM surrogate reflects measured plasma ADM or tracks smoking and disease.",
+   "Cardiovascular and blood-pressure safety of chronic systemic modulation in healthy people."
+  ],
+  "source_conflicts": [
+   "Literature has 17.7% of papers on ageing, but Open Targets ageing-disease association scores are modest (top 0.331). Both suggest a moderate link, and I relied on the association scores for disease relevance.",
+   "Safety lists 0 liabilities, although ADM is a potent vasodilator and a Phase 2/3 drug exists. I treated the empty safety list as missing data, not as evidence of safety.",
+   "Tractability labels small molecules as having high-quality ligands, but the clinical list has only an antibody. I relied on the clinical list for precedence."
+  ],
+  "recommendation": "consider"
+ },
+ "tools_called": [
+  "get_identity_and_function",
+  "get_tractability",
+  "get_safety",
+  "get_clinical_candidates",
+  "get_disease_associations",
+  "get_literature_counts",
+  "get_project_context"
+ ],
+ "n_turns": 2,
+ "error": null,
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target ADM. Gather evidence with the tools, then call submit_assessment."
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01269wEArdsBefbYSNHEYvCU",
+     "name": "get_identity_and_function",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01MjJh9xbSv4kHnsbQ6yLQ7b",
+     "name": "get_tractability",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01LT71ApTyYyH9B2jeJUchHM",
+     "name": "get_safety",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01MUXmzZfN41MMFpisnzU5VR",
+     "name": "get_clinical_candidates",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01Daa5rTvzHYX6KCgpv6UXnv",
+     "name": "get_disease_associations",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01339z1LGVY1n4ju8TWcsxeM",
+     "name": "get_literature_counts",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_013KzbzJ8R7ANQudjymgS2FH",
+     "name": "get_project_context",
+     "arguments": {}
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01269wEArdsBefbYSNHEYvCU",
+   "name": "get_identity_and_function",
+   "content": "{\"identity.symbol\": \"ADM\", \"identity.ensembl_id\": \"ENSG00000148926\", \"identity.approved_name\": \"adrenomedullin\", \"uniprot.protein_name\": \"Pro-adrenomedullin\", \"uniprot.function\": \"Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)\", \"uniprot.locations\": [\"Secreted\"], \"uniprot.secreted\": true}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01MjJh9xbSv4kHnsbQ6yLQ7b",
+   "name": "get_tractability",
+   "content": "{\"tractability.small_molecule\": [\"Structure with Ligand\", \"High-Quality Ligand\"], \"tractability.antibody\": [\"Advanced Clinical\", \"UniProt loc high conf\", \"GO CC high conf\", \"UniProt SigP or TMHMM\"], \"tractability.protac\": [\"Database Ubiquitination\"], \"tractability.other_modality\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01LT71ApTyYyH9B2jeJUchHM",
+   "name": "get_safety",
+   "content": "{\"safety.n_liabilities\": 0, \"safety.events\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01MUXmzZfN41MMFpisnzU5VR",
+   "name": "get_clinical_candidates",
+   "content": "{\"clinical.max_stage\": 3, \"clinical.max_stage_label\": \"PHASE_2_3\", \"clinical.n_drugs\": 1, \"clinical.drugs\": [\"ENIBARCIMAB (PHASE_2_3)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Daa5rTvzHYX6KCgpv6UXnv",
+   "name": "get_disease_associations",
+   "content": "{\"associations.n_ageing\": 11, \"associations.ageing\": [\"congestive heart failure (0.331)\", \"cardiovascular disorder (0.253)\", \"skin aging (0.14)\", \"essential hypertension (0.132)\", \"chronic kidney disease (0.117)\", \"pulmonary arterial hypertension (0.098)\", \"heart failure (0.091)\", \"coronary artery disorder (0.077)\", \"type 2 diabetes mellitus (0.069)\", \"stroke disorder (0.064)\", \"osteoporosis (0.056)\"], \"associations.top\": [\"hypertensive disorder (0.43)\", \"Varicose veins (0.337)\", \"congestive heart failure (0.331)\", \"Abnormality of the skeletal system (0.291)\", \"vascular disorder (0.271)\", \"atrial fibrillation (0.269)\", \"hemorrhoid (0.268)\", \"cardiovascular disorder (0.253)\", \"Increased blood pressure (0.241)\", \"heart disorder (0.213)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01339z1LGVY1n4ju8TWcsxeM",
+   "name": "get_literature_counts",
+   "content": "{\"literature.any\": 11792, \"literature.ageing\": 2092, \"literature.senescence\": 920, \"literature.schizophrenia\": 289, \"literature.ageing_share\": 0.1774, \"literature.senescence_share\": 0.078, \"literature.schizophrenia_share\": 0.0245, \"literature.search_terms\": [\"adrenomedullin\", \"proadrenomedullin\", \"MR-proADM\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_013KzbzJ8R7ANQudjymgS2FH",
+   "name": "get_project_context",
+   "content": "{\"context.project\": \"One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years.\"}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01NjdPAZHBRB6zhaAcCs1nTP",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "ADM",
+      "proposed_modulation": "unclear",
+      "scores": {
+       "ageing_relevance": {
+        "score": 3,
+        "rationale": "About 18% of ADM papers mention ageing and associations with age-related cardiovascular and renal disease are moderate. ADM is one of seven GrimAge plasma-protein surrogates, but that is a surrogate finding, not a measured-protein result.",
+        "evidence": [
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.1774
+         },
+         {
+          "fact_id": "literature.senescence_share",
+          "value": 0.078
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": [
+           "congestive heart failure (0.331)",
+           "cardiovascular disorder (0.253)",
+           "skin aging (0.14)",
+           "essential hypertension (0.132)",
+           "chronic kidney disease (0.117)",
+           "pulmonary arterial hypertension (0.098)",
+           "heart failure (0.091)",
+           "coronary artery disorder (0.077)",
+           "type 2 diabetes mellitus (0.069)",
+           "stroke disorder (0.064)",
+           "osteoporosis (0.056)"
+          ]
+         },
+         {
+          "fact_id": "context.project",
+          "value": "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock."
+         }
+        ],
+        "background_knowledge": [
+         "Circulating ADM / MR-proADM is a known prognostic marker for cardiovascular mortality (not returned by tools)."
+        ]
+       },
+       "mechanism": {
+        "score": 3,
+        "rationale": "ADM is a secreted hypotensive and vasodilatory peptide hormone with well-described physiology. Its link to ageing is correlative, and the direction is unclear: higher levels mark disease risk but the peptide is also vasoprotective.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)"
+         },
+         {
+          "fact_id": "context.project",
+          "value": "Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years."
+         }
+        ],
+        "background_knowledge": [
+         "ADM acts mainly through CALCRL/RAMP receptor complexes and has protective cardiovascular and endothelial-barrier roles.",
+         "The antibody enibarcimab (adrecizumab) is thought to be non-neutralising and to raise plasma ADM, which suggests the direction is not simply inhibition."
+        ]
+       },
+       "tractability": {
+        "score": 4,
+        "rationale": "The antibody modality has advanced-clinical evidence and ADM is a secreted target. Small molecules have ligand structures and high-quality ligands but no clinical evidence, and PROTAC evidence is weak.",
+        "evidence": [
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "Advanced Clinical",
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": [
+           "Structure with Ligand",
+           "High-Quality Ligand"
+          ]
+         },
+         {
+          "fact_id": "tractability.protac",
+          "value": [
+           "Database Ubiquitination"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 3,
+        "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. ADM regulates blood pressure and vascular tone, so systemic modulation could carry cardiovascular risk.",
+        "evidence": [
+         {
+          "fact_id": "safety.n_liabilities",
+          "value": 0
+         },
+         {
+          "fact_id": "safety.events",
+          "value": []
+         }
+        ],
+        "background_knowledge": [
+         "Mouse Adm knockout is reported to be embryonically lethal, and ADM has a role in vascular homeostasis."
+        ]
+       },
+       "clinical_precedence": {
+        "score": 3,
+        "rationale": "One antibody, enibarcimab, has reached Phase 2/3. Nothing is approved and the indication is not given by the tools.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "PHASE_2_3"
+         },
+         {
+          "fact_id": "clinical.drugs",
+          "value": [
+           "ENIBARCIMAB (PHASE_2_3)"
+          ]
+         }
+        ],
+        "background_knowledge": [
+         "Enibarcimab is also known as adrecizumab and has been studied in septic shock and heart failure."
+        ]
+       }
+      },
+      "summary": "ADM (adrenomedullin) is a secreted vasoactive peptide. It is one of seven GrimAge plasma-protein surrogates, and its ageing associations are mostly cardiovascular and renal. It is tractable by antibody, and enibarcimab has reached Phase 2/3. No safety liabilities are listed, but this reflects missing data and ADM's role in blood pressure control. The direction of modulation for ageing is unclear because ADM is both a risk marker and a protective peptide, and the clinical antibody may act by stabilising it. Recommendation: consider.",
+      "key_uncertainties": [
+       "Whether lowering or raising ADM activity slows ageing: needs causal evidence such as Mendelian randomisation or intervention data on ageing outcomes.",
+       "Mechanism and indication of enibarcimab: is it neutralising or stabilising, and what trial endpoint is used?",
+       "Whether the GrimAge ADM surrogate reflects measured plasma ADM or tracks smoking and disease.",
+       "Cardiovascular and blood-pressure safety of chronic systemic modulation in healthy people."
+      ],
+      "source_conflicts": [
+       "Literature has 17.7% of papers on ageing, but Open Targets ageing-disease association scores are modest (top 0.331). Both suggest a moderate link, and I relied on the association scores for disease relevance.",
+       "Safety lists 0 liabilities, although ADM is a potent vasodilator and a Phase 2/3 drug exists. I treated the empty safety list as missing data, not as evidence of safety.",
+       "Tractability labels small molecules as having high-quality ligands, but the clinical list has only an antibody. I relied on the clinical list for precedence."
+      ],
+      "recommendation": "consider"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01NjdPAZHBRB6zhaAcCs1nTP",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"accepted\"}"
+  }
+ ]
+}
