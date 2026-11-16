@@ -1,0 +1,16 @@
+# R + RStudio Server for the Mendelian randomisation part of the project.
+# rocker images install CRAN packages as prebuilt binaries, which keeps the build short.
+FROM rocker/rstudio:4.4.2
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libxml2-dev libcurl4-openssl-dev libssl-dev zlib1g-dev libglpk-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# CRAN: data handling, colocalisation, extra MR estimators
+RUN R -q -e 'install.packages(c("data.table", "jsonlite", "httr", "coloc", "MendelianRandomization"))'
+
+# MRC-IEU packages (TwoSampleMR, ieugwasr) from their r-universe, dependencies from CRAN
+RUN R -q -e 'install.packages(c("TwoSampleMR", "ieugwasr"), repos = c("https://mrcieu.r-universe.dev", getOption("repos")))'
+
+# Fail the build here, not later, if anything did not install
+RUN R -q -e 'for (p in c("TwoSampleMR", "ieugwasr", "coloc", "MendelianRandomization", "data.table")) library(p, character.only = TRUE); cat("R packages OK\n")'

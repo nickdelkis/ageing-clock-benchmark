@@ -14,3 +14,34 @@ services:
       - "127.0.0.1:8888:8888"
     # A 450K dataset of ~100 samples needs a few GB; this caps runaway jobs.
     mem_limit: 12g
+    # LLM settings for notebooks/target_ranking.ipynb, read from .env (see .env.example)
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-}
+      - LLM_MODEL=${LLM_MODEL:-}
+      - LLM_BASE_URL=${LLM_BASE_URL:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - LLM_API_KEY=${LLM_API_KEY:-}
+      - LLM_MAX_TOKENS=${LLM_MAX_TOKENS:-}
+      - LLM_TEMPERATURE=${LLM_TEMPERATURE:-}
+    # Lets the container reach a local model server (Ollama, llama.cpp) on the host, also on Linux
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mr:
+    # R + RStudio Server for Mendelian randomisation (see mr/README.md)
+    build:
+      context: .
+      dockerfile: Dockerfile.mr
+    image: ageing-clock-benchmark-mr:latest
+    # Same project folder, so R results land next to the Python ones
+    volumes:
+      - ./:/home/rstudio/work
+    # RStudio at http://127.0.0.1:8787, reachable from this machine only;
+    # that is why the login screen is switched off
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+      - OPENGWAS_JWT=${OPENGWAS_JWT:-}
+    mem_limit: 8g

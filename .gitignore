@@ -11,3 +11,9 @@ results/*
 __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
+
+# API keys
+.env
+
+# MR download cache
+mr/cache/

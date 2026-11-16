@@ -1,0 +1,146 @@
+{
+ "symbol": "TIMP1",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "TIMP1",
+  "ensembl_id": "ENSG00000102265",
+  "resolved_by": "opentargets.search",
+  "approved_name": "TIMP metallopeptidase inhibitor 1"
+ },
+ "opentargets": {
+  "symbol": "TIMP1",
+  "name": "TIMP metallopeptidase inhibitor 1",
+  "tractability": {
+   "antibody": [
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM"
+   ],
+   "protac": [
+    "Database Ubiquitination"
+   ]
+  },
+  "safety_liabilities": [
+   {
+    "event": "regulation of gene expression",
+    "datasource": "ToxCast",
+    "directions": []
+   },
+   {
+    "event": "regulation of transcription factor activity",
+    "datasource": "ToxCast",
+    "directions": []
+   }
+  ],
+  "clinical_candidates": [],
+  "max_clinical_stage": 0,
+  "ageing_disease_associations": [
+   {
+    "disease": "chronic obstructive pulmonary disease",
+    "score": 0.116
+   },
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.104
+   },
+   {
+    "disease": "Alzheimer disease",
+    "score": 0.088
+   },
+   {
+    "disease": "heart failure",
+    "score": 0.086
+   },
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.084
+   },
+   {
+    "disease": "cardiovascular disorder",
+    "score": 0.08
+   },
+   {
+    "disease": "pulmonary arterial hypertension",
+    "score": 0.077
+   },
+   {
+    "disease": "stroke disorder",
+    "score": 0.075
+   },
+   {
+    "disease": "osteoporosis",
+    "score": 0.073
+   },
+   {
+    "disease": "AIDS dementia complex",
+    "score": 0.069
+   }
+  ],
+  "top_disease_associations": [
+   {
+    "disease": "neoplasm",
+    "score": 0.12
+   },
+   {
+    "disease": "Sepsis",
+    "score": 0.119
+   },
+   {
+    "disease": "glioblastoma",
+    "score": 0.119
+   },
+   {
+    "disease": "colorectal carcinoma",
+    "score": 0.119
+   },
+   {
+    "disease": "neurodegenerative disease",
+    "score": 0.117
+   },
+   {
+    "disease": "chronic obstructive pulmonary disease",
+    "score": 0.116
+   },
+   {
+    "disease": "breast cancer",
+    "score": 0.115
+   },
+   {
+    "disease": "breast carcinoma",
+    "score": 0.114
+   },
+   {
+    "disease": "pancreatic ductal adenocarcinoma",
+    "score": 0.111
+   },
+   {
+    "disease": "cancer",
+    "score": 0.109
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "P01033",
+  "protein_name": "Metalloproteinase inhibitor 1",
+  "function": "Metalloproteinase inhibitor that functions by forming one to one complexes with target metalloproteinases, such as collagenases, and irreversibly inactivates them by binding to their catalytic zinc cofactor. Acts on MMP1, MMP2, MMP3, MMP7, MMP8, MMP9, MMP10, MMP11, MMP12, MMP13 and MMP16. Does not act on MMP14. Also functions as a growth factor that regulates cell differentiation, migration and cell death and activates cellular signaling cascades via CD63 and ITGB1. Plays a role in integrin signaling. Mediates erythropoiesis in vitro; but, unlike IL3, it is species-specific, stimulating the growth and differentiation of only human and murine erythroid progenitors",
+  "locations": [
+   "Secreted"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"TIMP-1\" OR \"TIMP1\" OR \"tissue inhibitor of metalloproteinases-1\" OR \"tissue inhibitor of metalloproteinase 1\")",
+  "counts": {
+   "any": 46110,
+   "ageing": 9754,
+   "senescence": 5524,
+   "schizophrenia": 709
+  },
+  "terms": [
+   "TIMP-1",
+   "TIMP1",
+   "tissue inhibitor of metalloproteinases-1",
+   "tissue inhibitor of metalloproteinase 1"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis."
+}

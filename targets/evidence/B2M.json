@@ -1,0 +1,100 @@
+{
+ "symbol": "B2M",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "B2M",
+  "ensembl_id": "ENSG00000166710",
+  "resolved_by": "opentargets.search",
+  "approved_name": "beta-2-microglobulin"
+ },
+ "opentargets": {
+  "symbol": "B2M",
+  "name": "beta-2-microglobulin",
+  "tractability": {
+   "small_molecule": [
+    "Structure with Ligand",
+    "High-Quality Pocket"
+   ],
+   "antibody": [
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM",
+    "Human Protein Atlas loc"
+   ],
+   "protac": [
+    "Database Ubiquitination",
+    "Half-life Data"
+   ]
+  },
+  "safety_liabilities": [],
+  "clinical_candidates": [],
+  "max_clinical_stage": 0,
+  "ageing_disease_associations": [],
+  "top_disease_associations": [
+   {
+    "disease": "MHC class I deficiency",
+    "score": 0.656
+   },
+   {
+    "disease": "diffuse large B-cell lymphoma",
+    "score": 0.595
+   },
+   {
+    "disease": "HIV infectious disease",
+    "score": 0.532
+   },
+   {
+    "disease": "amyloidosis, hereditary systemic 6",
+    "score": 0.528
+   },
+   {
+    "disease": "AL amyloidosis",
+    "score": 0.468
+   },
+   {
+    "disease": "COVID-19",
+    "score": 0.466
+   },
+   {
+    "disease": "non-Hodgkin lymphoma",
+    "score": 0.458
+   },
+   {
+    "disease": "familial visceral amyloidosis",
+    "score": 0.446
+   },
+   {
+    "disease": "melanoma",
+    "score": 0.416
+   },
+   {
+    "disease": "Hodgkins lymphoma",
+    "score": 0.39
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "P61769",
+  "protein_name": "Beta-2-microglobulin",
+  "function": "Component of the class I major histocompatibility complex (MHC). Involved in the presentation of peptide antigens to the immune system. Exogenously applied M.tuberculosis EsxA or EsxA-EsxB (or EsxA expressed in host) binds B2M and decreases its export to the cell surface (total protein levels do not change), probably leading to defects in class I antigen presentation (PubMed:25356553)",
+  "locations": [
+   "Secreted",
+   "Cell surface"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"beta-2-microglobulin\" OR \"beta2-microglobulin\" OR \"beta 2 microglobulin\")",
+  "counts": {
+   "any": 29796,
+   "ageing": 3025,
+   "senescence": 1493,
+   "schizophrenia": 421
+  },
+  "terms": [
+   "beta-2-microglobulin",
+   "beta2-microglobulin",
+   "beta 2 microglobulin"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): DNAm-predicted level higher in schizophrenia/first-episode psychosis."
+}

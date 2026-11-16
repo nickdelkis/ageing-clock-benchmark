@@ -1,0 +1,154 @@
+{
+ "symbol": "ADM",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "ADM",
+  "ensembl_id": "ENSG00000148926",
+  "resolved_by": "opentargets.search",
+  "approved_name": "adrenomedullin"
+ },
+ "opentargets": {
+  "symbol": "ADM",
+  "name": "adrenomedullin",
+  "tractability": {
+   "small_molecule": [
+    "Structure with Ligand",
+    "High-Quality Ligand"
+   ],
+   "antibody": [
+    "Advanced Clinical",
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM"
+   ],
+   "protac": [
+    "Database Ubiquitination"
+   ]
+  },
+  "safety_liabilities": [],
+  "clinical_candidates": [
+   {
+    "drug": "ENIBARCIMAB",
+    "type": "Antibody",
+    "max_stage": "PHASE_2_3",
+    "indications": [
+     "COVID-19",
+     "heart failure",
+     "septic shock"
+    ]
+   }
+  ],
+  "max_clinical_stage": 3,
+  "ageing_disease_associations": [
+   {
+    "disease": "congestive heart failure",
+    "score": 0.331
+   },
+   {
+    "disease": "cardiovascular disorder",
+    "score": 0.253
+   },
+   {
+    "disease": "skin aging",
+    "score": 0.14
+   },
+   {
+    "disease": "essential hypertension",
+    "score": 0.132
+   },
+   {
+    "disease": "chronic kidney disease",
+    "score": 0.117
+   },
+   {
+    "disease": "pulmonary arterial hypertension",
+    "score": 0.098
+   },
+   {
+    "disease": "heart failure",
+    "score": 0.091
+   },
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.077
+   },
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.069
+   },
+   {
+    "disease": "stroke disorder",
+    "score": 0.064
+   },
+   {
+    "disease": "osteoporosis",
+    "score": 0.056
+   }
+  ],
+  "top_disease_associations": [
+   {
+    "disease": "hypertensive disorder",
+    "score": 0.43
+   },
+   {
+    "disease": "Varicose veins",
+    "score": 0.337
+   },
+   {
+    "disease": "congestive heart failure",
+    "score": 0.331
+   },
+   {
+    "disease": "Abnormality of the skeletal system",
+    "score": 0.291
+   },
+   {
+    "disease": "vascular disorder",
+    "score": 0.271
+   },
+   {
+    "disease": "atrial fibrillation",
+    "score": 0.269
+   },
+   {
+    "disease": "hemorrhoid",
+    "score": 0.268
+   },
+   {
+    "disease": "cardiovascular disorder",
+    "score": 0.253
+   },
+   {
+    "disease": "Increased blood pressure",
+    "score": 0.241
+   },
+   {
+    "disease": "heart disorder",
+    "score": 0.213
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "P35318",
+  "protein_name": "Pro-adrenomedullin",
+  "function": "Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)",
+  "locations": [
+   "Secreted"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"adrenomedullin\" OR \"proadrenomedullin\" OR \"MR-proADM\")",
+  "counts": {
+   "any": 11792,
+   "ageing": 2092,
+   "senescence": 920,
+   "schizophrenia": 289
+  },
+  "terms": [
+   "adrenomedullin",
+   "proadrenomedullin",
+   "MR-proADM"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): DNAm-predicted level higher in schizophrenia/first-episode psychosis."
+}

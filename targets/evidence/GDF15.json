@@ -1,0 +1,144 @@
+{
+ "symbol": "GDF15",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "GDF15",
+  "ensembl_id": "ENSG00000130513",
+  "resolved_by": "opentargets.search",
+  "approved_name": "growth differentiation factor 15"
+ },
+ "opentargets": {
+  "symbol": "GDF15",
+  "name": "growth differentiation factor 15",
+  "tractability": {
+   "antibody": [
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM"
+   ],
+   "protac": [
+    "Database Ubiquitination",
+    "Half-life Data"
+   ]
+  },
+  "safety_liabilities": [],
+  "clinical_candidates": [],
+  "max_clinical_stage": 0,
+  "ageing_disease_associations": [
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.117
+   },
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.114
+   },
+   {
+    "disease": "atherosclerosis",
+    "score": 0.114
+   },
+   {
+    "disease": "chronic obstructive pulmonary disease",
+    "score": 0.113
+   },
+   {
+    "disease": "sarcopenia",
+    "score": 0.111
+   },
+   {
+    "disease": "Alzheimer disease",
+    "score": 0.108
+   },
+   {
+    "disease": "pulmonary arterial hypertension",
+    "score": 0.106
+   },
+   {
+    "disease": "stroke disorder",
+    "score": 0.103
+   },
+   {
+    "disease": "cardiovascular disorder",
+    "score": 0.102
+   },
+   {
+    "disease": "Parkinson disease",
+    "score": 0.1
+   },
+   {
+    "disease": "dementia",
+    "score": 0.098
+   },
+   {
+    "disease": "heart failure",
+    "score": 0.088
+   }
+  ],
+  "top_disease_associations": [
+   {
+    "disease": "hyperemesis gravidarum",
+    "score": 0.602
+   },
+   {
+    "disease": "coffee consumption",
+    "score": 0.384
+   },
+   {
+    "disease": "Abnormality of the skeletal system",
+    "score": 0.344
+   },
+   {
+    "disease": "diaphragmatic hernia",
+    "score": 0.15
+   },
+   {
+    "disease": "obesity disorder",
+    "score": 0.129
+   },
+   {
+    "disease": "obesity due to melanocortin 4 receptor deficiency",
+    "score": 0.127
+   },
+   {
+    "disease": "posterior cortical atrophy",
+    "score": 0.125
+   },
+   {
+    "disease": "central nervous system cancer",
+    "score": 0.124
+   },
+   {
+    "disease": "neoplasm",
+    "score": 0.12
+   },
+   {
+    "disease": "glioblastoma",
+    "score": 0.119
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "Q99988",
+  "protein_name": "Growth/differentiation factor 15",
+  "function": "Hormone produced in response to various stresses to confer information about those stresses to the brain, and trigger an aversive response, characterized by nausea, vomiting, and/or loss of appetite (PubMed:23468844, PubMed:24971956, PubMed:28846097, PubMed:28846098, PubMed:28846099, PubMed:28953886, PubMed:29046435, PubMed:30639358, PubMed:31875646, PubMed:33589633, PubMed:38092039). The aversive response is both required to reduce continuing exposure to those stresses at the time of exposure and to promote avoidance behavior in the future (PubMed:30639358, PubMed:33589633, PubMed:38092039). Acts by binding to its receptor, GFRAL, activating GFRAL-expressing neurons localized in the area postrema and nucleus tractus solitarius of the brainstem (PubMed:28846097, PubMed:28846098, PubMed:28846099, PubMed:28953886, PubMed:31535977). It then triggers the activation of neurons localized within the parabrachial nucleus and central amygdala, which constitutes part of the 'emergency circuit' that shapes responses to stressful conditions (PubMed:28953886). The GDF15-GFRAL signal induces expression of genes involved in metabolism, such as lipid metabolism in adipose tissues (PubMed:31402172). Required for avoidance behavior in response to food allergens: induced downstream of mast cell activation to promote aversion and minimize harmful effects of exposure to noxious substances (By similarity). In addition to suppress appetite, also promotes weight loss by enhancing energy expenditure in muscle: acts by increasing calcium futile cycling in muscle (By similarity). Contributes to the effect of metformin, an anti-diabetic drug, on appetite reduction and weight loss: produced in the kidney in response to metformin treatment, thereby activating the GDF15-GFRAL response, leading to reduced appetite and weight (PubMed:31875646, PubMed:37060902). The contribution of GDF15 to weight loss following metformin treatment is however limited and subject to discussion (PubMed:36001956). Produced in response to anticancer drugs, such as camptothecin or cisplatin, promoting nausea, vomiting and contributing to malnutrition (By similarity). Overproduced in many cancers, promoting anorexia in cancer (cachexia) (PubMed:32661391). Responsible for the risk of nausea and vomiting during pregnancy: high levels of GDF15 during pregnancy, mostly originating from the fetus, are associated with increased nausea and vomiting (PubMed:38092039). Maternal sensitivity to nausea is probably determined by pre-pregnancy exposure to GDF15, women with naturally high level of GDF15 being less susceptible to nausea than women with low levels of GDF15 before pregnancy (PubMed:38092039). Promotes metabolic adaptation in response to systemic inflammation caused by bacterial and viral infections in order to promote tissue tolerance and prevent tissue damage (PubMed:31402172). Required for tissue tolerance in response to myocardial infarction by acting as an inhibitor of leukocyte integring activation, thereby protecting against cardiac rupture (By similarity). Inhibits growth hormone signaling on hepatocytes (By similarity)",
+  "locations": [
+   "Secreted"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"GDF15\" OR \"GDF-15\" OR \"growth differentiation factor 15\" OR \"growth differentiation factor-15\")",
+  "counts": {
+   "any": 16852,
+   "ageing": 5850,
+   "senescence": 3292,
+   "schizophrenia": 337
+  },
+  "terms": [
+   "GDF15",
+   "GDF-15",
+   "growth differentiation factor 15",
+   "growth differentiation factor-15"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis."
+}

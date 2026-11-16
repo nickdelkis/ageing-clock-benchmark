@@ -1,99 +1,50 @@
 # Ageing clock benchmark
 
-A small, contained benchmark of published epigenetic ageing clocks on one public blood-methylation dataset, using [Biolearn](https://bio-learn.github.io/).
+Epigenetic clocks are often treated as interchangeable measures of "biological age". This small project runs six published clocks on one public blood-methylation dataset to see where they agree, where they don't, and whether they register a condition linked to shorter life. The clocks are Horvath, Hannum, PhenoAge, GrimAge2, DunedinPACE and CausAge, run with [Biolearn](https://bio-learn.github.io/).
 
-It asks three questions, framed by the biomarker criteria in Moqri et al. 2023 (*Cell*, [doi:10.1016/j.cell.2023.08.003](https://doi.org/10.1016/j.cell.2023.08.003)):
+The dataset is GSE41169: whole blood on the Illumina 450K array, 62 people with schizophrenia and 33 controls.
 
-1. How well does each clock track chronological age? (context, not the goal)
-2. Do the clocks agree on *who* is ageing fast?
-3. Does each clock register a condition known to shorten life?
+## Result
 
-Default dataset: **GSE41169**, whole blood on the Illumina 450K array, schizophrenia cases and controls. Default clocks: Horvath, Hannum, PhenoAge, GrimAge2, DunedinPACE and the causal clock CausAge.
+Schizophrenia showed faster ageing on GrimAge2 (+4.3 years) and DunedinPACE (+7%), but not on the other four clocks. Both effects disappeared after adjusting for a methylation-based smoking score. This reproduces the result Shirai et al. (2024) reported for the same dataset. Larger cohorts still show a residual effect, which a sample of 95 is not powered to detect.
 
-## What "contained" means here
+![Effect of schizophrenia on each clock before and after adjusting for smoking and blood cells](results/fig4_adjustment_effect.png)
 
-- Everything runs in one Docker container built from `requirements.txt`. Nothing is installed on your machine.
-- The container sees only this project folder (mounted at `/work`). The Biolearn download cache and Jupyter settings live in `.home/` inside it, so deleting the folder removes every trace.
-- Jupyter listens on `127.0.0.1:8888` only, so it is not reachable from your network.
-- It runs as a normal user, not root, and memory is capped at 12 GB.
+*Schizophrenia minus control, in SD units of age deviation (95% CI). Blue: adjusted for sex only. Orange: plus a methylation smoking score. Green: plus blood cell proportions. QC-passed samples.*
 
-## Requirements
+The full write-up, with methods and the literature comparison, is in [WRITEUP.md](WRITEUP.md).
 
-- Docker Desktop (Windows/macOS) or Docker Engine with the compose plugin (Linux).
-- About 3 GB of disk: ~1.5 GB for the image, the rest for the GEO download.
-- 8 GB RAM is enough for GSE41169 (~95 samples). Larger datasets need more.
+| Figure | Shows |
+| --- | --- |
+| `results/fig1_predicted_vs_age.png` | Each clock against chronological age |
+| `results/fig2_deviation_correlation.png` | How the clocks' age deviations correlate |
+| `results/fig3_case_control_effect.png` | Effect of schizophrenia on each clock |
+| `results/fig4_adjustment_effect.png` | That effect after adjusting for smoking and blood cells |
+
+## Part 2: agentic target annotation
+
+GrimAge is built from methylation surrogates of seven plasma proteins (ADM, B2M, cystatin C, GDF15, leptin, PAI-1, TIMP-1). `notebooks/target_ranking.ipynb` asks an LLM agent to assess them as candidate targets for healthy ageing, then checks its work:
+
+- **Evidence is gathered without an LLM** from Open Targets, UniProt and Europe PMC, and cached in `targets/evidence/`.
+- **The agent reads that evidence through tools** and scores ageing relevance, mechanism, tractability, safety and clinical precedence. It must cite the facts behind every score and list claims from its own knowledge separately.
+- **Every citation is checked against the evidence.** The agent is also compared with a rule-based baseline and run several times to measure stability.
+
+The agent works with Anthropic, OpenAI or a local model (e.g. Ollama): copy `.env.example` to `.env` and fill in one option.
 
 ## Run it
 
-```bash
-# 1. Build the image (once, ~5 min)
-docker compose build
-
-# Linux only: make files written by the container belong to you
-#   export UID GID=$(id -g) && docker compose build
-
-# 2. Check the statistics code (should print "9 passed")
-docker compose run --rm clocks pytest -q
-
-# 3. Start Jupyter, then open the http://127.0.0.1:8888/lab?token=... link it prints
-docker compose up
-```
-
-Open `notebooks/clock_benchmark.ipynb` and run all cells. The first run downloads the dataset from GEO (a few minutes); later runs use the cache.
-
-To run without opening Jupyter and get an HTML report instead:
+Requires Docker.
 
 ```bash
-docker compose run --rm clocks jupyter nbconvert --to html --execute \
-  notebooks/clock_benchmark.ipynb --output-dir results
+docker compose build                       # once
+docker compose run --rm clocks pytest -q   # optional: run the tests
+docker compose up                          # open the http://127.0.0.1:8888 link it prints
 ```
 
-Stop Jupyter with `Ctrl+C`, then `docker compose down`.
-
-## Outputs (in `results/`)
-
-| File | What it is |
-| --- | --- |
-| `fig1_predicted_vs_age.png` | Each clock against chronological age, coloured by group |
-| `fig2_deviation_correlation.png` | Correlation of age deviations between clocks |
-| `fig3_case_control_effect.png` | Effect size of the condition per clock, with 95% CI |
-| `clock_metrics.csv` | r, MAE, bias per clock |
-| `age_deviation_per_sample.csv` | Residual age deviation, samples x clocks |
-| `age_deviation_correlations.csv` | The matrix behind figure 2 |
-| `case_control.csv` | Group means, difference, Cohen's d, p and BH q, sex-adjusted estimates |
-| `environment.txt` | Exact package versions used |
-
-## Changing things
-
-All options are in the first notebook cell.
-
-- **Clocks.** Edit `CLOCKS`. Section 1 of the notebook lists every clock the installed Biolearn has; names are matched case-insensitively and unknown names are skipped with close matches suggested.
-- **Dataset.** Change `DATASET` to another GEO ID in Biolearn's library. It must have age in its metadata.
-- **Case/control.** The notebook guesses the label column and which level is the control. It prints its guess; if it's wrong, set `CONDITION_COL`, `CASE` and `CONTROL`.
-
-## Known rough edges
-
-- **Biolearn names and signatures change between versions.** The wrappers in `src/clockbench/biolearn_io.py` catch this and skip a clock rather than crash. Check the "FAILED" lines in section 3.
-- **GrimAge needs sex and age** in the format Biolearn expects. If it fails, check how `sex` is coded in the metadata, or drop it.
-- **Missing CpGs are imputed.** The 450K array lacks some CpGs a few clocks use. `IMPUTATION = "averaging"` fills them from reference means if your Biolearn version supports it.
-- **No cell-composition adjustment.** Blood cell proportions shift with age, smoking and medication, and some clocks move with them. This is the first thing a reviewer would ask about; name it as a limitation.
-
-## Layout
-
-```
-├── Dockerfile, docker-compose.yml, requirements.txt
-├── notebooks/clock_benchmark.ipynb   the analysis
-├── src/clockbench/
-│   ├── analysis.py      age deviation, metrics, correlations, case/control stats
-│   ├── biolearn_io.py   defensive wrappers around Biolearn
-│   └── plots.py         the three figures
-├── tests/test_analysis.py   statistics checked on synthetic data with known answers
-├── WRITEUP.md           one-page findings template
-└── results/             outputs (git-ignored except what you choose to commit)
-```
+Then run `notebooks/clock_benchmark.ipynb` (part 1) or `notebooks/target_ranking.ipynb` (part 2) top to bottom. The dataset downloads from GEO on the first run.
 
 ## References
 
-- Moqri M, et al. (2023) Biomarkers of aging for the identification and evaluation of longevity interventions. *Cell* 186:3758–3775.
-- Biolearn: Ying K, et al. (2024) Biolearn, an open-source library for biomarkers of aging.
-- ComputAgeBench: Kriukov D, et al. (2025) KDD '25.
+- Moqri M, et al. (2023) Biomarkers of aging for the identification and evaluation of longevity interventions. *Cell* 186:3758–3775. [doi:10.1016/j.cell.2023.08.003](https://doi.org/10.1016/j.cell.2023.08.003)
+- Shirai T, et al. (2024) Meta-analyses of epigenetic age acceleration and GrimAge components of schizophrenia or first-episode psychosis. *Schizophrenia* 10:108. [doi:10.1038/s41537-024-00531-8](https://doi.org/10.1038/s41537-024-00531-8)
+- Caspi A, et al. (2023) Accelerated pace of aging in schizophrenia: five case-control studies. *Biological Psychiatry* 95:1038–1047. [doi:10.1016/j.biopsych.2023.10.023](https://doi.org/10.1016/j.biopsych.2023.10.023)

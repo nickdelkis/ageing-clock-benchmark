@@ -1,0 +1,150 @@
+{
+ "symbol": "SERPINE1",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "SERPINE1",
+  "ensembl_id": "ENSG00000106366",
+  "resolved_by": "opentargets.search",
+  "approved_name": "serpin family E member 1"
+ },
+ "opentargets": {
+  "symbol": "SERPINE1",
+  "name": "serpin family E member 1",
+  "tractability": {
+   "small_molecule": [
+    "Advanced Clinical",
+    "Structure with Ligand",
+    "High-Quality Ligand",
+    "High-Quality Pocket",
+    "Druggable Family"
+   ],
+   "antibody": [
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM"
+   ],
+   "protac": [
+    "Small Molecule Binder"
+   ]
+  },
+  "safety_liabilities": [
+   {
+    "event": "regulation of gene expression",
+    "datasource": "ToxCast",
+    "directions": []
+   },
+   {
+    "event": "osteonecrosis",
+    "datasource": "ClinPGx",
+    "directions": []
+   }
+  ],
+  "clinical_candidates": [
+   {
+    "drug": "ALEPLASININ",
+    "type": "Small molecule",
+    "max_stage": "PHASE_1",
+    "indications": [
+     "Alzheimer disease"
+    ]
+   }
+  ],
+  "max_clinical_stage": 1,
+  "ageing_disease_associations": [
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.214
+   },
+   {
+    "disease": "ischemic stroke",
+    "score": 0.202
+   },
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.124
+   },
+   {
+    "disease": "Alzheimer disease",
+    "score": 0.12
+   },
+   {
+    "disease": "chronic obstructive pulmonary disease",
+    "score": 0.112
+   },
+   {
+    "disease": "stroke disorder",
+    "score": 0.103
+   },
+   {
+    "disease": "Parkinson disease",
+    "score": 0.083
+   }
+  ],
+  "top_disease_associations": [
+   {
+    "disease": "congenital plasminogen activator inhibitor type 1 deficiency",
+    "score": 0.684
+   },
+   {
+    "disease": "venous thromboembolism",
+    "score": 0.356
+   },
+   {
+    "disease": "Abnormal bleeding",
+    "score": 0.269
+   },
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.214
+   },
+   {
+    "disease": "ischemic stroke",
+    "score": 0.202
+   },
+   {
+    "disease": "hemorrhage",
+    "score": 0.16
+   },
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.124
+   },
+   {
+    "disease": "thrombotic disease",
+    "score": 0.124
+   },
+   {
+    "disease": "breast carcinoma",
+    "score": 0.124
+   },
+   {
+    "disease": "metabolic syndrome",
+    "score": 0.123
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "P05121",
+  "protein_name": "Plasminogen activator inhibitor 1",
+  "function": "Serine protease inhibitor. Inhibits TMPRSS7 (PubMed:15853774). Is a primary inhibitor of tissue-type plasminogen activator (PLAT) and urokinase-type plasminogen activator (PLAU). As PLAT inhibitor, it is required for fibrinolysis down-regulation and is responsible for the controlled degradation of blood clots (PubMed:17912461, PubMed:8481516, PubMed:9207454, PubMed:21925150). As PLAU inhibitor, it is involved in the regulation of cell adhesion and spreading (PubMed:9175705). Acts as a regulator of cell migration, independently of its role as protease inhibitor (PubMed:15001579, PubMed:9168821). It is required for stimulation of keratinocyte migration during cutaneous injury repair (PubMed:18386027). It is involved in cellular and replicative senescence (PubMed:16862142). Plays a role in alveolar type 2 cells senescence in the lung (By similarity). Is involved in the regulation of cementogenic differentiation of periodontal ligament stem cells, and regulates odontoblast differentiation and dentin formation during odontogenesis (PubMed:25808697, PubMed:27046084)",
+  "locations": [
+   "Secreted"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"plasminogen activator inhibitor-1\" OR \"plasminogen activator inhibitor 1\" OR \"PAI-1\" OR \"SERPINE1\")",
+  "counts": {
+   "any": 59619,
+   "ageing": 12414,
+   "senescence": 7299,
+   "schizophrenia": 999
+  },
+  "terms": [
+   "plasminogen activator inhibitor-1",
+   "plasminogen activator inhibitor 1",
+   "PAI-1",
+   "SERPINE1"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): DNAm-predicted level higher in schizophrenia/first-episode psychosis."
+}

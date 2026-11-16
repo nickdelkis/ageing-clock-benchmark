@@ -169,3 +169,46 @@ def plot_group_forest(results: pd.DataFrame, case: str, control: str):
     ax.set_title(f"Is the clock older in {case} than in {control}?", loc="left")
     fig.tight_layout()
     return fig
+
+
+def plot_adjustment_effect(
+    effects: Mapping[str, pd.DataFrame],
+    order: list[str],
+    title: str,
+    subtitle: str,
+    xlabel: str,
+    highlight: set[str] | None = None,
+):
+    """Group effect per clock under several covariate models, side by side.
+
+    effects maps model label -> compare_groups() output (needs diff_adjusted and
+    se_adjusted). order lists clocks bottom to top. Up to three models.
+    """
+    highlight = highlight or set()
+    fig, ax = plt.subplots(figsize=(7.9, 0.62 * len(order) + 1.9))
+    offsets = np.linspace(0.22, -0.22, len(effects))
+    for (name, r), off, color in zip(effects.items(), offsets, SERIES):
+        r = r.loc[order]
+        y = np.arange(len(order)) + off
+        lo = r["diff_adjusted"] - 1.96 * r["se_adjusted"]
+        hi = r["diff_adjusted"] + 1.96 * r["se_adjusted"]
+        ax.hlines(y, lo, hi, color=color, lw=2, zorder=2)
+        ax.scatter(r["diff_adjusted"], y, s=46, color=color, edgecolor=SURFACE, linewidth=1.2, zorder=3, label=name)
+
+    ax.axvline(0, color=INK_2, lw=1, zorder=1)
+    for i in range(1, len(order)):
+        ax.axhline(i - 0.5, color=GRID, lw=0.8, zorder=0)
+    ax.set_yticks(range(len(order)), order)
+    for lbl in ax.get_yticklabels():
+        if lbl.get_text() in highlight:
+            lbl.set_color(INK)
+            lbl.set_fontweight("bold")
+    ax.set_ylim(-0.6, len(order) - 0.4)
+    ax.grid(axis="y", visible=False)
+    ax.set_xlabel(xlabel)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.13), ncol=len(effects), handletextpad=0.3, columnspacing=1.4)
+    suptitle = fig.suptitle(title, x=0.02, ha="left", fontsize=12, fontweight="bold", color=INK)
+    ax.set_title(subtitle, loc="left", fontsize=8.5, fontweight="normal", color=INK_2, pad=10)
+    fig.tight_layout()
+    suptitle.set_x(ax.get_position().x0)  # line the title up with the subtitle
+    return fig

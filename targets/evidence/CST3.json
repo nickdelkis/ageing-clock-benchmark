@@ -1,0 +1,169 @@
+{
+ "symbol": "CST3",
+ "retrieved": "2026-11-16",
+ "identity": {
+  "symbol": "CST3",
+  "ensembl_id": "ENSG00000101439",
+  "resolved_by": "opentargets.search",
+  "approved_name": "cystatin C"
+ },
+ "opentargets": {
+  "symbol": "CST3",
+  "name": "cystatin C",
+  "tractability": {
+   "small_molecule": [
+    "Structure with Ligand",
+    "High-Quality Pocket"
+   ],
+   "antibody": [
+    "UniProt loc high conf",
+    "GO CC high conf",
+    "UniProt SigP or TMHMM"
+   ],
+   "protac": [
+    "Half-life Data"
+   ]
+  },
+  "safety_liabilities": [],
+  "clinical_candidates": [],
+  "max_clinical_stage": 0,
+  "ageing_disease_associations": [
+   {
+    "disease": "age-related macular degeneration",
+    "score": 0.473
+   },
+   {
+    "disease": "age related macular degeneration 11",
+    "score": 0.463
+   },
+   {
+    "disease": "aging",
+    "score": 0.426
+   },
+   {
+    "disease": "chronic kidney disease",
+    "score": 0.372
+   },
+   {
+    "disease": "acute coronary syndrome",
+    "score": 0.282
+   },
+   {
+    "disease": "coronary artery disorder",
+    "score": 0.115
+   },
+   {
+    "disease": "cardiovascular disorder",
+    "score": 0.111
+   },
+   {
+    "disease": "stroke disorder",
+    "score": 0.108
+   },
+   {
+    "disease": "Alzheimer disease",
+    "score": 0.102
+   },
+   {
+    "disease": "osteoporosis",
+    "score": 0.1
+   },
+   {
+    "disease": "type 2 diabetes mellitus",
+    "score": 0.093
+   },
+   {
+    "disease": "sarcopenia",
+    "score": 0.091
+   },
+   {
+    "disease": "heart failure",
+    "score": 0.09
+   },
+   {
+    "disease": "dementia",
+    "score": 0.088
+   },
+   {
+    "disease": "chronic obstructive pulmonary disease",
+    "score": 0.084
+   },
+   {
+    "disease": "congestive heart failure",
+    "score": 0.081
+   },
+   {
+    "disease": "Parkinson disease",
+    "score": 0.074
+   },
+   {
+    "disease": "atherosclerosis",
+    "score": 0.067
+   }
+  ],
+  "top_disease_associations": [
+   {
+    "disease": "ACys amyloidosis",
+    "score": 0.652
+   },
+   {
+    "disease": "Hereditary cerebral hemorrhage with amyloidosis",
+    "score": 0.619
+   },
+   {
+    "disease": "Hereditary cerebral hemorrhage with amyloidosis, Icelandic type",
+    "score": 0.594
+   },
+   {
+    "disease": "AL amyloidosis",
+    "score": 0.476
+   },
+   {
+    "disease": "age-related macular degeneration",
+    "score": 0.473
+   },
+   {
+    "disease": "age related macular degeneration 11",
+    "score": 0.463
+   },
+   {
+    "disease": "leukodystrophy, adult-onset, autosomal dominant, without amyloid angiopathy",
+    "score": 0.462
+   },
+   {
+    "disease": "cerebral amyloid angiopathy",
+    "score": 0.451
+   },
+   {
+    "disease": "aging",
+    "score": 0.426
+   },
+   {
+    "disease": "leukodystrophy",
+    "score": 0.416
+   }
+  ]
+ },
+ "uniprot": {
+  "accession": "P01034",
+  "protein_name": "Cystatin-C",
+  "function": "As an inhibitor of cysteine proteinases, this protein is thought to serve an important physiological role as a local regulator of this enzyme activity",
+  "locations": [
+   "Secreted"
+  ]
+ },
+ "literature": {
+  "query_entity": "(\"cystatin C\" OR \"cystatin-C\")",
+  "counts": {
+   "any": 30232,
+   "ageing": 7450,
+   "senescence": 1673,
+   "schizophrenia": 630
+  },
+  "terms": [
+   "cystatin C",
+   "cystatin-C"
+  ]
+ },
+ "context": "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): DNAm-predicted level higher in schizophrenia/first-episode psychosis."
+}
