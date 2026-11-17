@@ -1,0 +1,4 @@
+# Store text with LF line endings, and check it out with LF on every OS
+* text=auto eol=lf
+
+*.png binary

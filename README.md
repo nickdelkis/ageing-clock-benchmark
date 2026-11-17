@@ -1,10 +1,18 @@
 # Ageing clock benchmark
 
-Epigenetic clocks are often treated as interchangeable measures of "biological age". This small project runs six published clocks on one public blood-methylation dataset to see where they agree, where they don't, and whether they register a condition linked to shorter life. The clocks are Horvath, Hannum, PhenoAge, GrimAge2, DunedinPACE and CausAge, run with [Biolearn](https://bio-learn.github.io/).
+A small target-discovery workflow for healthy ageing, built on public data in three parts:
+
+1. **Biomarker.** Six epigenetic clocks on a public blood-methylation cohort: where they agree, and what a condition linked to shorter life does to them.
+2. **Triage.** An LLM agent assesses the seven plasma proteins behind the GrimAge clock as candidate targets. It scores them from public evidence, and code checks every fact it cites.
+3. **Direction.** Cis-Mendelian randomisation tests whether genetically higher levels of each protein shorten lifespan. The agent then reads those results as further evidence.
+
+Of the five proteins that could be tested, only PAI-1 (SERPINE1) had causal support. With that evidence, the agent's proposal for PAI-1 changed from "unclear" to "inhibit".
+
+## Part 1: clock benchmark
+
+Epigenetic clocks are often treated as interchangeable measures of "biological age". Part 1 runs six published clocks on one public blood-methylation dataset to see where they agree, where they don't, and whether they register a condition linked to shorter life. The clocks are Horvath, Hannum, PhenoAge, GrimAge2, DunedinPACE and CausAge, run with [Biolearn](https://bio-learn.github.io/).
 
 The dataset is GSE41169: whole blood on the Illumina 450K array, 62 people with schizophrenia and 33 controls.
-
-## Result
 
 Schizophrenia showed faster ageing on GrimAge2 (+4.3 years) and DunedinPACE (+7%), but not on the other four clocks. Both effects disappeared after adjusting for a methylation-based smoking score. This reproduces the result Shirai et al. (2024) reported for the same dataset. Larger cohorts still show a residual effect, which a sample of 95 is not powered to detect.
 
@@ -63,4 +71,4 @@ Part 3 runs in a second container with RStudio and needs a free OpenGWAS token i
 
 - Moqri M, et al. (2023) Biomarkers of aging for the identification and evaluation of longevity interventions. *Cell* 186:3758–3775. [doi:10.1016/j.cell.2023.08.003](https://doi.org/10.1016/j.cell.2023.08.003)
 - Shirai T, et al. (2024) Meta-analyses of epigenetic age acceleration and GrimAge components of schizophrenia or first-episode psychosis. *Schizophrenia* 10:108. [doi:10.1038/s41537-024-00531-8](https://doi.org/10.1038/s41537-024-00531-8)
-- Caspi A, et al. (2023) Accelerated pace of aging in schizophrenia: five case-control studies. *Biological Psychiatry* 95:1038–1047. [doi:10.1016/j.biopsych.2023.10.023](https://doi.org/10.1016/j.biopsych.2023.10.023)
+- Caspi A, et al. (2024) Accelerated pace of aging in schizophrenia: five case-control studies. *Biological Psychiatry* 95(11):1038–1047. [doi:10.1016/j.biopsych.2023.10.023](https://doi.org/10.1016/j.biopsych.2023.10.023)

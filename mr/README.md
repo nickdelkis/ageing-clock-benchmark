@@ -1,6 +1,6 @@
 # Mendelian randomisation (part 3)
 
-Goal: test whether genetically higher levels of each candidate protein *cause* faster epigenetic ageing or shorter lifespan. This uses public GWAS summary statistics only. The MR estimate gives the direction of effect (inhibit or activate), which the agent in part 2 often could not decide. The results will feed the agent as a new evidence tool.
+Goal: test whether genetically higher levels of each candidate protein *cause* faster epigenetic ageing or shorter lifespan. This uses public GWAS summary statistics only. The MR estimate gives the direction of effect (inhibit or activate), which the agent in part 2 often could not decide. The results feed the agent from part 2 through an eighth evidence tool, `get_causal_evidence`.
 
 Runs in its own container (R + RStudio Server) next to the Python one, on the same project folder.
 
@@ -90,10 +90,9 @@ Colocalisation (step 3, ±250 kb, 2,290 variants):
 
 Summary: the MR signal is Bonferroni-significant and replicates in direction across PAI-1 studies, but colocalisation is underpowered. A larger lifespan GWAS is needed to confirm it.
 
+With these results, the agent changed its proposal for SERPINE1 from "unclear" to "inhibit" and lowered its scores for proteins with well-powered nulls. See part 3 of [WRITEUP.md](../WRITEUP.md).
+
 ## Next steps
 
-1. Rerun steps 1–3 (cached, so quick and free) to write the new tables, then rerun the agent notebook. Does SERPINE1's proposed modulation change from "unclear" to "inhibit"?
-2. Optional: the LD between rs4268055 and rs2227631 (`ieugwasr::ld_matrix`), and colocalisation against a larger lifespan GWAS (e.g. Timmers 2019).
-3. Scale beyond the seven proteins: all proteins with cis instruments, then narrow to 50–200 with rules in code, before the agent.
-
-The R scripts are a first draft written without an R environment to test in. Run them step by step and expect small fixes, for example to column names returned by the APIs.
+1. The LD between rs4268055 and rs2227631 (`ieugwasr::ld_matrix`), and colocalisation against a larger lifespan GWAS (e.g. Timmers 2019).
+2. Scale beyond the seven proteins: all proteins with cis instruments, then narrow to 50–200 with rules in code, before the agent.

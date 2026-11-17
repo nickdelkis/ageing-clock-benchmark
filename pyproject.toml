@@ -1,7 +1,7 @@
 [project]
 name = "clockbench"
 version = "0.1.0"
-description = "Small benchmark of epigenetic ageing clocks on one public blood-methylation dataset"
+description = "Ageing clocks, LLM target triage and cis-Mendelian randomisation on public data"
 requires-python = ">=3.10"
 
 [tool.pytest.ini_options]
