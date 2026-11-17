@@ -188,6 +188,9 @@ def ranking(results: list[AgentResult], dossiers: dict[str, dict]) -> pd.DataFra
         "agent_max": overall_runs.max(axis=1),
         "baseline_overall": base["overall"],
         "recommendation": {t: max(set(v), key=v.count) for t, v in recs.items()},
+        "recommendation_counts": {t: ", ".join(f"{k} {v.count(k)}" for k in
+                                               sorted(set(v), key=lambda k: (-v.count(k), k)))
+                                  for t, v in recs.items()},
     })
     out["agent_rank"] = out["agent_overall"].rank(ascending=False, method="min").astype("Int64")
     out["baseline_rank"] = out["baseline_overall"].rank(ascending=False, method="min").astype("Int64")

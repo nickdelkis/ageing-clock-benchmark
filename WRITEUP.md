@@ -95,3 +95,96 @@ Smoking here is probably part of the causal path from schizophrenia to faster ag
 - Higgins-Chen AT, et al. (2020) Schizophrenia and epigenetic aging biomarkers: increased mortality, reduced cancer risk, and unique clozapine effects. *Biological Psychiatry*. [doi:10.1016/j.biopsych.2020.01.025](https://doi.org/10.1016/j.biopsych.2020.01.025)
 - McKinney BC, et al. (2017) DNA methylation age is not accelerated in brain or blood of subjects with schizophrenia. *Schizophrenia Research*. [doi:10.1016/j.schres.2017.09.025](https://doi.org/10.1016/j.schres.2017.09.025)
 - Wu X, et al. (2021) Epigenetic age acceleration was delayed in schizophrenia. *Schizophrenia Bulletin*. [doi:10.1093/schbul/sbaa164](https://doi.org/10.1093/schbul/sbaa164)
+
+# Part 2: an LLM agent that annotates and ranks candidate targets
+
+## Summary
+
+An LLM agent (Claude Sonnet, via the Anthropic API) assessed the seven plasma proteins behind GrimAge as candidate targets for healthy ageing. It scored each protein on five dimensions from cached public evidence, and it had to cite the facts behind every score. All 286 cited facts in the final run matched the evidence exactly. PAI-1 (SERPINE1) and adrenomedullin (ADM) ranked highest, but their order changed between sessions, and no protein was recommended for prioritisation. A first version of the instructions produced correct facts but weaker reasoning. Reviewing its output, tightening the instructions and re-running fixed four specific weaknesses.
+
+## Design
+
+The agent is kept to the one task code cannot do, weighing incomplete evidence, and everything around it is deterministic:
+
+1. **Evidence, without an LLM.** For each protein:
+   - Open Targets: tractability, safety liabilities, clinical candidates, disease associations;
+   - UniProt: function and location;
+   - Europe PMC: publication counts.
+
+   Results are cached as JSON and flattened into facts with stable IDs (e.g. `clinical.max_stage = 2`), so every run and every model sees identical evidence.
+2. **The agent** reads the evidence through seven tools and submits a fixed-format assessment:
+   - five scores of 1–5 (ageing relevance, mechanism, tractability, safety, clinical precedence), each with the fact IDs and values it relies on;
+   - claims from its own knowledge, listed separately;
+   - a proposed direction of modulation (inhibit, activate or unclear);
+   - a recommendation (prioritise, consider or deprioritise).
+
+   Submissions that break the format are rejected and sent back.
+3. **Checks, in code:**
+   - every cited value is compared with the evidence;
+   - the scores are compared with a rule-based baseline;
+   - each protein is assessed three times, to measure how much the scores vary between runs.
+4. **The report** is assembled by code from the structured assessments, so no unchecked text is added after the checks.
+
+Two evidence problems were fixed before any agent run:
+
+- **Ambiguous symbols.** Searching publications by gene symbol inflated the counts for ambiguous symbols such as "ADM" and "LEP", so searches use curated protein names instead.
+- **Popularity bias.** Ageing relevance is measured as the *share* of a protein's papers about ageing or senescence, not the raw count. Otherwise the most studied protein wins.
+
+## Results
+
+| Rank | Protein | Agent score, mean (range over 3 runs) | Baseline | Recommendations across runs |
+| --- | --- | --- | --- | --- |
+| 1 | SERPINE1 (PAI-1) | 3.37 (3.30–3.50) | 3.50 | mostly consider |
+| 2 | ADM | 3.10 (3.05–3.20) | 4.00 | consider |
+| 3 | CST3 (cystatin C) | 2.85 (2.55–3.00) | 3.35 | split: deprioritise / consider |
+| 4 | B2M | 2.70 | 2.30 | consider |
+| 4 | GDF15 | 2.70 | 3.45 | consider |
+| 6 | TIMP1 | 2.50 | 2.95 | deprioritise |
+| 7 | LEP (leptin) | 2.30 | 2.95 | deprioritise |
+
+- **Citations: 286 of 286 cited facts match the evidence.** The agent cited no facts that don't exist and misquoted no values.
+- **Evidence and own knowledge stayed separate.** The agent named drugs it knew of but the tools did not list, and explicitly did not score them: ponsegromab (anti-GDF15, phase 2) and metreleptin (approved, acting on the leptin receptor). It discounted PROTAC evidence for secreted proteins.
+- **It was stricter on safety than the baseline.** It followed the rule that no recorded liabilities is "absence of data, not evidence of safety"; the baseline gives a high score whenever none are listed.
+- **The scores were stable, the recommendations less so.** Within a batch, overall scores varied by at most 0.45. The top-two order changed between sessions, though: in an earlier batch ADM came first. CST3's recommendation flipped between runs. Ranked scores were more reproducible than categorical labels.
+- **Five of seven proteins named the evidence that would settle the direction of modulation:** Mendelian randomisation. That is the next part of this project.
+
+## What review of version 1 found, and what version 2 changed
+
+The first version also cited facts correctly. Reading its reports turned up four reasoning problems the automated checks could not see:
+
+| Version 1 problem | Version 2 change | Effect |
+| --- | --- | --- |
+| The rationale text was not checked, only the cited values | Every factual statement must come from a cited fact or be listed as the model's own knowledge | More claims are labelled as own knowledge |
+| A clock-level finding (the GrimAge difference explained by smoking) was applied to B2M | The context now says exactly what each finding applies to; the agent is told not to transfer findings | It now states it will not apply clock-level results to individual proteins |
+| A conflict between sources went unnoticed (PAI-1: "advanced clinical" tractability vs a phase 1 drug) | A required list of conflicts between sources, with which one was relied on | Two or three conflicts flagged per protein, including this one |
+| An unclear recommendation ("worth considering to prioritise") | The recommendation must be stated in the summary's last sentence | Every summary ends with a clear recommendation |
+
+Version 2 was more conservative. PAI-1 went from "prioritise" to "consider", and GDF15 dropped (3.00 → 2.70) once its null project finding was read correctly. Same evidence, same model: the change in output came from the instructions alone.
+
+## Failures worth knowing about
+
+- **Silent truncation.** The stricter instructions made answers longer than the 2,048-token output limit. Truncated submissions arrived without their last fields and were rejected without the cause being stated. The model then dropped its largest field, the scores, to fit, and one assessment failed after 13 attempts. The fix:
+    - raise the limit;
+    - read the provider's stop reason and tell the model when its answer was cut off;
+    - put the decision fields first in the format.
+
+  The diagnostics table (rejections, nudges and repeated tool calls per run) found the cause.
+- **A checker that was too strict.** Early citation checks reported "mismatches" that were formatting differences, never wrong values:
+    - empty lists;
+    - quotes shortened with "...", or with a sentence skipped;
+    - lists cited as a comma-separated string;
+    - JSON passed as text;
+    - UniProt reference tags removed from a quote.
+
+  The checker was changed to normalise formats, but it still rejects any value that isn't in the evidence, and tests cover both directions.
+
+## Limitations
+
+- **The seven proteins were not discovered by the agent.** They come from a published clock, so this tests annotation and triage, not discovery.
+- **The evidence is narrow:** three public sources, a sparse safety dataset, and no causal genetic evidence yet.
+- **Prose is only partly checked.** Cited values are verified, but whether a sentence fairly represents a fact is not.
+- **Some results vary between runs and sessions:** the top-two order and some recommendations.
+
+## Next
+
+Part 3 adds the missing causal evidence. Cis-Mendelian randomisation with public pQTL and GWAS summary statistics tests whether genetically higher protein levels cause faster ageing. The results become a further evidence tool, so the agent can base its inhibit/activate decision on causal data.

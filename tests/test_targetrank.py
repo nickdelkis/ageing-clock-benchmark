@@ -339,3 +339,22 @@ def test_skipped_sentence_without_ellipsis_still_matches():
                                  "Also functions as a growth factor via CD63 and ITGB1.", src) == "match"
     assert evaluate.match_status("Metalloproteinase inhibitor that forms complexes with metalloproteinases. "
                                  "Also functions as a growth factor via TNF receptors.", src) != "match"
+
+
+def test_dedupe_and_recommendation_counts(adm, tmp_path):
+    from targetrank import report
+    items = ["Ponsegromab, an anti-GDF15 antibody, reached phase 2 in cachexia.",
+             "Ponsegromab (an anti-GDF15 antibody) has reached phase 2 in cachexia.",
+             "GDF15 rises with age."]
+    assert report.dedupe(items) == [items[0], items[2]]
+
+    a2 = _assessment(); a2["recommendation"] = "deprioritise"
+    results = [agent.AgentResult("ADM", "m", 0, _assessment()), agent.AgentResult("ADM", "m", 1, _assessment()),
+               agent.AgentResult("ADM", "m", 2, a2)]
+    rk = evaluate.ranking(results, {"ADM": adm})
+    assert rk.loc["ADM", "recommendation_counts"] == "consider 2, deprioritise 1"
+
+    agent.save_results(results, tmp_path / "runs")
+    back = agent.load_results(tmp_path / "runs")
+    assert [(r.target, r.run, r.assessment["recommendation"]) for r in back] == \
+           [(r.target, r.run, r.assessment["recommendation"]) for r in results]

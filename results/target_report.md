@@ -1,24 +1,24 @@
 # Target assessment report
 
-Candidate targets: the seven GrimAge proteins. Evidence retrieved 2026-11-16.
+Rebuilt from saved batch 20261116-230637.
 
 Model: `anthropic:claude-sonnet-5-5 @ https://api.anthropic.com`. Runs per target: 3.
 
 Citation check: 286 of 286 cited facts match the evidence exactly, 0 are close paraphrases of a text fact, 0 do not match, and 0 cite facts that do not exist.
 
-| Rank | Target | Agent score (range) | Baseline | Most common recommendation |
+| Rank | Target | Agent score (range) | Baseline | Recommendations across runs |
 | --- | --- | --- | --- | --- |
-| 1 | SERPINE1 | 3.37 (3.30-3.50) | 3.50 | consider |
-| 2 | ADM | 3.10 (3.05-3.20) | 4.00 | consider |
-| 3 | CST3 | 2.85 (2.55-3.00) | 3.35 | deprioritise |
-| 4 | B2M | 2.70 (2.70-2.70) | 2.30 | consider |
-| 4 | GDF15 | 2.70 (2.70-2.70) | 3.45 | consider |
-| 6 | TIMP1 | 2.50 (2.50-2.50) | 2.95 | deprioritise |
-| 7 | LEP | 2.30 (2.30-2.30) | 2.95 | deprioritise |
+| 1 | SERPINE1 | 3.37 (3.30-3.50) | 3.50 | consider 3 |
+| 2 | ADM | 3.10 (3.05-3.20) | 4.00 | consider 3 |
+| 3 | CST3 | 2.85 (2.55-3.00) | 3.35 | deprioritise 2, consider 1 |
+| 4 | B2M | 2.70 (2.70-2.70) | 2.30 | consider 3 |
+| 4 | GDF15 | 2.70 (2.70-2.70) | 3.45 | consider 3 |
+| 6 | TIMP1 | 2.50 (2.50-2.50) | 2.95 | deprioritise 2, consider 1 |
+| 7 | LEP | 2.30 (2.30-2.30) | 2.95 | deprioritise 3 |
 
 ## SERPINE1
 
-**Recommendation:** consider. **Proposed modulation:** inhibit.
+Representative run 2 (median score). **Recommendation:** consider. **Proposed modulation:** inhibit.
 
 SERPINE1 (PAI-1) is a secreted inhibitor of tPA and uPA, and it is involved in senescence. About 21% of its papers concern ageing, and it is associated with cardiovascular, metabolic and neurodegenerative diseases. Small-molecule tractability is good, and one phase 1 drug is listed, aleplasinin. The main concern is bleeding risk, since congenital deficiency causes bleeding. The GrimAge and schizophrenia findings concern the methylation surrogate and do not directly support the protein as a target. I would inhibit it, and the recommendation is to consider it.
 
@@ -50,7 +50,7 @@ SERPINE1 (PAI-1) is a secreted inhibitor of tPA and uPA, and it is involved in s
 
 ## ADM
 
-**Recommendation:** consider. **Proposed modulation:** unclear.
+Representative run 2 (median score). **Recommendation:** consider. **Proposed modulation:** unclear.
 
 ADM (adrenomedullin) is a secreted vasodilatory peptide. It is associated with several age-related cardiovascular, renal and metabolic diseases, and about 18% of its papers concern ageing. The GrimAge evidence applies only to the DNAm surrogate, which was higher in schizophrenia in one meta-analysis. It is not evidence about measured ADM or about causal ageing effects. The target is tractable by antibody, and enibarcimab has reached phase 2/3. No safety liabilities are listed, but this is not proof of safety, and the direction of modulation is unclear. Recommendation: consider.
 
@@ -84,7 +84,7 @@ ADM (adrenomedullin) is a secreted vasodilatory peptide. It is associated with s
 
 ## CST3
 
-**Recommendation:** consider. **Proposed modulation:** unclear.
+Representative run 0 (median score). **Recommendation:** consider. **Proposed modulation:** unclear.
 
 CST3 (cystatin C) is a secreted cysteine protease inhibitor. It has good ageing links: about 25% of its papers concern ageing, it is associated with aging, AMD and CKD, and it is a GrimAge plasma-protein component. The causal direction is unclear, because it is a biomarker of kidney function and ageing but may also be protective. Tractability is moderate, with small-molecule and antibody evidence but no clinical drugs. No safety liabilities are listed, but that is absence of data, not evidence of safety. Recommendation: consider, mainly as a biomarker or for follow-up on causal direction, not as a priority drug target.
 
@@ -114,11 +114,10 @@ CST3 (cystatin C) is a secreted cysteine protease inhibitor. It has good ageing 
 - The project context concerns the DNAm surrogate, not measured CST3 protein; its surrogate was higher in schizophrenia/first-episode psychosis in Shirai et al. 2024.
 - Raised plasma levels mark kidney dysfunction and ageing, but the protein may be neuroprotective (e.g. in amyloid models), so the direction is ambiguous.
 - The L68Q variant causes hereditary cerebral hemorrhage with amyloidosis (Icelandic type).
-- Loss of protease inhibition could dysregulate cathepsin activity, and the L68Q variant causes cerebral haemorrhage with amyloidosis; neither is covered by the tools.
 
 ## B2M
 
-**Recommendation:** consider. **Proposed modulation:** unclear.
+Representative run 1 (median score). **Recommendation:** consider. **Proposed modulation:** unclear.
 
 B2M is the secreted MHC class I light chain and one of the GrimAge plasma proteins. About 10% of its literature concerns ageing, but Open Targets lists no age-related disease associations. Its DNAm surrogate was higher in schizophrenia/FEP, which says nothing directly about the measured protein. Tractability evidence exists across several modalities, but there are no clinical candidates and the safety data are empty. The immune role of B2M is a theoretical concern. The direction of modulation is unclear, so my recommendation is consider.
 
@@ -151,7 +150,7 @@ B2M is the secreted MHC class I light chain and one of the GrimAge plasma protei
 
 ## GDF15
 
-**Recommendation:** consider. **Proposed modulation:** unclear.
+Representative run 1 (median score). **Recommendation:** consider. **Proposed modulation:** unclear.
 
 GDF15 is a secreted stress hormone acting through GFRAL in the brainstem. A high share of its literature concerns ageing and senescence, and it has modest links to age-related diseases. Whether to inhibit or activate it to slow ageing is unclear, because it is both a stress and ageing marker and a protective tissue-tolerance factor. It is antibody-tractable, has no small-molecule evidence, no clinical candidates are listed in the tools, and no safety liabilities are recorded, though that is not proof of safety. The project context gives no support for the measured protein, since the only finding is a null result for its DNAm surrogate. Recommendation: consider.
 
@@ -180,11 +179,10 @@ GDF15 is a secreted stress hormone acting through GFRAL in the brainstem. A high
 
 - Circulating GDF15 is widely reported to rise with age and is a biomarker of mortality and frailty.
 - Anti-GDF15 antibodies have been developed clinically (e.g. ponsegromab for cachexia); the tools do not list them, so they are not scored.
-- Ponsegromab, an anti-GDF15 antibody, has reached phase 2 in cancer cachexia; it is not in the tool output and is not scored.
 
 ## TIMP1
 
-**Recommendation:** deprioritise. **Proposed modulation:** unclear.
+Representative run 1 (median score). **Recommendation:** deprioritise. **Proposed modulation:** unclear.
 
 TIMP1 is a secreted MMP inhibitor and growth-factor-like protein, and one of the GrimAge plasma proteins. About 21% of its papers mention ageing, and it has modest associations with age-related diseases such as COPD, coronary disease and Alzheimer disease. Its own methylation surrogate was not significantly different in the main schizophrenia meta-analysis model, and that surrogate does not measure the protein. Tractability is limited to antibody-type features, no drugs are listed, and the direction of modulation is unclear. Safety data are generic and uninformative. I would deprioritise TIMP1 for now.
 
@@ -217,7 +215,7 @@ TIMP1 is a secreted MMP inhibitor and growth-factor-like protein, and one of the
 
 ## LEP
 
-**Recommendation:** deprioritise. **Proposed modulation:** unclear.
+Representative run 1 (median score). **Recommendation:** deprioritise. **Proposed modulation:** unclear.
 
 LEP (leptin) is a well-characterised secreted hormone of energy balance. About 23% of its papers mention ageing, and it is associated with type 2 diabetes and other age-related diseases. The GrimAge-surrogate evidence is null: the LEP surrogate did not differ in the main model, and that says nothing about the measured protein. Tractability is limited to antibody-type evidence, with no listed drugs. Inhibition carries weight-gain liabilities, and the direction of benefit for ageing is unclear. Recommendation: deprioritise.
 

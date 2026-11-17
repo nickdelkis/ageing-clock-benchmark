@@ -206,3 +206,12 @@ def save_results(results: list[AgentResult], run_dir: Path) -> None:
     run_dir.mkdir(parents=True, exist_ok=True)
     for r in results:
         (run_dir / f"{r.target}_run{r.run}.json").write_text(json.dumps(asdict(r), indent=1, default=str))
+
+
+def load_results(run_dir: Path) -> list[AgentResult]:
+    """Read results written by save_results(), e.g. to rebuild the report of an earlier run."""
+    out = []
+    for path in sorted(Path(run_dir).glob("*_run*.json")):
+        d = json.loads(path.read_text())
+        out.append(AgentResult(**{k: d.get(k) for k in AgentResult.__dataclass_fields__ if k in d}))
+    return out
