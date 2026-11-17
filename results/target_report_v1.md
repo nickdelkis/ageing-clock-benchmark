@@ -4,7 +4,9 @@ Rebuilt from saved batch 20261116-215422.
 
 Model: `anthropic:claude-sonnet-5-5 @ https://api.anthropic.com`. Runs per target: 3.
 
-Citation check: 236 of 254 cited facts match the evidence exactly, 3 are close paraphrases of a text fact, 15 do not match, and 0 cite facts that do not exist.
+Citation check: 254 of 254 cited facts match the evidence exactly, 0 are close paraphrases of a text fact, 0 do not match, and 0 cite facts that do not exist (checked against the evidence the agent was shown in each run).
+
+18 cited facts have changed in the evidence since these runs (e.g. a reworded project context).
 
 | Rank | Target | Agent score (range) | Baseline | Recommendations across runs |
 | --- | --- | --- | --- | --- |
@@ -62,10 +64,6 @@ ADM (adrenomedullin) is a secreted vasoactive peptide. It is linked to cardiovas
 - Adm knockout is embryonic lethal in mice, with hydrops fetalis and cardiovascular defects.
 - Enibarcimab (adrecizumab) is a non-neutralising anti-ADM antibody studied in septic shock.
 
-**Citation problems in this run:**
-
-- `context.project`: cited 'One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): DNAm-predicted level higher in schizophrenia/first-episode psychosis.', evidence says "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years." (mismatch)
-
 ## GDF15
 
 Representative run 1 (median score). **Recommendation:** consider. **Proposed modulation:** unclear.
@@ -87,10 +85,6 @@ GDF15 is a secreted stress hormone acting through GFRAL. About 35% of its papers
 - Neutralising antibodies to a secreted ligand are a validated modality in general.
 - Chronic GDF15 elevation drives weight loss and cachexia, which is undesirable in older people.
 - Anti-GDF15 or anti-GFRAL antibodies have reportedly been tested in cachexia. The tool does not list them, so they are not scored.
-
-**Citation problems in this run:**
-
-- `context.project`: cited "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis.", evidence says "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate did not differ significantly in the main model adjusted for age, sex and DNAm smoking pack-years." (mismatch)
 
 ## CST3
 
@@ -149,10 +143,6 @@ B2M is a secreted and cell-surface MHC class I component and one of the GrimAge 
 - B2M knockout mice lack CD8 T cells and have impaired immunity.
 - B2M loss-of-function mutations in tumours are linked to resistance to checkpoint inhibitors.
 
-**Citation problems in this run:**
-
-- `context.project`: cited 'One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels.', evidence says "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years." (mismatch)
-
 ## TIMP1
 
 Representative run 2 (median score). **Recommendation:** deprioritise. **Proposed modulation:** unclear.
@@ -181,10 +171,6 @@ TIMP1 is a secreted MMP inhibitor with signalling activity. It is one of the Gri
 - Higher TIMP1 may reflect fibrosis and inflammation, but whether it drives or protects against ageing phenotypes is not settled.
 - MMP inhibitors as a class caused musculoskeletal toxicity in clinical trials.
 - TIMP1 is implicated in tumour biology.
-
-**Citation problems in this run:**
-
-- `context.project`: cited "One of seven plasma proteins whose DNA-methylation surrogates make up GrimAge, the mortality clock that was +4.3 years older in schizophrenia in part 1 of this project (an effect explained by smoking). The surrogates are methylation estimates, not measured protein levels. Not significantly different in the main model of Shirai et al. 2024's meta-analysis.", evidence says "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate did not differ significantly in the main model adjusted for age, sex and DNAm smoking pack-years." (mismatch)
 
 ## LEP
 

@@ -4,7 +4,7 @@ Rebuilt from saved batch 20261116-230637.
 
 Model: `anthropic:claude-sonnet-5-5 @ https://api.anthropic.com`. Runs per target: 3.
 
-Citation check: 286 of 286 cited facts match the evidence exactly, 0 are close paraphrases of a text fact, 0 do not match, and 0 cite facts that do not exist.
+Citation check: 286 of 286 cited facts match the evidence exactly, 0 are close paraphrases of a text fact, 0 do not match, and 0 cite facts that do not exist (checked against the evidence the agent was shown in each run).
 
 | Rank | Target | Agent score (range) | Baseline | Recommendations across runs |
 | --- | --- | --- | --- | --- |

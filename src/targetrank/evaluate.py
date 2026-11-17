@@ -126,23 +126,49 @@ def match_status(cited, actual) -> str:
     return "mismatch"
 
 
+def facts_seen(result: AgentResult) -> dict:
+    """The facts the agent was actually shown in this run, read back from its trace."""
+    seen = {}
+    for m in result.trace or []:
+        if m.get("role") == "tool" and m.get("name") in ds.TOOL_SECTIONS:
+            try:
+                seen.update(json.loads(m["content"]))
+            except (json.JSONDecodeError, TypeError):
+                pass
+    return seen
+
+
 def citation_check(results: list[AgentResult], dossiers: dict[str, dict]) -> pd.DataFrame:
+    """Compare every cited value with the facts the agent was shown in that run.
+
+    Checking against what the agent saw (not today's evidence) keeps old runs checkable after the
+    evidence or the project context changes. `changed_since_run` flags facts that now differ.
+    Falls back to the current evidence for results saved without a trace.
+    """
     rows = []
     for r in results:
         if not r.assessment:
             continue
-        f = ds.facts(dossiers[r.target])
+        now = ds.facts(dossiers[r.target])
+        seen = facts_seen(r) or now
         for dim, s in r.assessment["scores"].items():
             for ev in s.get("evidence") or []:
                 fid = ev.get("fact_id")
-                if fid not in f:
-                    status, actual = "unknown fact", None
+                if fid in seen:
+                    actual = seen[fid]
+                elif fid in now:          # fact exists but the agent never called the tool that returns it
+                    actual = now[fid]
                 else:
-                    actual = f[fid]
-                    status = match_status(ev.get("value"), actual)
+                    rows.append({"target": r.target, "run": r.run, "dimension": dim, "fact_id": fid,
+                                 "cited": ev.get("value"), "actual": None, "status": "unknown fact",
+                                 "changed_since_run": False})
+                    continue
+                changed = fid in now and json.dumps(now[fid], default=str) != json.dumps(actual, default=str)
                 rows.append({"target": r.target, "run": r.run, "dimension": dim, "fact_id": fid,
-                             "cited": ev.get("value"), "actual": actual, "status": status})
-    return pd.DataFrame(rows, columns=["target", "run", "dimension", "fact_id", "cited", "actual", "status"])
+                             "cited": ev.get("value"), "actual": actual,
+                             "status": match_status(ev.get("value"), actual), "changed_since_run": changed})
+    return pd.DataFrame(rows, columns=["target", "run", "dimension", "fact_id", "cited", "actual", "status",
+                                       "changed_since_run"])
 
 
 def scores_long(results: list[AgentResult]) -> pd.DataFrame:

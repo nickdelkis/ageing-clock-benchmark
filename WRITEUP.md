@@ -96,6 +96,7 @@ Smoking here is probably part of the causal path from schizophrenia to faster ag
 - McKinney BC, et al. (2017) DNA methylation age is not accelerated in brain or blood of subjects with schizophrenia. *Schizophrenia Research*. [doi:10.1016/j.schres.2017.09.025](https://doi.org/10.1016/j.schres.2017.09.025)
 - Wu X, et al. (2021) Epigenetic age acceleration was delayed in schizophrenia. *Schizophrenia Bulletin*. [doi:10.1093/schbul/sbaa164](https://doi.org/10.1093/schbul/sbaa164)
 
+
 # Part 2: an LLM agent that annotates and ranks candidate targets
 
 ## Summary
@@ -134,23 +135,23 @@ Two evidence problems were fixed before any agent run:
 
 | Rank | Protein | Agent score, mean (range over 3 runs) | Baseline | Recommendations across runs |
 | --- | --- | --- | --- | --- |
-| 1 | SERPINE1 (PAI-1) | 3.37 (3.30–3.50) | 3.50 | mostly consider |
-| 2 | ADM | 3.10 (3.05–3.20) | 4.00 | consider |
-| 3 | CST3 (cystatin C) | 2.85 (2.55–3.00) | 3.35 | split: deprioritise / consider |
-| 4 | B2M | 2.70 | 2.30 | consider |
-| 4 | GDF15 | 2.70 | 3.45 | consider |
-| 6 | TIMP1 | 2.50 | 2.95 | deprioritise |
-| 7 | LEP (leptin) | 2.30 | 2.95 | deprioritise |
+| 1 | SERPINE1 (PAI-1) | 3.37 (3.30–3.50) | 3.50 | consider 3 |
+| 2 | ADM | 3.10 (3.05–3.20) | 4.00 | consider 3 |
+| 3 | CST3 (cystatin C) | 2.85 (2.55–3.00) | 3.35 | deprioritise 2, consider 1 |
+| 4 | B2M | 2.70 | 2.30 | consider 3 |
+| 4 | GDF15 | 2.70 | 3.45 | consider 3 |
+| 6 | TIMP1 | 2.50 | 2.95 | deprioritise 2, consider 1 |
+| 7 | LEP (leptin) | 2.30 | 2.95 | deprioritise 3 |
 
 - **Citations: 286 of 286 cited facts match the evidence.** The agent cited no facts that don't exist and misquoted no values.
 - **Evidence and own knowledge stayed separate.** The agent named drugs it knew of but the tools did not list, and explicitly did not score them: ponsegromab (anti-GDF15, phase 2) and metreleptin (approved, acting on the leptin receptor). It discounted PROTAC evidence for secreted proteins.
 - **It was stricter on safety than the baseline.** It followed the rule that no recorded liabilities is "absence of data, not evidence of safety"; the baseline gives a high score whenever none are listed.
-- **The scores were stable, the recommendations less so.** Within a batch, overall scores varied by at most 0.45. The top-two order changed between sessions, though: in an earlier batch ADM came first. CST3's recommendation flipped between runs. Ranked scores were more reproducible than categorical labels.
+- **The scores were stable, the recommendations less so.** Within a batch, overall scores varied by at most 0.45. The top-two order changed between sessions, though: in an earlier batch ADM came first. The recommendations for CST3 and TIMP1 differed between runs. Ranked scores were more reproducible than categorical labels.
 - **Five of seven proteins named the evidence that would settle the direction of modulation:** Mendelian randomisation. That is the next part of this project.
 
 ## What review of version 1 found, and what version 2 changed
 
-The first version also cited facts correctly. Reading its reports turned up four reasoning problems the automated checks could not see:
+The first version also cited facts correctly (254 of 254, checked against the evidence it was shown). Reading its reports turned up four reasoning problems the automated checks could not see:
 
 | Version 1 problem | Version 2 change | Effect |
 | --- | --- | --- |
@@ -159,7 +160,15 @@ The first version also cited facts correctly. Reading its reports turned up four
 | A conflict between sources went unnoticed (PAI-1: "advanced clinical" tractability vs a phase 1 drug) | A required list of conflicts between sources, with which one was relied on | Two or three conflicts flagged per protein, including this one |
 | An unclear recommendation ("worth considering to prioritise") | The recommendation must be stated in the summary's last sentence | Every summary ends with a clear recommendation |
 
-Version 2 was more conservative. PAI-1 went from "prioritise" to "consider", and GDF15 dropped (3.00 → 2.70) once its null project finding was read correctly. Same evidence, same model: the change in output came from the instructions alone.
+Version 2 was more conservative and more consistent:
+
+| Protein | Version 1 recommendations | Version 2 recommendations |
+| --- | --- | --- |
+| SERPINE1 | prioritise 2, consider 1 | consider 3 |
+| LEP | consider 2, deprioritise 1 | deprioritise 3 |
+| CST3 | consider 2, deprioritise 1 | deprioritise 2, consider 1 |
+
+GDF15 dropped (3.00 → 2.70) once its null project finding was read correctly. The model and the database evidence were the same in both versions; only the instructions and the wording of the project context changed.
 
 ## Failures worth knowing about
 
@@ -177,6 +186,7 @@ Version 2 was more conservative. PAI-1 went from "prioritise" to "consider", and
     - UniProt reference tags removed from a quote.
 
   The checker was changed to normalise formats, but it still rejects any value that isn't in the evidence, and tests cover both directions.
+- **Evidence drift.** Re-checking the version 1 runs the next day reported 18 failing citations. All were the project context: version 1 had quoted it correctly, but the settings now held the version 2 wording. Citations are now checked against the facts each run was actually shown, read back from its saved trace, and facts that have changed since are flagged separately. Checking an old run against today's evidence answers a different question.
 
 ## Limitations
 

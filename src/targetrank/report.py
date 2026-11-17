@@ -95,7 +95,11 @@ def write_report(path: Path, rank: pd.DataFrame, results: list[AgentResult], cit
         c = citations.status.value_counts()
         lines += [f"Citation check: {c.get('match', 0)} of {len(citations)} cited facts match the evidence exactly, "
                   f"{c.get('approximate', 0)} are close paraphrases of a text fact, {c.get('mismatch', 0)} do not match, "
-                  f"and {c.get('unknown fact', 0)} cite facts that do not exist.", ""]
+                  f"and {c.get('unknown fact', 0)} cite facts that do not exist (checked against the evidence "
+                  f"the agent was shown in each run).", ""]
+        if "changed_since_run" in citations and citations.changed_since_run.any():
+            lines += [f"{int(citations.changed_since_run.sum())} cited facts have changed in the evidence since these "
+                      f"runs (e.g. a reworded project context).", ""]
     lines += ["| Rank | Target | Agent score (range) | Baseline | Recommendations across runs |", "| --- | --- | --- | --- | --- |"]
     for t, row in rank.iterrows():
         recs = row.get("recommendation_counts", row.recommendation)

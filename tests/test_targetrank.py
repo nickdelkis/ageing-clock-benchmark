@@ -358,3 +358,18 @@ def test_dedupe_and_recommendation_counts(adm, tmp_path):
     back = agent.load_results(tmp_path / "runs")
     assert [(r.target, r.run, r.assessment["recommendation"]) for r in back] == \
            [(r.target, r.run, r.assessment["recommendation"]) for r in results]
+
+
+def test_citations_checked_against_what_the_agent_saw(adm):
+    """Old runs stay checkable after the project context (or other evidence) changes."""
+    old_context = "Old wording of the project context."
+    a = _assessment()
+    a["scores"]["mechanism"]["evidence"] = [{"fact_id": "context.project", "value": old_context}]
+    trace = [{"role": "tool", "name": "get_project_context", "tool_call_id": "1",
+              "content": json.dumps({"context.project": old_context})}]
+    r = agent.AgentResult("ADM", "m", 0, a, trace=trace)
+    adm_now = json.loads(json.dumps(adm)); adm_now["context"] = "New wording."
+    cc = evaluate.citation_check([r], {"ADM": adm_now}).set_index("fact_id")
+    assert cc.loc["context.project", "status"] == "match"
+    assert bool(cc.loc["context.project", "changed_since_run"]) is True
+    assert bool(cc.loc["clinical.max_stage", "changed_since_run"]) is False   # not in trace: checked against now
