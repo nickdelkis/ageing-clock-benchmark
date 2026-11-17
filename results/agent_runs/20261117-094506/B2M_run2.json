@@ -1,0 +1,371 @@
+{
+ "target": "B2M",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 2,
+ "assessment": {
+  "target": "B2M",
+  "proposed_modulation": "unclear",
+  "scores": {
+   "ageing_relevance": {
+    "score": 3,
+    "rationale": "About 10% of papers concern ageing, and B2M is a GrimAge component protein, but Open Targets lists no age-related disease associations and MR was not tested. Evidence is mostly indirect.",
+    "evidence": [
+     {
+      "fact_id": "literature.ageing_share",
+      "value": 0.1015
+     },
+     {
+      "fact_id": "associations.n_ageing",
+      "value": 0
+     },
+     {
+      "fact_id": "causal.mr_status",
+      "value": "not tested: no cis instruments (p < 5e-8 within 1 Mb of the gene; 1 genome-wide). Untested is not a null result."
+     },
+     {
+      "fact_id": "context.project",
+      "value": "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years."
+     }
+    ],
+    "background_knowledge": [
+     "Plasma B2M rises with age and is reported as a biomarker of ageing and a possible pro-ageing circulating factor in mouse studies."
+    ]
+   },
+   "mechanism": {
+    "score": 2,
+    "rationale": "Function as MHC class I component is well characterised, but the causal link to ageing and the direction of modulation are unresolved, since there is no MR and the project finding concerns the methylation surrogate.",
+    "evidence": [
+     {
+      "fact_id": "uniprot.function",
+      "value": "Component of the class I major histocompatibility complex (MHC). Involved in the presentation of peptide antigens to the immune system."
+     },
+     {
+      "fact_id": "causal.mr_status",
+      "value": "not tested: no cis instruments (p < 5e-8 within 1 Mb of the gene; 1 genome-wide). Untested is not a null result."
+     }
+    ],
+    "background_knowledge": []
+   },
+   "tractability": {
+    "score": 3,
+    "rationale": "Small-molecule evidence (structure with ligand, high-quality pocket), antibody and PROTAC features exist, but no approved drug precedence and no other-modality evidence. It is a secreted and cell-surface protein.",
+    "evidence": [
+     {
+      "fact_id": "tractability.small_molecule",
+      "value": [
+       "Structure with Ligand",
+       "High-Quality Pocket"
+      ]
+     },
+     {
+      "fact_id": "tractability.antibody",
+      "value": [
+       "UniProt loc high conf",
+       "GO CC high conf",
+       "UniProt SigP or TMHMM",
+       "Human Protein Atlas loc"
+      ]
+     },
+     {
+      "fact_id": "uniprot.secreted",
+      "value": true
+     }
+    ],
+    "background_knowledge": []
+   },
+   "safety": {
+    "score": 2,
+    "rationale": "Open Targets lists no liabilities, but absence of data is not safety evidence. Loss of B2M causes MHC class I deficiency, which implies immune risk from inhibition.",
+    "evidence": [
+     {
+      "fact_id": "safety.n_liabilities",
+      "value": 0
+     },
+     {
+      "fact_id": "associations.top",
+      "value": [
+       "MHC class I deficiency (0.656)"
+      ]
+     }
+    ],
+    "background_knowledge": [
+     "B2M is required for MHC class I surface expression, so systemic inhibition risks impaired CD8 T-cell immunity and antigen presentation."
+    ]
+   },
+   "clinical_precedence": {
+    "score": 1,
+    "rationale": "No drugs acting on B2M are listed.",
+    "evidence": [
+     {
+      "fact_id": "clinical.max_stage_label",
+      "value": "none"
+     },
+     {
+      "fact_id": "clinical.n_drugs",
+      "value": 0
+     }
+    ],
+    "background_knowledge": []
+   }
+  },
+  "summary": "B2M is an MHC class I component and secreted plasma protein, and it is one of the GrimAge surrogate proteins. About 10% of its literature concerns ageing, but Open Targets lists no ageing disease associations and MR could not be run because there were no cis instruments. The project finding applies to the DNAm surrogate in schizophrenia, not to the measured protein. Tractability features are moderate, no clinical drugs exist, and the MHC class I deficiency association points to immune safety concerns. The direction of modulation is unclear. Recommendation: consider.",
+  "key_uncertainties": [
+   "No MR: causal effect of measured B2M on lifespan or frailty is unknown; a non-cis instrument or other study could resolve it",
+   "Direction of modulation unclear; unclear whether lowering circulating B2M is separable from MHC I function",
+   "Surrogate result in schizophrenia does not speak to the measured protein",
+   "Safety of systemic inhibition given MHC class I role"
+  ],
+  "source_conflicts": [
+   "Open Targets lists no ageing-related disease associations, yet about 10% of the literature concerns ageing and the project context lists B2M as a GrimAge component. I relied on the structured associations for disease evidence and treated the literature and the surrogate as indirect.",
+   "Safety shows 0 liabilities, but the disease associations list MHC class I deficiency as the top association, which implies loss-of-function risk. I weighted the biology and scored safety low."
+  ],
+  "recommendation": "consider"
+ },
+ "tools_called": [
+  "get_identity_and_function",
+  "get_tractability",
+  "get_safety",
+  "get_clinical_candidates",
+  "get_disease_associations",
+  "get_literature_counts",
+  "get_project_context",
+  "get_causal_evidence"
+ ],
+ "n_turns": 2,
+ "error": null,
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target B2M. Gather evidence with the tools, then call submit_assessment."
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01Dj9vhnUimyPqUpFBVDpQMd",
+     "name": "get_identity_and_function",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01VKo5GEEsLggFPuvR76uK5J",
+     "name": "get_tractability",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01CMTAKoVkjj5xTXh9fxbUSz",
+     "name": "get_safety",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_019NEdJfRUdjaMPwM1Zhjorc",
+     "name": "get_clinical_candidates",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01AwNq7omnURneTHdSvi5M4o",
+     "name": "get_disease_associations",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01EEk76yS1SiRScZc2XbqBgz",
+     "name": "get_literature_counts",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_018ciFiHq6PbA6JCeeTaUZRm",
+     "name": "get_project_context",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01MDLGYgwkEJr7mp7imFRYeL",
+     "name": "get_causal_evidence",
+     "arguments": {}
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Dj9vhnUimyPqUpFBVDpQMd",
+   "name": "get_identity_and_function",
+   "content": "{\"identity.symbol\": \"B2M\", \"identity.ensembl_id\": \"ENSG00000166710\", \"identity.approved_name\": \"beta-2-microglobulin\", \"uniprot.protein_name\": \"Beta-2-microglobulin\", \"uniprot.function\": \"Component of the class I major histocompatibility complex (MHC). Involved in the presentation of peptide antigens to the immune system. Exogenously applied M.tuberculosis EsxA or EsxA-EsxB (or EsxA expressed in host) binds B2M and decreases its export to the cell surface (total protein levels do not change), probably leading to defects in class I antigen presentation (PubMed:25356553)\", \"uniprot.locations\": [\"Secreted\", \"Cell surface\"], \"uniprot.secreted\": true}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01VKo5GEEsLggFPuvR76uK5J",
+   "name": "get_tractability",
+   "content": "{\"tractability.small_molecule\": [\"Structure with Ligand\", \"High-Quality Pocket\"], \"tractability.antibody\": [\"UniProt loc high conf\", \"GO CC high conf\", \"UniProt SigP or TMHMM\", \"Human Protein Atlas loc\"], \"tractability.protac\": [\"Database Ubiquitination\", \"Half-life Data\"], \"tractability.other_modality\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01CMTAKoVkjj5xTXh9fxbUSz",
+   "name": "get_safety",
+   "content": "{\"safety.n_liabilities\": 0, \"safety.events\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_019NEdJfRUdjaMPwM1Zhjorc",
+   "name": "get_clinical_candidates",
+   "content": "{\"clinical.max_stage\": 0, \"clinical.max_stage_label\": \"none\", \"clinical.n_drugs\": 0, \"clinical.drugs\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01AwNq7omnURneTHdSvi5M4o",
+   "name": "get_disease_associations",
+   "content": "{\"associations.n_ageing\": 0, \"associations.ageing\": [], \"associations.top\": [\"MHC class I deficiency (0.656)\", \"diffuse large B-cell lymphoma (0.595)\", \"HIV infectious disease (0.532)\", \"amyloidosis, hereditary systemic 6 (0.528)\", \"AL amyloidosis (0.468)\", \"COVID-19 (0.466)\", \"non-Hodgkin lymphoma (0.458)\", \"familial visceral amyloidosis (0.446)\", \"melanoma (0.416)\", \"Hodgkins lymphoma (0.39)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01EEk76yS1SiRScZc2XbqBgz",
+   "name": "get_literature_counts",
+   "content": "{\"literature.any\": 29796, \"literature.ageing\": 3025, \"literature.senescence\": 1493, \"literature.schizophrenia\": 421, \"literature.ageing_share\": 0.1015, \"literature.senescence_share\": 0.0501, \"literature.schizophrenia_share\": 0.0141, \"literature.search_terms\": [\"beta-2-microglobulin\", \"beta2-microglobulin\", \"beta 2 microglobulin\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_018ciFiHq6PbA6JCeeTaUZRm",
+   "name": "get_project_context",
+   "content": "{\"context.project\": \"One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years.\"}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01MDLGYgwkEJr7mp7imFRYeL",
+   "name": "get_causal_evidence",
+   "content": "{\"causal.exposure_study\": \"Suhre K 2019 (prot-c-3485_28_2)\", \"causal.mr_status\": \"not tested: no cis instruments (p < 5e-8 within 1 Mb of the gene; 1 genome-wide). Untested is not a null result.\"}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01Lxemz6qdammA5gzJsRni9x",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "B2M",
+      "proposed_modulation": "unclear",
+      "scores": {
+       "ageing_relevance": {
+        "score": 3,
+        "rationale": "About 10% of papers concern ageing, and B2M is a GrimAge component protein, but Open Targets lists no age-related disease associations and MR was not tested. Evidence is mostly indirect.",
+        "evidence": [
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.1015
+         },
+         {
+          "fact_id": "associations.n_ageing",
+          "value": 0
+         },
+         {
+          "fact_id": "causal.mr_status",
+          "value": "not tested: no cis instruments (p < 5e-8 within 1 Mb of the gene; 1 genome-wide). Untested is not a null result."
+         },
+         {
+          "fact_id": "context.project",
+          "value": "One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years."
+         }
+        ],
+        "background_knowledge": [
+         "Plasma B2M rises with age and is reported as a biomarker of ageing and a possible pro-ageing circulating factor in mouse studies."
+        ]
+       },
+       "mechanism": {
+        "score": 2,
+        "rationale": "Function as MHC class I component is well characterised, but the causal link to ageing and the direction of modulation are unresolved, since there is no MR and the project finding concerns the methylation surrogate.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "Component of the class I major histocompatibility complex (MHC). Involved in the presentation of peptide antigens to the immune system."
+         },
+         {
+          "fact_id": "causal.mr_status",
+          "value": "not tested: no cis instruments (p < 5e-8 within 1 Mb of the gene; 1 genome-wide). Untested is not a null result."
+         }
+        ],
+        "background_knowledge": []
+       },
+       "tractability": {
+        "score": 3,
+        "rationale": "Small-molecule evidence (structure with ligand, high-quality pocket), antibody and PROTAC features exist, but no approved drug precedence and no other-modality evidence. It is a secreted and cell-surface protein.",
+        "evidence": [
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": [
+           "Structure with Ligand",
+           "High-Quality Pocket"
+          ]
+         },
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM",
+           "Human Protein Atlas loc"
+          ]
+         },
+         {
+          "fact_id": "uniprot.secreted",
+          "value": true
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 2,
+        "rationale": "Open Targets lists no liabilities, but absence of data is not safety evidence. Loss of B2M causes MHC class I deficiency, which implies immune risk from inhibition.",
+        "evidence": [
+         {
+          "fact_id": "safety.n_liabilities",
+          "value": 0
+         },
+         {
+          "fact_id": "associations.top",
+          "value": [
+           "MHC class I deficiency (0.656)"
+          ]
+         }
+        ],
+        "background_knowledge": [
+         "B2M is required for MHC class I surface expression, so systemic inhibition risks impaired CD8 T-cell immunity and antigen presentation."
+        ]
+       },
+       "clinical_precedence": {
+        "score": 1,
+        "rationale": "No drugs acting on B2M are listed.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "none"
+         },
+         {
+          "fact_id": "clinical.n_drugs",
+          "value": 0
+         }
+        ],
+        "background_knowledge": []
+       }
+      },
+      "summary": "B2M is an MHC class I component and secreted plasma protein, and it is one of the GrimAge surrogate proteins. About 10% of its literature concerns ageing, but Open Targets lists no ageing disease associations and MR could not be run because there were no cis instruments. The project finding applies to the DNAm surrogate in schizophrenia, not to the measured protein. Tractability features are moderate, no clinical drugs exist, and the MHC class I deficiency association points to immune safety concerns. The direction of modulation is unclear. Recommendation: consider.",
+      "key_uncertainties": [
+       "No MR: causal effect of measured B2M on lifespan or frailty is unknown; a non-cis instrument or other study could resolve it",
+       "Direction of modulation unclear; unclear whether lowering circulating B2M is separable from MHC I function",
+       "Surrogate result in schizophrenia does not speak to the measured protein",
+       "Safety of systemic inhibition given MHC class I role"
+      ],
+      "source_conflicts": [
+       "Open Targets lists no ageing-related disease associations, yet about 10% of the literature concerns ageing and the project context lists B2M as a GrimAge component. I relied on the structured associations for disease evidence and treated the literature and the surrogate as indirect.",
+       "Safety shows 0 liabilities, but the disease associations list MHC class I deficiency as the top association, which implies loss-of-function risk. I weighted the biology and scored safety low."
+      ],
+      "recommendation": "consider"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Lxemz6qdammA5gzJsRni9x",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"accepted\"}"
+  }
+ ]
+}

@@ -1,0 +1,387 @@
+{
+ "target": "ADM",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 2,
+ "assessment": {
+  "target": "ADM",
+  "proposed_modulation": "unclear",
+  "scores": {
+   "ageing_relevance": {
+    "score": 3,
+    "rationale": "About 18% of papers concern ageing, and ADM is linked to several age-related cardiovascular and renal diseases. MR on the measured protein is null, with point estimates in the worse-ageing direction. Colocalisation and replication were not available.",
+    "evidence": [
+     {
+      "fact_id": "literature.ageing_share",
+      "value": 0.1774
+     },
+     {
+      "fact_id": "associations.ageing",
+      "value": [
+       "congestive heart failure (0.331)",
+       "cardiovascular disorder (0.253)",
+       "skin aging (0.14)",
+       "essential hypertension (0.132)",
+       "chronic kidney disease (0.117)",
+       "pulmonary arterial hypertension (0.098)",
+       "heart failure (0.091)",
+       "coronary artery disorder (0.077)",
+       "type 2 diabetes mellitus (0.069)",
+       "stroke disorder (0.064)",
+       "osteoporosis (0.056)"
+      ]
+     },
+     {
+      "fact_id": "causal.mr_direction",
+      "value": "no Bonferroni-significant effect on any outcome"
+     },
+     {
+      "fact_id": "causal.mr_status",
+      "value": "tested: 2 cis instrument(s)"
+     }
+    ],
+    "background_knowledge": [
+     "ADM is a component of the GrimAge clock (stated in project context). Plasma levels are a known cardiovascular risk marker (MR-proADM)."
+    ]
+   },
+   "mechanism": {
+    "score": 2,
+    "rationale": "ADM is a well-characterised vasodilatory peptide hormone, but its causal link to ageing is not established. The direction is unclear: the MR point estimates are non-significant, and ADM is also vasoprotective in the literature.",
+    "evidence": [
+     {
+      "fact_id": "uniprot.function",
+      "value": "Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)"
+     },
+     {
+      "fact_id": "causal.mr_results",
+      "value": "frailty: Inverse variance weighted, 2 variant(s), b = +0.026 (SE 0.022), p = 0.24, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)"
+     }
+    ],
+    "background_knowledge": [
+     "Elevated ADM is generally considered a compensatory, protective response in cardiovascular disease, which complicates the choice of direction."
+    ]
+   },
+   "tractability": {
+    "score": 4,
+    "rationale": "As a secreted peptide, ADM is tractable to antibodies, and the antibody evidence is at Advanced Clinical level. Small-molecule tractability rests on ligand structures only, and PROTAC evidence is weak.",
+    "evidence": [
+     {
+      "fact_id": "tractability.antibody",
+      "value": [
+       "Advanced Clinical",
+       "UniProt loc high conf",
+       "GO CC high conf",
+       "UniProt SigP or TMHMM"
+      ]
+     },
+     {
+      "fact_id": "tractability.small_molecule",
+      "value": [
+       "Structure with Ligand",
+       "High-Quality Ligand"
+      ]
+     }
+    ],
+    "background_knowledge": []
+   },
+   "safety": {
+    "score": 3,
+    "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. ADM is a physiological vasodilator, so inhibition could carry cardiovascular risk.",
+    "evidence": [
+     {
+      "fact_id": "safety.n_liabilities",
+      "value": 0
+     }
+    ],
+    "background_knowledge": [
+     "ADM has roles in vascular and cardiac homeostasis and in development, so chronic inhibition could be risky."
+    ]
+   },
+   "clinical_precedence": {
+    "score": 3,
+    "rationale": "One antibody, enibarcimab, has reached Phase 2/3. It is not approved.",
+    "evidence": [
+     {
+      "fact_id": "clinical.max_stage_label",
+      "value": "PHASE_2_3"
+     },
+     {
+      "fact_id": "clinical.drugs",
+      "value": [
+       "ENIBARCIMAB (PHASE_2_3)"
+      ]
+     }
+    ],
+    "background_knowledge": [
+     "Enibarcimab is an anti-adrenomedullin antibody. I recall it being studied in acute settings such as septic shock and heart failure, not ageing."
+    ]
+   }
+  },
+  "summary": "ADM is a secreted vasoactive peptide, and it is a GrimAge component. It is associated with cardiovascular and renal age-related disease, and about 18% of its literature concerns ageing. MR of the measured protein is null on all four ageing outcomes (two cis variants), with no colocalisation or replication, so causality and direction are unproven. It is tractable by antibody, and enibarcimab has reached Phase 2/3 in non-ageing indications. No safety liabilities are listed, but ADM's physiological role calls for caution. Recommendation: consider.",
+  "key_uncertainties": [
+   "Whether ADM is causal for ageing: MR is null with only 2 instruments, and no colocalisation or replication was available.",
+   "Direction: ADM may be a compensatory protective marker, so inhibition is not clearly beneficial.",
+   "Whether enibarcimab data in acute indications transfer to chronic healthy-ageing use.",
+   "The ADM surrogate's link to schizophrenia is a methylation-surrogate finding and says nothing about the measured protein."
+  ],
+  "source_conflicts": [
+   "Open Targets lists no safety liabilities, but ADM's physiological vasodilator role (from UniProt) suggests inhibition could have on-target effects. I scored safety at 3, not higher, because no safety data were returned.",
+   "The disease associations are strongly cardiovascular, but MR on the ageing outcomes is null. I treated the association evidence as supportive but not causal."
+  ],
+  "recommendation": "consider"
+ },
+ "tools_called": [
+  "get_identity_and_function",
+  "get_tractability",
+  "get_safety",
+  "get_clinical_candidates",
+  "get_disease_associations",
+  "get_literature_counts",
+  "get_project_context",
+  "get_causal_evidence"
+ ],
+ "n_turns": 2,
+ "error": null,
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target ADM. Gather evidence with the tools, then call submit_assessment."
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01BZ5rbHo715w8PaWUN17Qcn",
+     "name": "get_identity_and_function",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01PDLB86LJ3v64YhYQDKcT1H",
+     "name": "get_tractability",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_011MMF4ySdZPygjEX1YaQbx1",
+     "name": "get_safety",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_019t5eQ5aV3XdVwp2sakLhvf",
+     "name": "get_clinical_candidates",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01PEyYNmvtMfALk7dU56R7X1",
+     "name": "get_disease_associations",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_014ob9tfe3vvMnTNmvCDxwc8",
+     "name": "get_literature_counts",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01E6KwhHoBTNxDm92xcS5F5P",
+     "name": "get_project_context",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01Kcxan3uLkFqzg8wZfTrC9D",
+     "name": "get_causal_evidence",
+     "arguments": {}
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01BZ5rbHo715w8PaWUN17Qcn",
+   "name": "get_identity_and_function",
+   "content": "{\"identity.symbol\": \"ADM\", \"identity.ensembl_id\": \"ENSG00000148926\", \"identity.approved_name\": \"adrenomedullin\", \"uniprot.protein_name\": \"Pro-adrenomedullin\", \"uniprot.function\": \"Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)\", \"uniprot.locations\": [\"Secreted\"], \"uniprot.secreted\": true}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01PDLB86LJ3v64YhYQDKcT1H",
+   "name": "get_tractability",
+   "content": "{\"tractability.small_molecule\": [\"Structure with Ligand\", \"High-Quality Ligand\"], \"tractability.antibody\": [\"Advanced Clinical\", \"UniProt loc high conf\", \"GO CC high conf\", \"UniProt SigP or TMHMM\"], \"tractability.protac\": [\"Database Ubiquitination\"], \"tractability.other_modality\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_011MMF4ySdZPygjEX1YaQbx1",
+   "name": "get_safety",
+   "content": "{\"safety.n_liabilities\": 0, \"safety.events\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_019t5eQ5aV3XdVwp2sakLhvf",
+   "name": "get_clinical_candidates",
+   "content": "{\"clinical.max_stage\": 3, \"clinical.max_stage_label\": \"PHASE_2_3\", \"clinical.n_drugs\": 1, \"clinical.drugs\": [\"ENIBARCIMAB (PHASE_2_3)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01PEyYNmvtMfALk7dU56R7X1",
+   "name": "get_disease_associations",
+   "content": "{\"associations.n_ageing\": 11, \"associations.ageing\": [\"congestive heart failure (0.331)\", \"cardiovascular disorder (0.253)\", \"skin aging (0.14)\", \"essential hypertension (0.132)\", \"chronic kidney disease (0.117)\", \"pulmonary arterial hypertension (0.098)\", \"heart failure (0.091)\", \"coronary artery disorder (0.077)\", \"type 2 diabetes mellitus (0.069)\", \"stroke disorder (0.064)\", \"osteoporosis (0.056)\"], \"associations.top\": [\"hypertensive disorder (0.43)\", \"Varicose veins (0.337)\", \"congestive heart failure (0.331)\", \"Abnormality of the skeletal system (0.291)\", \"vascular disorder (0.271)\", \"atrial fibrillation (0.269)\", \"hemorrhoid (0.268)\", \"cardiovascular disorder (0.253)\", \"Increased blood pressure (0.241)\", \"heart disorder (0.213)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_014ob9tfe3vvMnTNmvCDxwc8",
+   "name": "get_literature_counts",
+   "content": "{\"literature.any\": 11792, \"literature.ageing\": 2092, \"literature.senescence\": 920, \"literature.schizophrenia\": 289, \"literature.ageing_share\": 0.1774, \"literature.senescence_share\": 0.078, \"literature.schizophrenia_share\": 0.0245, \"literature.search_terms\": [\"adrenomedullin\", \"proadrenomedullin\", \"MR-proADM\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01E6KwhHoBTNxDm92xcS5F5P",
+   "name": "get_project_context",
+   "content": "{\"context.project\": \"One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years.\"}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Kcxan3uLkFqzg8wZfTrC9D",
+   "name": "get_causal_evidence",
+   "content": "{\"causal.exposure_study\": \"Folkersen L 2020 (ebi-a-GCST90011996, n = 21,758)\", \"causal.mr_status\": \"tested: 2 cis instrument(s)\", \"causal.instruments\": [\"rs11042731 (F = 186)\", \"rs2923084 (F = 38)\"], \"causal.outcome_coding\": [\"parental_longevity: positive b means worse ageing\", \"frailty: positive b means worse ageing\", \"grimage_accel_a: positive b means worse ageing\", \"grimage_accel_b: positive b means worse ageing\"], \"causal.mr_results\": [\"frailty: Inverse variance weighted, 2 variant(s), b = +0.026 (SE 0.022), p = 0.24, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\", \"parental_longevity: Inverse variance weighted, 2 variant(s), b = +0.015 (SE 0.015), p = 0.3, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\", \"grimage_accel_b: Inverse variance weighted, 2 variant(s), b = +0.092 (SE 0.323), p = 0.78, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\", \"grimage_accel_a: Inverse variance weighted, 2 variant(s), b = +0.038 (SE 0.201), p = 0.85, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\"], \"causal.mr_significant_outcomes\": [], \"causal.mr_direction\": \"no Bonferroni-significant effect on any outcome\", \"causal.mr_n_tests_corrected\": 20, \"causal.mr_sensitivity\": [], \"causal.mr_checks\": [\"parental_longevity: heterogeneity (Inverse variance weighted) Q p = 0.52\", \"frailty: heterogeneity (Inverse variance weighted) Q p = 0.67\", \"grimage_accel_a: heterogeneity (Inverse variance weighted) Q p = 0.34\", \"grimage_accel_b: heterogeneity (Inverse variance weighted) Q p = 0.34\"], \"causal.colocalisation\": [], \"causal.replication\": []}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01EGHducXJWhm3FSRDemDdw2",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "ADM",
+      "proposed_modulation": "unclear",
+      "scores": {
+       "ageing_relevance": {
+        "score": 3,
+        "rationale": "About 18% of papers concern ageing, and ADM is linked to several age-related cardiovascular and renal diseases. MR on the measured protein is null, with point estimates in the worse-ageing direction. Colocalisation and replication were not available.",
+        "evidence": [
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.1774
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": [
+           "congestive heart failure (0.331)",
+           "cardiovascular disorder (0.253)",
+           "skin aging (0.14)",
+           "essential hypertension (0.132)",
+           "chronic kidney disease (0.117)",
+           "pulmonary arterial hypertension (0.098)",
+           "heart failure (0.091)",
+           "coronary artery disorder (0.077)",
+           "type 2 diabetes mellitus (0.069)",
+           "stroke disorder (0.064)",
+           "osteoporosis (0.056)"
+          ]
+         },
+         {
+          "fact_id": "causal.mr_direction",
+          "value": "no Bonferroni-significant effect on any outcome"
+         },
+         {
+          "fact_id": "causal.mr_status",
+          "value": "tested: 2 cis instrument(s)"
+         }
+        ],
+        "background_knowledge": [
+         "ADM is a component of the GrimAge clock (stated in project context). Plasma levels are a known cardiovascular risk marker (MR-proADM)."
+        ]
+       },
+       "mechanism": {
+        "score": 2,
+        "rationale": "ADM is a well-characterised vasodilatory peptide hormone, but its causal link to ageing is not established. The direction is unclear: the MR point estimates are non-significant, and ADM is also vasoprotective in the literature.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "Peptide hormone that act as potent hypotensive and vasodilatator agents by inhibiting catecholamine secretion from sympathetic nerve endings and adrenal chromaffin cells (PubMed:10588445, PubMed:9578982). Acts as a ligand for MRGPRX2 receptor in mast cells (PubMed:15823563, PubMed:34789875)"
+         },
+         {
+          "fact_id": "causal.mr_results",
+          "value": "frailty: Inverse variance weighted, 2 variant(s), b = +0.026 (SE 0.022), p = 0.24, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)"
+         }
+        ],
+        "background_knowledge": [
+         "Elevated ADM is generally considered a compensatory, protective response in cardiovascular disease, which complicates the choice of direction."
+        ]
+       },
+       "tractability": {
+        "score": 4,
+        "rationale": "As a secreted peptide, ADM is tractable to antibodies, and the antibody evidence is at Advanced Clinical level. Small-molecule tractability rests on ligand structures only, and PROTAC evidence is weak.",
+        "evidence": [
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "Advanced Clinical",
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": [
+           "Structure with Ligand",
+           "High-Quality Ligand"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 3,
+        "rationale": "Open Targets lists no liabilities, but absence of data is not evidence of safety. ADM is a physiological vasodilator, so inhibition could carry cardiovascular risk.",
+        "evidence": [
+         {
+          "fact_id": "safety.n_liabilities",
+          "value": 0
+         }
+        ],
+        "background_knowledge": [
+         "ADM has roles in vascular and cardiac homeostasis and in development, so chronic inhibition could be risky."
+        ]
+       },
+       "clinical_precedence": {
+        "score": 3,
+        "rationale": "One antibody, enibarcimab, has reached Phase 2/3. It is not approved.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "PHASE_2_3"
+         },
+         {
+          "fact_id": "clinical.drugs",
+          "value": [
+           "ENIBARCIMAB (PHASE_2_3)"
+          ]
+         }
+        ],
+        "background_knowledge": [
+         "Enibarcimab is an anti-adrenomedullin antibody. I recall it being studied in acute settings such as septic shock and heart failure, not ageing."
+        ]
+       }
+      },
+      "summary": "ADM is a secreted vasoactive peptide, and it is a GrimAge component. It is associated with cardiovascular and renal age-related disease, and about 18% of its literature concerns ageing. MR of the measured protein is null on all four ageing outcomes (two cis variants), with no colocalisation or replication, so causality and direction are unproven. It is tractable by antibody, and enibarcimab has reached Phase 2/3 in non-ageing indications. No safety liabilities are listed, but ADM's physiological role calls for caution. Recommendation: consider.",
+      "key_uncertainties": [
+       "Whether ADM is causal for ageing: MR is null with only 2 instruments, and no colocalisation or replication was available.",
+       "Direction: ADM may be a compensatory protective marker, so inhibition is not clearly beneficial.",
+       "Whether enibarcimab data in acute indications transfer to chronic healthy-ageing use.",
+       "The ADM surrogate's link to schizophrenia is a methylation-surrogate finding and says nothing about the measured protein."
+      ],
+      "source_conflicts": [
+       "Open Targets lists no safety liabilities, but ADM's physiological vasodilator role (from UniProt) suggests inhibition could have on-target effects. I scored safety at 3, not higher, because no safety data were returned.",
+       "The disease associations are strongly cardiovascular, but MR on the ageing outcomes is null. I treated the association evidence as supportive but not causal."
+      ],
+      "recommendation": "consider"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01EGHducXJWhm3FSRDemDdw2",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"accepted\"}"
+  }
+ ]
+}

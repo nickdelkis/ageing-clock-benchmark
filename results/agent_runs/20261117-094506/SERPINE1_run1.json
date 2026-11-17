@@ -1,0 +1,598 @@
+{
+ "target": "SERPINE1",
+ "model": "anthropic:claude-sonnet-5-5 @ https://api.anthropic.com",
+ "run": 1,
+ "assessment": {
+  "target": "SERPINE1",
+  "proposed_modulation": "inhibit",
+  "recommendation": "prioritise",
+  "scores": {
+   "ageing_relevance": {
+    "score": 4,
+    "rationale": "Genetically higher PAI-1 is linked to worse parental longevity (Bonferroni-significant), and about 21% of papers concern ageing. It is associated with several age-related diseases. Colocalisation is inconclusive and the other MR outcomes are null, which tempers the score.",
+    "evidence": [
+     {
+      "fact_id": "causal.mr_results",
+      "value": "parental_longevity: Wald ratio, 1 variant(s), b = +0.070 (SE 0.022), p = 0.0015, Bonferroni p = 0.03; higher protein -> worse ageing (hypothesis: inhibit)"
+     },
+     {
+      "fact_id": "causal.colocalisation",
+      "value": "parental_longevity (+/-250 kb, 2290 variants): PP.H4 = 0.13, PP.H3 = 0.04, PP.H1 = 0.83, PP.H2 = 0.00; most likely shared variant rs2227631 (SNP.PP.H4 = 0.94); strongest outcome variant rs4268055, -70 kb from the gene, p = 6.3e-04"
+     },
+     {
+      "fact_id": "literature.ageing_share",
+      "value": 0.2082
+     },
+     {
+      "fact_id": "associations.ageing",
+      "value": [
+       "coronary artery disorder (0.214)",
+       "ischemic stroke (0.202)",
+       "type 2 diabetes mellitus (0.124)",
+       "Alzheimer disease (0.12)",
+       "chronic obstructive pulmonary disease (0.112)",
+       "stroke disorder (0.103)",
+       "Parkinson disease (0.083)"
+      ]
+     },
+     {
+      "fact_id": "causal.mr_n_tests_corrected",
+      "value": 20
+     }
+    ],
+    "background_knowledge": []
+   },
+   "mechanism": {
+    "score": 4,
+    "rationale": "PAI-1 is a well-characterised inhibitor of tPA and uPA that regulates fibrinolysis and is implicated in cellular senescence. MR points to inhibition, but this rests on one instrument without sensitivity checks.",
+    "evidence": [
+     {
+      "fact_id": "uniprot.function",
+      "value": "It is involved in cellular and replicative senescence (PubMed:16862142). Plays a role in alveolar type 2 cells senescence in the lung (By similarity)."
+     },
+     {
+      "fact_id": "causal.mr_direction",
+      "value": "higher protein -> worse ageing (hypothesis: inhibit)"
+     },
+     {
+      "fact_id": "causal.instruments",
+      "value": [
+       "rs2227631 (F = 61)"
+      ]
+     }
+    ],
+    "background_knowledge": []
+   },
+   "tractability": {
+    "score": 4,
+    "rationale": "Small-molecule evidence is strong (clinical-stage, ligand-bound structure, high-quality pocket). It is also a secreted protein, so an antibody is feasible. No approved drug is shown.",
+    "evidence": [
+     {
+      "fact_id": "tractability.small_molecule",
+      "value": [
+       "Advanced Clinical",
+       "Structure with Ligand",
+       "High-Quality Ligand",
+       "High-Quality Pocket",
+       "Druggable Family"
+      ]
+     },
+     {
+      "fact_id": "tractability.antibody",
+      "value": [
+       "UniProt loc high conf",
+       "GO CC high conf",
+       "UniProt SigP or TMHMM"
+      ]
+     },
+     {
+      "fact_id": "tractability.protac",
+      "value": [
+       "Small Molecule Binder"
+      ]
+     }
+    ],
+    "background_knowledge": []
+   },
+   "safety": {
+    "score": 2,
+    "rationale": "Open Targets lists two liabilities, including osteonecrosis. Congenital PAI-1 deficiency is associated with abnormal bleeding and haemorrhage, so inhibition carries a bleeding risk.",
+    "evidence": [
+     {
+      "fact_id": "safety.events",
+      "value": [
+       "osteonecrosis",
+       "regulation of gene expression"
+      ]
+     },
+     {
+      "fact_id": "associations.top",
+      "value": [
+       "congenital plasminogen activator inhibitor type 1 deficiency (0.684)",
+       "venous thromboembolism (0.356)",
+       "Abnormal bleeding (0.269)",
+       "coronary artery disorder (0.214)",
+       "ischemic stroke (0.202)",
+       "hemorrhage (0.16)"
+      ]
+     }
+    ],
+    "background_knowledge": [
+     "Inhibiting an inhibitor of fibrinolysis would plausibly raise bleeding risk, particularly alongside anticoagulants"
+    ]
+   },
+   "clinical_precedence": {
+    "score": 2,
+    "rationale": "Only one drug, aleplasinin, is listed, and it reached phase 1.",
+    "evidence": [
+     {
+      "fact_id": "clinical.max_stage_label",
+      "value": "PHASE_1"
+     },
+     {
+      "fact_id": "clinical.drugs",
+      "value": [
+       "ALEPLASININ (PHASE_1)"
+      ]
+     }
+    ],
+    "background_knowledge": []
+   }
+  },
+  "summary": "SERPINE1 (PAI-1) is a secreted inhibitor of tPA and uPA that is involved in senescence. Genetically higher PAI-1 is associated with worse parental longevity (Bonferroni-significant, one cis instrument). Colocalisation is inconclusive and the frailty and GrimAge outcomes are null. It is tractable for small molecules and antibodies, but only a phase 1 drug is listed, and bleeding and osteonecrosis liabilities are a concern. The ageing evidence is multi-source and the direction (inhibit) is consistent, so I recommend prioritise, with attention to bleeding safety.",
+  "key_uncertainties": [
+   "Colocalisation for parental longevity is inconclusive (PP.H4 0.13, PP.H1 0.83), so the MR signal may not share a causal variant with the protein",
+   "Only one cis instrument, so pleiotropy cannot be tested",
+   "Frailty and GrimAge MR are null",
+   "Bleeding risk of chronic PAI-1 inhibition in older people",
+   "Replication of the instrument is mixed (Gilly p = 0.012, Sun p = 0.15)"
+  ],
+  "source_conflicts": [
+   "Small-molecule tractability is labelled 'Advanced Clinical', but the clinical candidates list shows only a phase 1 drug (aleplasinin). I relied on the clinical candidates list for clinical precedence.",
+   "The MR effect on parental longevity is Bonferroni-significant, but colocalisation is inconclusive (PP.H4 0.13) and the frailty and GrimAge MR are null. I treated the MR as supportive but not conclusive."
+  ]
+ },
+ "tools_called": [
+  "get_identity_and_function",
+  "get_tractability",
+  "get_safety",
+  "get_clinical_candidates",
+  "get_disease_associations",
+  "get_literature_counts",
+  "get_project_context",
+  "get_causal_evidence"
+ ],
+ "n_turns": 3,
+ "error": null,
+ "trace": [
+  {
+   "role": "user",
+   "content": "Assess the target SERPINE1. Gather evidence with the tools, then call submit_assessment."
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_019bb29jynKGDPoJwyT2DYfP",
+     "name": "get_identity_and_function",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01RdfQmt8Euha3YD6fjN8Ce7",
+     "name": "get_tractability",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01EDNDvRigf8pmm8wc6Q2uSs",
+     "name": "get_safety",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01WVct6xzY4xXU1iYev2yU1p",
+     "name": "get_clinical_candidates",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01Ru5phj5xMZ6NeSZM3uaHNh",
+     "name": "get_disease_associations",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01LMtGDoJhQ6aRs2Ce8rYoMW",
+     "name": "get_literature_counts",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01AEM2ZG8kF3Qk6LMQELzTsP",
+     "name": "get_project_context",
+     "arguments": {}
+    },
+    {
+     "id": "toolu_01998T8ByTmGWwCXKmgr7Fp4",
+     "name": "get_causal_evidence",
+     "arguments": {}
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_019bb29jynKGDPoJwyT2DYfP",
+   "name": "get_identity_and_function",
+   "content": "{\"identity.symbol\": \"SERPINE1\", \"identity.ensembl_id\": \"ENSG00000106366\", \"identity.approved_name\": \"serpin family E member 1\", \"uniprot.protein_name\": \"Plasminogen activator inhibitor 1\", \"uniprot.function\": \"Serine protease inhibitor. Inhibits TMPRSS7 (PubMed:15853774). Is a primary inhibitor of tissue-type plasminogen activator (PLAT) and urokinase-type plasminogen activator (PLAU). As PLAT inhibitor, it is required for fibrinolysis down-regulation and is responsible for the controlled degradation of blood clots (PubMed:17912461, PubMed:8481516, PubMed:9207454, PubMed:21925150). As PLAU inhibitor, it is involved in the regulation of cell adhesion and spreading (PubMed:9175705). Acts as a regulator of cell migration, independently of its role as protease inhibitor (PubMed:15001579, PubMed:9168821). It is required for stimulation of keratinocyte migration during cutaneous injury repair (PubMed:18386027). It is involved in cellular and replicative senescence (PubMed:16862142). Plays a role in alveolar type 2 cells senescence in the lung (By similarity). Is involved in the regulation of cementogenic differentiation of periodontal ligament stem cells, and regulates odontoblast differentiation and dentin formation during odontogenesis (PubMed:25808697, PubMed:27046084)\", \"uniprot.locations\": [\"Secreted\"], \"uniprot.secreted\": true}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01RdfQmt8Euha3YD6fjN8Ce7",
+   "name": "get_tractability",
+   "content": "{\"tractability.small_molecule\": [\"Advanced Clinical\", \"Structure with Ligand\", \"High-Quality Ligand\", \"High-Quality Pocket\", \"Druggable Family\"], \"tractability.antibody\": [\"UniProt loc high conf\", \"GO CC high conf\", \"UniProt SigP or TMHMM\"], \"tractability.protac\": [\"Small Molecule Binder\"], \"tractability.other_modality\": []}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01EDNDvRigf8pmm8wc6Q2uSs",
+   "name": "get_safety",
+   "content": "{\"safety.n_liabilities\": 2, \"safety.events\": [\"osteonecrosis\", \"regulation of gene expression\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01WVct6xzY4xXU1iYev2yU1p",
+   "name": "get_clinical_candidates",
+   "content": "{\"clinical.max_stage\": 1, \"clinical.max_stage_label\": \"PHASE_1\", \"clinical.n_drugs\": 1, \"clinical.drugs\": [\"ALEPLASININ (PHASE_1)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01Ru5phj5xMZ6NeSZM3uaHNh",
+   "name": "get_disease_associations",
+   "content": "{\"associations.n_ageing\": 7, \"associations.ageing\": [\"coronary artery disorder (0.214)\", \"ischemic stroke (0.202)\", \"type 2 diabetes mellitus (0.124)\", \"Alzheimer disease (0.12)\", \"chronic obstructive pulmonary disease (0.112)\", \"stroke disorder (0.103)\", \"Parkinson disease (0.083)\"], \"associations.top\": [\"congenital plasminogen activator inhibitor type 1 deficiency (0.684)\", \"venous thromboembolism (0.356)\", \"Abnormal bleeding (0.269)\", \"coronary artery disorder (0.214)\", \"ischemic stroke (0.202)\", \"hemorrhage (0.16)\", \"type 2 diabetes mellitus (0.124)\", \"thrombotic disease (0.124)\", \"breast carcinoma (0.124)\", \"metabolic syndrome (0.123)\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01LMtGDoJhQ6aRs2Ce8rYoMW",
+   "name": "get_literature_counts",
+   "content": "{\"literature.any\": 59619, \"literature.ageing\": 12414, \"literature.senescence\": 7299, \"literature.schizophrenia\": 999, \"literature.ageing_share\": 0.2082, \"literature.senescence_share\": 0.1224, \"literature.schizophrenia_share\": 0.0168, \"literature.search_terms\": [\"plasminogen activator inhibitor-1\", \"plasminogen activator inhibitor 1\", \"PAI-1\", \"SERPINE1\"]}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01AEM2ZG8kF3Qk6LMQELzTsP",
+   "name": "get_project_context",
+   "content": "{\"context.project\": \"One of seven plasma proteins whose DNA-methylation surrogates make up the GrimAge clock. Part 1 of this project: the GrimAge clock as a whole was +4.3 years older in schizophrenia, a difference that disappeared after adjusting for a methylation smoking score; this protein's own surrogate was not tested. Surrogates are methylation estimates, not measured protein levels. Shirai et al. 2024 (7-cohort meta-analysis): this protein's DNAm surrogate was higher in schizophrenia or first-episode psychosis in a model adjusted for age, sex and DNAm smoking pack-years.\"}"
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01998T8ByTmGWwCXKmgr7Fp4",
+   "name": "get_causal_evidence",
+   "content": "{\"causal.exposure_study\": \"Pietzner M 2020 (ebi-a-GCST90019422, n = 10,708)\", \"causal.mr_status\": \"tested: 1 cis instrument(s)\", \"causal.instruments\": [\"rs2227631 (F = 61)\"], \"causal.outcome_coding\": [\"parental_longevity: positive b means worse ageing\", \"frailty: positive b means worse ageing\", \"grimage_accel_a: positive b means worse ageing\", \"grimage_accel_b: positive b means worse ageing\"], \"causal.mr_results\": [\"parental_longevity: Wald ratio, 1 variant(s), b = +0.070 (SE 0.022), p = 0.0015, Bonferroni p = 0.03; higher protein -> worse ageing (hypothesis: inhibit)\", \"grimage_accel_b: Wald ratio, 1 variant(s), b = +0.261 (SE 0.325), p = 0.42, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\", \"frailty: Wald ratio, 1 variant(s), b = +0.025 (SE 0.033), p = 0.44, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\", \"grimage_accel_a: Wald ratio, 1 variant(s), b = +0.098 (SE 0.296), p = 0.74, Bonferroni p = 1; higher protein -> worse ageing (point estimate only, not significant)\"], \"causal.mr_significant_outcomes\": [\"parental_longevity\"], \"causal.mr_direction\": \"higher protein -> worse ageing (hypothesis: inhibit)\", \"causal.mr_n_tests_corrected\": 20, \"causal.mr_sensitivity\": [], \"causal.mr_checks\": [], \"causal.colocalisation\": [\"parental_longevity (+/-250 kb, 2290 variants): PP.H4 = 0.13, PP.H3 = 0.04, PP.H1 = 0.83, PP.H2 = 0.00; most likely shared variant rs2227631 (SNP.PP.H4 = 0.94); strongest outcome variant rs4268055, -70 kb from the gene, p = 6.3e-04\"], \"causal.replication\": [\"gilly2020: rs2227631 allele G beta = -0.102, p = 0.012\", \"sun2018_somascan: rs2227631 allele G beta = -0.036, p = 0.15\", \"dnam_pai1_mccartney (DNA-methylation surrogate, not the measured protein): rs2227631 allele G beta = +0.056, p = 0.45\"], \"causal.phewas_counts\": \"9 associations at p < 1e-5, of which 5 are gene-expression (eQTL) traits\", \"causal.phewas_top_traits\": [\"Plasminogen activator inhibitor 1 measurement (p = 6.4e-15)\", \"Tissue-type plasminogen activator measurement (p = 1.1e-09)\", \"Pulse rate, automated reading (p = 3.6e-08)\", \"Red blood cell count (p = 6.3e-06)\"]}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01UXPyEHfaJKoMoUedfsuCKK",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "SERPINE1",
+      "proposed_modulation": "inhibit",
+      "recommendation": "prioritise",
+      "scores": {
+       "ageing_relevance": {
+        "score": 4,
+        "rationale": "Genetically higher PAI-1 is linked to worse parental longevity (Bonferroni-significant), and about 21% of papers concern ageing. It is associated with several age-related diseases. Colocalisation is inconclusive and the other MR outcomes are null, which tempers the score.",
+        "evidence": [
+         {
+          "fact_id": "causal.mr_results",
+          "value": "parental_longevity: Wald ratio, 1 variant(s), b = +0.070 (SE 0.022), p = 0.0015, Bonferroni p = 0.03; higher protein -> worse ageing (hypothesis: inhibit)"
+         },
+         {
+          "fact_id": "causal.colocalisation",
+          "value": "parental_longevity (+/-250 kb, 2290 variants): PP.H4 = 0.13, PP.H3 = 0.04, PP.H1 = 0.83, PP.H2 = 0.00; most likely shared variant rs2227631 (SNP.PP.H4 = 0.94); strongest outcome variant rs4268055, -70 kb from the gene, p = 6.3e-04"
+         },
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.2082
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": [
+           "coronary artery disorder (0.214)",
+           "ischemic stroke (0.202)",
+           "type 2 diabetes mellitus (0.124)",
+           "Alzheimer disease (0.12)",
+           "chronic obstructive pulmonary disease (0.112)",
+           "stroke disorder (0.103)",
+           "Parkinson disease (0.083)"
+          ]
+         },
+         {
+          "fact_id": "causal.mr_n_tests_corrected",
+          "value": 20
+         }
+        ],
+        "background_knowledge": [
+         "Gilly 2020 replication sign is negative for allele G whereas the discovery sign is unspecified here, so concordance was not assessed"
+        ]
+       },
+       "mechanism": {
+        "score": 4,
+        "rationale": "PAI-1 is a well-characterised inhibitor of tPA and uPA that regulates fibrinolysis and is implicated in cellular senescence. MR points to inhibition, but this rests on one instrument without sensitivity checks.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "It is involved in cellular and replicative senescence (PubMed:16862142). Plays a role in alveolar type 2 cells senescence in the lung (By similarity)."
+         },
+         {
+          "fact_id": "causal.mr_direction",
+          "value": "higher protein -> worse ageing (hypothesis: inhibit)"
+         },
+         {
+          "fact_id": "causal.instruments",
+          "value": [
+           "rs2227631 (F = 61)"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "tractability": {
+        "score": 4,
+        "rationale": "Small-molecule evidence is strong (clinical-stage, ligand-bound structure, high-quality pocket). It is also a secreted protein, so an antibody is feasible. No approved drug is shown.",
+        "evidence": [
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": [
+           "Advanced Clinical",
+           "Structure with Ligand",
+           "High-Quality Ligand",
+           "High-Quality Pocket",
+           "Druggable Family"
+          ]
+         },
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.protac",
+          "value": [
+           "Small Molecule Binder"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 2,
+        "rationale": "Open Targets lists two liabilities, including osteonecrosis. Congenital PAI-1 deficiency is associated with abnormal bleeding and haemorrhage, so inhibition carries a bleeding risk.",
+        "evidence": [
+         {
+          "fact_id": "safety.events",
+          "value": [
+           "osteonecrosis",
+           "regulation of gene expression"
+          ]
+         },
+         {
+          "fact_id": "associations.top",
+          "value": [
+           "congenital plasminogen activator inhibitor type 1 deficiency (0.684)",
+           "venous thromboembolism (0.356)",
+           "Abnormal bleeding (0.269)",
+           "coronary artery disorder (0.214)",
+           "ischemic stroke (0.202)",
+           "hemorrhage (0.16)"
+          ]
+         }
+        ],
+        "background_knowledge": [
+         "Inhibiting an inhibitor of fibrinolysis would plausibly raise bleeding risk, particularly alongside anticoagulants"
+        ]
+       },
+       "clinical_precedence": {
+        "score": 2,
+        "rationale": "Only one drug, aleplasinin, is listed, and it reached phase 1.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "PHASE_1"
+         },
+         {
+          "fact_id": "clinical.drugs",
+          "value": [
+           "ALEPLASININ (PHASE_1)"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       }
+      },
+      "summary": "SERPINE1 (PAI-1) is a secreted inhibitor of tPA and uPA that is involved in senescence. Genetically higher PAI-1 is associated with worse parental longevity (Bonferroni-significant, one cis instrument). Colocalisation is inconclusive and the frailty and GrimAge outcomes are null. It is tractable for small molecules and antibodies, but only a phase 1 drug is listed, and bleeding and osteonecrosis liabilities are a concern. The ageing evidence is multi-source and the direction (inhibit) is consistent, so I recommend prioritise, with attention to bleeding safety.",
+      "key_uncertainties": [
+       "Colocalisation for parental longevity is inconclusive (PP.H4 0.13, PP.H1 0.83), so the MR signal may not share a causal variant with the protein",
+       "Only one cis instrument, so pleiotropy cannot be tested",
+       "Frailty and GrimAge MR are null",
+       "Bleeding risk of chronic PAI-1 inhibition in older people",
+       "Replication of the instrument is mixed (Gilly p = 0.012, Sun p = 0.15)"
+      ],
+      "source_conflicts": "[\"Small-molecule tractability is labelled 'Advanced Clinical', but the clinical candidates list shows only a phase 1 drug (aleplasinin). I relied on the clinical candidates list for clinical precedence.\", \"The MR effect on parental longevity is Bonferroni-significant, but colocalisation is inconclusive (PP.H4 0.13) and the frailty and GrimAge MR are null. I treated the MR as supportive but not conclusive.\"]}"
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01UXPyEHfaJKoMoUedfsuCKK",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"rejected\", \"problems\": [\"source_conflicts must be a list (empty if there are none)\"]}"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "id": "toolu_01QgvsomBkyPDk1ZHwf6arRp",
+     "name": "submit_assessment",
+     "arguments": {
+      "target": "SERPINE1",
+      "proposed_modulation": "inhibit",
+      "recommendation": "prioritise",
+      "scores": {
+       "ageing_relevance": {
+        "score": 4,
+        "rationale": "Genetically higher PAI-1 is linked to worse parental longevity (Bonferroni-significant), and about 21% of papers concern ageing. It is associated with several age-related diseases. Colocalisation is inconclusive and the other MR outcomes are null, which tempers the score.",
+        "evidence": [
+         {
+          "fact_id": "causal.mr_results",
+          "value": "parental_longevity: Wald ratio, 1 variant(s), b = +0.070 (SE 0.022), p = 0.0015, Bonferroni p = 0.03; higher protein -> worse ageing (hypothesis: inhibit)"
+         },
+         {
+          "fact_id": "causal.colocalisation",
+          "value": "parental_longevity (+/-250 kb, 2290 variants): PP.H4 = 0.13, PP.H3 = 0.04, PP.H1 = 0.83, PP.H2 = 0.00; most likely shared variant rs2227631 (SNP.PP.H4 = 0.94); strongest outcome variant rs4268055, -70 kb from the gene, p = 6.3e-04"
+         },
+         {
+          "fact_id": "literature.ageing_share",
+          "value": 0.2082
+         },
+         {
+          "fact_id": "associations.ageing",
+          "value": [
+           "coronary artery disorder (0.214)",
+           "ischemic stroke (0.202)",
+           "type 2 diabetes mellitus (0.124)",
+           "Alzheimer disease (0.12)",
+           "chronic obstructive pulmonary disease (0.112)",
+           "stroke disorder (0.103)",
+           "Parkinson disease (0.083)"
+          ]
+         },
+         {
+          "fact_id": "causal.mr_n_tests_corrected",
+          "value": 20
+         }
+        ],
+        "background_knowledge": []
+       },
+       "mechanism": {
+        "score": 4,
+        "rationale": "PAI-1 is a well-characterised inhibitor of tPA and uPA that regulates fibrinolysis and is implicated in cellular senescence. MR points to inhibition, but this rests on one instrument without sensitivity checks.",
+        "evidence": [
+         {
+          "fact_id": "uniprot.function",
+          "value": "It is involved in cellular and replicative senescence (PubMed:16862142). Plays a role in alveolar type 2 cells senescence in the lung (By similarity)."
+         },
+         {
+          "fact_id": "causal.mr_direction",
+          "value": "higher protein -> worse ageing (hypothesis: inhibit)"
+         },
+         {
+          "fact_id": "causal.instruments",
+          "value": [
+           "rs2227631 (F = 61)"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "tractability": {
+        "score": 4,
+        "rationale": "Small-molecule evidence is strong (clinical-stage, ligand-bound structure, high-quality pocket). It is also a secreted protein, so an antibody is feasible. No approved drug is shown.",
+        "evidence": [
+         {
+          "fact_id": "tractability.small_molecule",
+          "value": [
+           "Advanced Clinical",
+           "Structure with Ligand",
+           "High-Quality Ligand",
+           "High-Quality Pocket",
+           "Druggable Family"
+          ]
+         },
+         {
+          "fact_id": "tractability.antibody",
+          "value": [
+           "UniProt loc high conf",
+           "GO CC high conf",
+           "UniProt SigP or TMHMM"
+          ]
+         },
+         {
+          "fact_id": "tractability.protac",
+          "value": [
+           "Small Molecule Binder"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       },
+       "safety": {
+        "score": 2,
+        "rationale": "Open Targets lists two liabilities, including osteonecrosis. Congenital PAI-1 deficiency is associated with abnormal bleeding and haemorrhage, so inhibition carries a bleeding risk.",
+        "evidence": [
+         {
+          "fact_id": "safety.events",
+          "value": [
+           "osteonecrosis",
+           "regulation of gene expression"
+          ]
+         },
+         {
+          "fact_id": "associations.top",
+          "value": [
+           "congenital plasminogen activator inhibitor type 1 deficiency (0.684)",
+           "venous thromboembolism (0.356)",
+           "Abnormal bleeding (0.269)",
+           "coronary artery disorder (0.214)",
+           "ischemic stroke (0.202)",
+           "hemorrhage (0.16)"
+          ]
+         }
+        ],
+        "background_knowledge": [
+         "Inhibiting an inhibitor of fibrinolysis would plausibly raise bleeding risk, particularly alongside anticoagulants"
+        ]
+       },
+       "clinical_precedence": {
+        "score": 2,
+        "rationale": "Only one drug, aleplasinin, is listed, and it reached phase 1.",
+        "evidence": [
+         {
+          "fact_id": "clinical.max_stage_label",
+          "value": "PHASE_1"
+         },
+         {
+          "fact_id": "clinical.drugs",
+          "value": [
+           "ALEPLASININ (PHASE_1)"
+          ]
+         }
+        ],
+        "background_knowledge": []
+       }
+      },
+      "summary": "SERPINE1 (PAI-1) is a secreted inhibitor of tPA and uPA that is involved in senescence. Genetically higher PAI-1 is associated with worse parental longevity (Bonferroni-significant, one cis instrument). Colocalisation is inconclusive and the frailty and GrimAge outcomes are null. It is tractable for small molecules and antibodies, but only a phase 1 drug is listed, and bleeding and osteonecrosis liabilities are a concern. The ageing evidence is multi-source and the direction (inhibit) is consistent, so I recommend prioritise, with attention to bleeding safety.",
+      "key_uncertainties": [
+       "Colocalisation for parental longevity is inconclusive (PP.H4 0.13, PP.H1 0.83), so the MR signal may not share a causal variant with the protein",
+       "Only one cis instrument, so pleiotropy cannot be tested",
+       "Frailty and GrimAge MR are null",
+       "Bleeding risk of chronic PAI-1 inhibition in older people",
+       "Replication of the instrument is mixed (Gilly p = 0.012, Sun p = 0.15)"
+      ],
+      "source_conflicts": [
+       "Small-molecule tractability is labelled 'Advanced Clinical', but the clinical candidates list shows only a phase 1 drug (aleplasinin). I relied on the clinical candidates list for clinical precedence.",
+       "The MR effect on parental longevity is Bonferroni-significant, but colocalisation is inconclusive (PP.H4 0.13) and the frailty and GrimAge MR are null. I treated the MR as supportive but not conclusive."
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "tool_call_id": "toolu_01QgvsomBkyPDk1ZHwf6arRp",
+   "name": "submit_assessment",
+   "content": "{\"status\": \"accepted\"}"
+  }
+ ]
+}
