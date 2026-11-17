@@ -102,3 +102,39 @@ def test_too_few_samples_raises():
     s = pd.Series([1.0, 2.0], index=["a", "b"])
     with pytest.raises(ValueError):
         age_deviation(s, s)
+
+
+# ---- meta-analysis ------------------------------------------------------------
+
+from clockbench.analysis import meta_analyse
+
+
+def test_meta_identical_studies_have_no_heterogeneity():
+    m = meta_analyse([0.5, 0.5, 0.5], [0.1, 0.2, 0.3])
+    assert m["q"] == pytest.approx(0) and m["tau2"] == 0 and m["i2"] == 0
+    assert m["random"] == pytest.approx(0.5) and m["fixed"] == pytest.approx(0.5)
+
+
+def test_meta_fixed_effect_weights_by_inverse_variance():
+    m = meta_analyse([0.0, 1.0], [1.0, 1.0])
+    assert m["fixed"] == pytest.approx(0.5)
+    assert m["fixed_se"] == pytest.approx(np.sqrt(0.5))
+    assert m["tau2"] == 0  # Q = 0.5 < df = 1
+
+
+def test_meta_dersimonian_laird_worked_example():
+    # w = 4 each; FE = 2; Q = 32; C = 12 - 48/12 = 8; tau2 = (32 - 2) / 8 = 3.75
+    m = meta_analyse([0.0, 2.0, 4.0], [0.5, 0.5, 0.5])
+    assert m["q"] == pytest.approx(32)
+    assert m["tau2"] == pytest.approx(3.75)
+    assert m["i2"] == pytest.approx(30 / 32)
+    assert m["random"] == pytest.approx(2.0)
+    assert m["random_se"] == pytest.approx(np.sqrt(1 / 0.75))
+    # HKSJ: q* = sum(w*(y - mu)^2) / (k - 1) = 0.25 * 8 / 2 = 1, so se = sqrt(1 / 0.75); t(2) critical value
+    half = m["hk_ci_high"] - m["random"]
+    assert half == pytest.approx(4.302653 * np.sqrt(1 / 0.75), rel=1e-5)
+
+
+def test_meta_skips_missing_studies():
+    m = meta_analyse([1.0, np.nan, 3.0], [1.0, 1.0, np.nan])
+    assert m["k"] == 1 and m["fixed"] == pytest.approx(1.0) and "random" not in m

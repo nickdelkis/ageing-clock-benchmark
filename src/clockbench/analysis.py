@@ -199,3 +199,59 @@ def compare_groups(
     if "p_adjusted" in out:
         out["q_adjusted"] = bh_adjust(out["p_adjusted"])
     return out
+
+
+def meta_analyse(estimates: Sequence[float], ses: Sequence[float]) -> dict[str, float]:
+    """Inverse-variance meta-analysis of one effect across studies.
+
+    Returns the fixed-effect estimate, the DerSimonian-Laird random-effects
+    estimate (normal-approximation CI and p), and the Hartung-Knapp-Sidik-Jonkman
+    CI and p for the same random-effects estimate. With only a few studies the
+    normal approximation is too optimistic; HKSJ uses a t distribution on k - 1
+    degrees of freedom and is the one to quote when k is small. Heterogeneity is
+    reported as Cochran's Q (with p), tau^2 and I^2.
+    """
+    y = np.asarray(estimates, dtype=float)
+    se = np.asarray(ses, dtype=float)
+    ok = np.isfinite(y) & np.isfinite(se) & (se > 0)
+    y, se = y[ok], se[ok]
+    k = len(y)
+    out: dict[str, float] = {"k": k}
+    if k == 0:
+        return out
+
+    w = 1 / se**2
+    fixed = np.sum(w * y) / np.sum(w)
+    fixed_se = np.sqrt(1 / np.sum(w))
+    out.update(fixed=fixed, fixed_se=fixed_se, fixed_p=2 * stats.norm.sf(abs(fixed / fixed_se)))
+    if k == 1:
+        return out
+
+    q = float(np.sum(w * (y - fixed) ** 2))
+    df = k - 1
+    c = np.sum(w) - np.sum(w**2) / np.sum(w)
+    tau2 = max(0.0, (q - df) / c)
+    ws = 1 / (se**2 + tau2)
+    random = np.sum(ws * y) / np.sum(ws)
+    random_se = np.sqrt(1 / np.sum(ws))
+    z = stats.norm.ppf(0.975)
+
+    hk_se = np.sqrt(np.sum(ws * (y - random) ** 2) / (df * np.sum(ws)))
+    t = stats.t.ppf(0.975, df)
+    hk_p = 2 * stats.t.sf(abs(random / hk_se), df) if hk_se > 0 else 0.0
+
+    out.update(
+        random=random,
+        random_se=random_se,
+        random_ci_low=random - z * random_se,
+        random_ci_high=random + z * random_se,
+        random_p=2 * stats.norm.sf(abs(random / random_se)),
+        hk_ci_low=random - t * hk_se,
+        hk_ci_high=random + t * hk_se,
+        hk_p=hk_p,
+        q=q,
+        q_p=stats.chi2.sf(q, df),
+        tau2=tau2,
+        i2=max(0.0, (q - df) / q) if q > 0 else 0.0,
+    )
+    return out

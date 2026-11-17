@@ -71,7 +71,17 @@ def resolve_names(requested: list[str], available: list[str]) -> tuple[dict[str,
 
 
 def load_dataset(dataset_id: str):
-    """Download (first time only, cached under $HOME) and load a GEO dataset."""
+    """Download (first time only, cached) and load a GEO dataset.
+
+    Datasets whose betas are only in a supplementary file (see
+    geo_supplementary.SOURCES) go through this project's own loader;
+    everything else through Biolearn's data library.
+    """
+    from .geo_supplementary import SOURCES, load_supplementary
+
+    if dataset_id in SOURCES:
+        return load_supplementary(dataset_id)
+
     from biolearn.data_library import DataLibrary  # type: ignore
 
     source = DataLibrary().get(dataset_id)
@@ -161,3 +171,49 @@ def encode_binary(series: pd.Series) -> pd.Series:
     if len(levels) != 2:
         raise ValueError(f"Expected 2 levels, got {levels}")
     return series.map({levels[0]: 0.0, levels[1]: 1.0})
+
+
+def model_cpgs(gallery, model_names) -> set[str]:
+    """Every CpG the given Biolearn models read, including DunedinPACE's normalisation set.
+
+    Running the models on just these rows gives the same results as on the full
+    matrix (imputation and DunedinPACE's normalisation work row by row or on
+    their own CpG set) and needs a fraction of the memory.
+    """
+    from biolearn.util import get_data_file  # type: ignore
+
+    sites: set[str] = set()
+    for name in model_names:
+        sites.update(str(s) for s in gallery.get(name).methylation_sites())
+        if "dunedinpace" in name.lower():
+            gold = pd.read_csv(get_data_file("DunedinPACE_Gold_Means.csv"), index_col=0)
+            sites.update(gold.index.astype(str))
+    return sites
+
+
+def subset_cpgs(data, cpgs):
+    """The same dataset with only the given CpGs (those present) kept."""
+    from biolearn.data_library import GeoData  # type: ignore
+
+    keep = data.dnam.index.intersection(pd.Index(sorted(cpgs)))
+    return GeoData(data.metadata, data.dnam.loc[keep])
+
+
+def subset_samples(data, samples):
+    """The same dataset with only the given samples kept, metadata and betas aligned."""
+    from biolearn.data_library import GeoData  # type: ignore
+
+    samples = list(samples)
+    return GeoData(data.metadata.loc[samples], data.dnam[samples])
+
+
+def sex_probe_coverage(dnam: pd.DataFrame) -> dict[str, float]:
+    """Share of the sex estimator's X and Y probes present in the data."""
+    from biolearn.util import get_data_file  # type: ignore
+
+    ref = pd.read_csv(get_data_file("estimateSex.csv"), usecols=["IlmnID", "CHR"], low_memory=False)
+    out = {}
+    for chrom in ("X", "Y"):
+        probes = ref.loc[ref["CHR"] == chrom, "IlmnID"]
+        out[chrom] = float(probes.isin(dnam.index).mean())
+    return out
