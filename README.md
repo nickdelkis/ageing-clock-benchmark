@@ -1,12 +1,13 @@
 # Ageing clock benchmark
 
-A small target-discovery workflow for healthy ageing, built on public data in three parts:
+A small target-discovery workflow for healthy ageing, built on public data in four parts:
 
 1. **Biomarker.** Six epigenetic clocks on a public blood-methylation cohort: where they agree, and what a condition linked to shorter life does to them.
 2. **Triage.** An LLM agent assesses the seven plasma proteins behind the GrimAge clock as candidate targets. It scores them from public evidence, and code checks every fact it cites.
 3. **Direction.** Cis-Mendelian randomisation tests whether genetically higher levels of each protein shorten lifespan. The agent then reads those results as further evidence.
+4. **Replication.** The clock analysis repeated in two larger cohorts and pooled, with the effect of one cohort's missing probes measured.
 
-Of the five proteins that could be tested, only PAI-1 (SERPINE1) had causal support. With that evidence, the agent's proposal for PAI-1 changed from "unclear" to "inhibit".
+Of the five proteins that could be tested, only PAI-1 (SERPINE1) had causal support. With that evidence, the agent's proposal for PAI-1 changed from "unclear" to "inhibit". Across three cohorts, faster ageing in schizophrenia on DunedinPACE and GrimAge2 replicated, and only DunedinPACE kept part of it after adjusting for smoking.
 
 ## Part 1: clock benchmark
 
@@ -14,7 +15,7 @@ Epigenetic clocks are often treated as interchangeable measures of "biological a
 
 The dataset is GSE41169: whole blood on the Illumina 450K array, 62 people with schizophrenia and 33 controls.
 
-Schizophrenia showed faster ageing on GrimAge2 (+4.3 years) and DunedinPACE (+7%), but not on the other four clocks. Both effects disappeared after adjusting for a methylation-based smoking score. This reproduces the result Shirai et al. (2024) reported for the same dataset. Larger cohorts still show a residual effect, which a sample of 95 is not powered to detect.
+Schizophrenia showed faster ageing on GrimAge2 (+4.3 years) and DunedinPACE (+7%), but not on the other four clocks. Both effects disappeared after adjusting for a methylation-based smoking score. This reproduces the result Shirai et al. (2024) reported for the same dataset. Larger cohorts still show a residual effect, which a sample of 95 is not powered to detect. Part 4 tests this.
 
 ![Effect of schizophrenia on each clock before and after adjusting for smoking and blood cells](results/fig4_adjustment_effect.png)
 
@@ -53,6 +54,23 @@ The agent in part 2 could not say whether to inhibit or activate most proteins. 
 
 Details: part 3 of [WRITEUP.md](WRITEUP.md). Setup and scripts: [mr/README.md](mr/README.md).
 
+## Part 4: replication in two larger cohorts
+
+Part 4 runs the part 1 notebook on two larger whole-blood cohorts, GSE80417 (332 cases, 304 controls) and GSE84727 (260 cases, 405 controls), and pools all three with a random-effects meta-analysis.
+
+- **Faster ageing on GrimAge2 and DunedinPACE replicated in every cohort:** pooled +4.8 years and +0.10 biological years per year (both p ≈ 0.01). The clocks trained on chronological age showed no consistent difference.
+- **After adjusting for smoking and blood cells, DunedinPACE stayed elevated in both large cohorts,** but not in the small, young GSE41169, so the three-cohort pooled interval includes zero. GrimAge2's effect was mostly smoking.
+- **Harmonising the data:**
+  - the new cohorts' betas are only in GEO supplementary files, so they have their own loader;
+  - two impossible ages (891 and 883 years) had to be removed;
+  - GSE84727 was deposited without about 65,000 probes. Rerunning the other cohorts on its probe set showed that this shrinks the raw schizophrenia effect by a fifth to a third and leaves the smoking-adjusted effect unchanged.
+
+![DunedinPACE: schizophrenia effect in three cohorts before and after adjustment](results/pooled/fig_pooled_DunedinPACE.png)
+
+*Schizophrenia minus control in DunedinPACE, adjusted for sex (blue), plus a methylation smoking score (orange), plus blood cells (green). Cohorts with 95% CI; pooled random-effects estimate with Hartung–Knapp 95% CI.*
+
+Details: part 4 of [WRITEUP.md](WRITEUP.md). Per-cohort results are in `results/<dataset>/`, the pooled ones in `results/pooled/`.
+
 ## Run it
 
 Requires Docker.
@@ -65,6 +83,16 @@ docker compose up                          # open the http://127.0.0.1:8888 link
 
 Then run `notebooks/clock_benchmark.ipynb` (part 1) or `notebooks/target_ranking.ipynb` (part 2) top to bottom. The dataset downloads from GEO on the first run.
 
+For part 4, run the clock notebook once per cohort, then pool them. The two larger cohorts download 2.4–2.7 GB each the first time.
+
+```bash
+for g in GSE41169 GSE80417 GSE84727; do
+  docker compose run --rm -e CLOCK_DATASET=$g clocks jupyter nbconvert --to notebook --execute \
+    --output-dir results/$g --output clock_benchmark_$g.ipynb notebooks/clock_benchmark.ipynb
+done
+docker compose run --rm clocks jupyter nbconvert --to notebook --execute --inplace notebooks/cohort_summary.ipynb
+```
+
 Part 3 runs in a second container with RStudio and needs a free OpenGWAS token in `.env`. `docker compose up` starts it at http://127.0.0.1:8787; run the scripts in `mr/` in order, then the part 2 notebook picks up their results. See [mr/README.md](mr/README.md).
 
 ## References
@@ -72,3 +100,4 @@ Part 3 runs in a second container with RStudio and needs a free OpenGWAS token i
 - Moqri M, et al. (2023) Biomarkers of aging for the identification and evaluation of longevity interventions. *Cell* 186:3758–3775. [doi:10.1016/j.cell.2023.08.003](https://doi.org/10.1016/j.cell.2023.08.003)
 - Shirai T, et al. (2024) Meta-analyses of epigenetic age acceleration and GrimAge components of schizophrenia or first-episode psychosis. *Schizophrenia* 10:108. [doi:10.1038/s41537-024-00531-8](https://doi.org/10.1038/s41537-024-00531-8)
 - Caspi A, et al. (2024) Accelerated pace of aging in schizophrenia: five case-control studies. *Biological Psychiatry* 95(11):1038–1047. [doi:10.1016/j.biopsych.2023.10.023](https://doi.org/10.1016/j.biopsych.2023.10.023)
+- Hannon E, et al. (2016) An integrated genetic-epigenetic analysis of schizophrenia: evidence for co-localization of genetic associations and differential DNA methylation. *Genome Biology* 17:176. [doi:10.1186/s13059-016-1041-x](https://doi.org/10.1186/s13059-016-1041-x)

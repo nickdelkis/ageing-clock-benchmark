@@ -83,7 +83,7 @@ Smoking here is probably part of the causal path from schizophrenia to faster ag
 
 ## What I would do next
 
-- **Run the same notebook on a larger cohort**, such as GSE84727 or GSE80417. The aim is to see whether the residual DunedinPACE effect appears at scale, as it does in Shirai et al. and Caspi et al.
+- **Run the same notebook on a larger cohort**, such as GSE84727 or GSE80417. The aim is to see whether the residual DunedinPACE effect appears at scale, as it does in Shirai et al. and Caspi et al. Part 4 does this.
 - **Compare smoking proxies directly.** Test McCartney, DNAmPACKYRS and a self-reported measure where available, and see how much each one removes.
 - **Add the GrimAge protein surrogates** to see which components carry the effect. Shirai et al. point to adrenomedullin, beta-2 microglobulin, cystatin C and PAI-1.
 
@@ -343,3 +343,132 @@ Same model, same evidence otherwise, three runs per protein:
 - Hemani G, et al. (2018) The MR-Base platform supports systematic causal inference across the human phenome. *eLife*. [doi:10.7554/eLife.34408](https://doi.org/10.7554/eLife.34408)
 - Timmers PR, et al. (2019) Genomics of 1 million parent lifespans implicates novel pathways and common diseases and distinguishes survival chances. *eLife*. [doi:10.7554/eLife.39856](https://doi.org/10.7554/eLife.39856)
 - Timmers PR, et al. (2020) Multivariate genomic scan implicates novel loci and haem metabolism in human ageing. *Nature Communications*. [doi:10.1038/s41467-020-17312-3](https://doi.org/10.1038/s41467-020-17312-3)
+
+
+# Part 4: replication in two larger cohorts, and what pooling three cohorts can show
+
+## Summary
+
+Part 1 found faster ageing in schizophrenia on GrimAge2 and DunedinPACE in 95 people, fully explained by a methylation smoking score, and argued that the residual effect reported in larger studies was beyond its power. Part 4 runs the same notebook on two larger whole-blood 450K cohorts, GSE80417 (332 cases, 304 controls) and GSE84727 (260 cases, 405 controls), and pools the three.
+
+- **Before smoking adjustment the result replicates in every cohort.** Pooled, cases are 4.8 years older on GrimAge2 and age 0.10 biological years per year faster on DunedinPACE (both p ≈ 0.01, with an interval built for few studies). Clocks trained on chronological age show no consistent difference.
+- **After adjusting for smoking and blood cells, DunedinPACE stays elevated in both large cohorts** (+0.035, p = 0.002; +0.038, p < 10⁻⁴), as Caspi et al. (2024) and Shirai et al. (2024) report. The small, young GSE41169 sits at zero, and with three cohorts that disagreement is enough to put the pooled interval across zero.
+- **GrimAge2's residual is inconsistent.** Smoking adjustment removes three-quarters or more of its effect in every cohort, and what remains changes sign between cohorts.
+
+The new cohorts needed their own loader, two impossible ages had to be found, and one cohort was deposited without about 65,000 probes. I measured what those missing probes do to each clock: they shrink the raw schizophrenia effect by a fifth to a third but leave the smoking-adjusted effect unchanged.
+
+## Data
+
+| | GSE41169 | GSE80417 | GSE84727 |
+| --- | --- | --- | --- |
+| Source | Utrecht | University College London (Hannon et al. 2016) | Aberdeen (Hannon et al. 2016) |
+| Analysed: cases / controls | 62 / 33 | 332 / 304 | 260 / 405 |
+| Median age: controls / cases | 27 / 31.5 | 31 / 42 | 46 / 43 |
+| Male: controls / cases | 64% / 74% | 44% / 73% | 75% / 68% |
+| Smoking score: controls / cases | 3.1 / 4.4 | 3.6 / 4.9 | 3.7 / 4.5 |
+| Probes | 485,577 | 483,636 | 420,374, none on X or Y |
+
+The analysed numbers for GSE80417 and GSE84727 match Shirai et al.'s exactly, so the two analyses use the same samples. The cohorts differ in ways that matter: GSE80417's cases are 11 years older and much more often male than its controls, while GSE84727 is balanced for age and sex.
+
+## Loading and harmonising the data
+
+- **The betas are not in the GEO series matrix.** For both new cohorts the series matrix holds metadata only; the normalised betas are in a 2.4–2.7 GB supplementary file whose columns are Sentrix chip positions. `src/clockbench/geo_supplementary.py` downloads both files once, maps chip positions to GEO sample IDs, refuses to continue if any sample fails to match, and returns the same structure as Biolearn's curated datasets. The disease label is taken from each sample's source name and must agree exactly with the numeric code; in both cohorts it does, with 1 = control as in GSE41169.
+- **Ages.** 37 samples in GSE80417 and 182 in GSE84727 have no recorded age. Two more in GSE80417 have ages of 891 and 883 years. A single such value flattens every age regression in the cohort, which in a first run made all six clocks show cases as several years "older"; ages outside 0–110 are now treated as missing. Shirai et al. also excluded erroneous ages and arrived at the same sample counts.
+- **Missing ages are not random in GSE84727:** 154 of 414 cases lack an age, against 28 of 433 controls.
+- **GSE84727 was deposited without 65,000 probes,** including every probe on the sex chromosomes and part of the clocks' CpGs:
+
+  | Model | CpGs present in GSE84727 |
+  | --- | --- |
+  | Horvath, Hannum, PhenoAge | 96–99% |
+  | CausAge | 93% |
+  | DunedinPACE | 86% |
+  | GrimAge2 | 82% |
+  | Smoking score, blood-cell reference | 95%, 92% |
+
+  The methylation sex check is therefore impossible in GSE84727. In GSE80417 only 24% of the estimator's Y probes are present, but X is complete, and predicted sex matched recorded sex for all 636 samples.
+- **How missing CpGs are filled.** With part 1's setting, Biolearn's linear clocks stop with an error when a CpG is absent, and GrimAge2 silently computes without it. Every cohort is now run with Biolearn's 450K reference medians filling absent CpGs. GSE41169 reproduced part 1 under the new setting: GrimAge2 +4.33 years (p = 0.0006) before and −0.57 (p = 0.38) after smoking adjustment.
+
+## Findings
+
+All effects are from QC-passed samples, adjusted for sex, as case minus control in each clock's own units.
+
+### 1. Before smoking adjustment, every cohort shows faster ageing on the pace and mortality clocks
+
+| Clock | GSE41169 | GSE80417 | GSE84727 |
+| --- | --- | --- | --- |
+| GrimAge2 (years) | +4.55 (p = 0.0004) | +5.62 (p < 10⁻⁴⁰) | +4.16 (p < 10⁻³⁰) |
+| DunedinPACE | +0.078 (p = 0.001) | +0.122 (p < 10⁻²⁹) | +0.099 (p < 10⁻²⁶) |
+| Horvath (years) | −1.42 | −0.82 | −0.22 |
+| PhenoAge (years) | −0.23 | +1.26 | +1.48 |
+
+The effects of GrimAge2 and DunedinPACE are large in every cohort (Cohen's d 0.79–1.30 and 0.68–0.97). The chronological clocks are near zero or slightly negative, as in part 1 and the literature.
+
+### 2. After adjustment, only DunedinPACE keeps a consistent residual
+
+| Clock and model | GSE41169 | GSE80417 | GSE84727 |
+| --- | --- | --- | --- |
+| GrimAge2 + smoking | −1.00 (p = 0.13) | +0.63 (p = 0.03) | +1.08 (p < 10⁻⁵) |
+| GrimAge2 + smoking + cells | −0.67 (p = 0.29) | +0.24 (p = 0.40) | +0.55 (p = 0.012) |
+| DunedinPACE + smoking | 0.00 (p = 0.92) | +0.044 (p < 10⁻⁴) | +0.054 (p < 10⁻⁹) |
+| DunedinPACE + smoking + cells | 0.00 (p = 0.82) | +0.035 (p = 0.002) | +0.038 (p < 10⁻⁴) |
+
+- **DunedinPACE.** Both large cohorts keep a residual of about +0.04 after smoking and cell adjustment. In GSE80417 the smoking-adjusted effect is 0.32 SD of age deviation. Shirai et al. standardised both the outcome and the case indicator; for a near-balanced cohort that coefficient is about half the difference in SD units, so their 0.17–0.22 in the large cohorts corresponds to roughly 0.35–0.45 SD, close to the value here.
+- **GrimAge2.** Smoking adjustment removes 89% of the effect in GSE80417, 74% in GSE84727 and all of it in GSE41169. What remains is small and changes sign between cohorts. GrimAge2's schizophrenia signal is mostly its smoking component, as part 1 concluded.
+
+### 3. Pooled across the three cohorts
+
+Random-effects meta-analysis (DerSimonian and Laird 1986). With three studies of very unequal size, the usual normal-approximation interval is too narrow, so I chose the Hartung–Knapp interval in advance (IntHout et al. 2014). It uses a t distribution with 2 degrees of freedom and is about 2.2 times wider.
+
+| Clock | Sex only | + smoking | + smoking + cells |
+| --- | --- | --- | --- |
+| GrimAge2 (years) | **+4.82** (2.75 to 6.90), p = 0.010 | +0.45 (−1.99 to 2.88), p = 0.51, I² 79% | +0.27 (−0.93 to 1.47), p = 0.44 |
+| DunedinPACE | **+0.104** (0.056 to 0.152), p = 0.011 | +0.038 (−0.030 to 0.105), p = 0.14, I² 71% | +0.031 (−0.008 to 0.069), p = 0.08 |
+| Horvath (years) | −0.58 (−1.84 to 0.67), p = 0.18 | −0.15 | −0.12 |
+| PhenoAge (years) | +1.20 (−0.38 to 2.79), p = 0.08 | +0.65 | +0.06 |
+
+![DunedinPACE: schizophrenia effect in three cohorts before and after adjustment](results/pooled/fig_pooled_DunedinPACE.png)
+
+- **Faster ageing on GrimAge2 and DunedinPACE is robust before smoking adjustment.** The intervals exclude zero even with the conservative method.
+- **The residual DunedinPACE effect cannot be pooled with confidence.** The two large cohorts agree, but GSE41169 sits at zero and the disagreement is larger than chance (Cochran's Q p = 0.03). With the normal approximation the pooled residual would be significant (p = 0.004, and p = 0.0003 with cells), but switching methods after seeing the result would be choosing the answer.
+- **Why GSE41169 might differ.** It is the youngest cohort (median 29, against 37 and 46), and Caspi et al. describe accelerated ageing in schizophrenia as appearing by midlife. With one small cohort this is a hypothesis, not a finding.
+
+### 4. What GSE84727's missing probes do to the clocks
+
+To test whether GSE84727's results can be compared with the other cohorts, I reran GSE41169 and GSE80417 restricted to GSE84727's probes, with the missing CpGs filled in the same way.
+
+| | GSE41169 | GSE80417 |
+| --- | --- | --- |
+| Correlation, all probes vs restricted: GrimAge2 / DunedinPACE | 0.99 / 0.98 | 1.00 / 0.98 |
+| Spread of age deviation, restricted vs all probes: GrimAge2 / DunedinPACE | 0.81 / 0.84 | 0.84 / 0.89 |
+| GrimAge2 effect, sex only (SD units): all probes → restricted | 0.76 → 0.55 | 1.01 → 0.82 |
+| DunedinPACE effect, sex only | 0.70 → 0.46 | 0.89 → 0.74 |
+| GrimAge2 effect, + smoking | −0.17 → −0.19 | 0.11 → 0.11 |
+| DunedinPACE effect, + smoking | −0.02 → −0.03 | 0.32 → 0.38 |
+
+Effects are in SD units of the all-probe age deviation, so any shrinkage shows.
+
+- **The estimates barely change, but their spread does.** Filling the missing CpGs with a constant reduces how much people differ on GrimAge2 and DunedinPACE by 11–19%.
+- **That shrinks the raw schizophrenia effect by 17–34%, but not the smoking-adjusted effect.** One explanation is that the lost CpGs carry part of the smoking-related signal. I have not tested which CpGs they are.
+- **For the pooled analysis:** GSE84727's sex-only effects are underestimates, so the sex-only pooled estimates are conservative. Its smoking-adjusted effects are comparable with the other cohorts.
+
+## Limitations
+
+- **Three cohorts.** The pooled intervals are wide, and three cohorts cannot explain their heterogeneity. Shirai et al. pooled five schizophrenia cohorts, including these two, and found DunedinPACE elevated in both of their adjustment models.
+- **Missing ages in GSE84727 are concentrated in cases** (37% of cases, 7% of controls). If missingness relates to illness severity or recruitment site, the analysed cases are not representative.
+- **No sex check in GSE84727,** because the sex-chromosome probes were removed before deposit.
+- **Different processing.** GSE41169 comes from the GEO series matrix; the other two are the submitters' normalised betas. The probe-set test covers missing probes, not differences in normalisation.
+- **Smoking is estimated from methylation,** and blood-cell adjustment may remove genuine ageing signal along with confounding, as in part 1.
+
+## Next
+
+- **Integrate the cohorts with mixOmics MINT** on the CpGs all three share: the same omic across several studies, which is the integration this setup was built for.
+- **A fourth large cohort,** such as Shirai et al.'s Dublin cohort from the same consortium, would narrow the pooled interval more than anything else.
+- **Which GrimAge2 components carry the remaining signal.** Shirai et al. point to the adrenomedullin, beta-2 microglobulin, cystatin C and PAI-1 surrogates. Part 3 found that the PAI-1 surrogate does not follow the genetics of the measured protein, so a surrogate effect here would not by itself say anything about PAI-1.
+
+## References
+
+- Hannon E, et al. (2016) An integrated genetic-epigenetic analysis of schizophrenia: evidence for co-localization of genetic associations and differential DNA methylation. *Genome Biology* 17:176. [doi:10.1186/s13059-016-1041-x](https://doi.org/10.1186/s13059-016-1041-x)
+- Shirai T, et al. (2024) Meta-analyses of epigenetic age acceleration and GrimAge components of schizophrenia or first-episode psychosis. *Schizophrenia* 10:108. [doi:10.1038/s41537-024-00531-8](https://doi.org/10.1038/s41537-024-00531-8)
+- Caspi A, et al. (2024) Accelerated pace of aging in schizophrenia: five case-control studies. *Biological Psychiatry* 95(11):1038–1047. [doi:10.1016/j.biopsych.2023.10.023](https://doi.org/10.1016/j.biopsych.2023.10.023)
+- DerSimonian R, Laird N (1986) Meta-analysis in clinical trials. *Controlled Clinical Trials* 7:177–188. [doi:10.1016/0197-2456(86)90046-2](https://doi.org/10.1016/0197-2456(86)90046-2)
+- IntHout J, Ioannidis JPA, Borm GF (2014) The Hartung-Knapp-Sidik-Jonkman method for random effects meta-analysis is straightforward and considerably outperforms the standard DerSimonian-Laird method. *BMC Medical Research Methodology* 14:25. [doi:10.1186/1471-2288-14-25](https://doi.org/10.1186/1471-2288-14-25)
