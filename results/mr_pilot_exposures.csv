@@ -1,0 +1,8 @@
+protein,exposure_id,study,n_genome_wide,n_cis
+ADM,ebi-a-GCST90011996,"Folkersen L 2020 (ebi-a-GCST90011996, n = 21,758)",5,2
+B2M,prot-c-3485_28_2,Suhre K 2019 (prot-c-3485_28_2),1,0
+CST3,ebi-a-GCST90025945,"Barton AR 2021 (ebi-a-GCST90025945, n = 437,846)",372,6
+SERPINE1,ebi-a-GCST90019422,"Pietzner M 2020 (ebi-a-GCST90019422, n = 10,708)",3,1
+GDF15,ebi-a-GCST90011998,"Folkersen L 2020 (ebi-a-GCST90011998, n = 21,758)",3,2
+LEP,ebi-a-GCST90012076,"Folkersen L 2020 (ebi-a-GCST90012076, n = 21,758)",2,1
+TIMP1,prot-c-2211_9_6,Suhre K 2019 (prot-c-2211_9_6),0,0

@@ -198,3 +198,148 @@ GDF15 dropped (3.00 → 2.70) once its null project finding was read correctly. 
 ## Next
 
 Part 3 adds the missing causal evidence. Cis-Mendelian randomisation with public pQTL and GWAS summary statistics tests whether genetically higher protein levels cause faster ageing. The results become a further evidence tool, so the agent can base its inhibit/activate decision on causal data.
+
+
+# Part 3: Mendelian randomisation of the GrimAge proteins, and what it changed in the agent
+
+## Summary
+
+Part 2's agent could not say whether to inhibit or activate most of the seven GrimAge proteins, and five of its seven assessments named Mendelian randomisation (MR) as the evidence that would decide it. Part 3 ran that analysis with public summary statistics and gave the results to the agent as a new evidence tool.
+
+Five of the seven proteins had usable genetic instruments. One result survived correction for 20 tests: genetically higher PAI-1 (SERPINE1) was associated with shorter parental lifespan (p = 0.0015, Bonferroni p = 0.03). The instrument's direction replicated in two other PAI-1 studies but not in GrimAge's methylation estimate of PAI-1. Colocalisation was inconclusive, because the lifespan GWAS has only a weak signal at the locus. With the MR results available, the agent changed its proposal for PAI-1 from "unclear" to "inhibit", recommended prioritising it in two of three runs, and lowered its scores for proteins with well-powered null results.
+
+## Design
+
+Two-sample cis-MR: genetic variants near a protein's own gene that change its plasma level act as a natural experiment for raising or lowering the protein. Everything ran in R (TwoSampleMR, ieugwasr, coloc) inside a second Docker container with RStudio, on GWAS summary statistics hosted by OpenGWAS. Every API call is cached, so reruns are free and reproducible.
+
+**Exposures**, one protein GWAS each:
+
+| Protein | Study | Platform | n | Cis instruments |
+| --- | --- | --- | --- | --- |
+| ADM | Folkersen 2020 (SCALLOP) | Olink | 21,758 | 2 |
+| B2M | Suhre 2017 | SomaScan | ~1,000 | 0 |
+| CST3 (cystatin C) | UK Biobank serum biochemistry | clinical assay | 437,846 | 6 |
+| SERPINE1 (PAI-1) | Pietzner 2020 | SomaScan | 10,708 | 1 |
+| GDF15 | Folkersen 2020 (SCALLOP) | Olink | 21,758 | 2 |
+| LEP (leptin) | Folkersen 2020 (SCALLOP) | Olink | 21,758 | 1 |
+| TIMP1 | Suhre 2017 | SomaScan | ~1,000 | 0 |
+
+**Outcomes:**
+
+- parental lifespan: Pilling 2017, 389,166 UK Biobank participants;
+- frailty index: Atkins 2021, 175,226 people;
+- GrimAge acceleration: McCartney 2021, 34,467 people, two entries in OpenGWAS.
+
+**Method:**
+
+- **Instruments:** p < 5 × 10⁻⁸, clumped, and within 1 Mb of the protein's gene. Restricting to cis variants makes it more likely that the variant acts through the protein itself.
+- **Estimators:** Wald ratio for one variant, inverse-variance weighted (IVW) for more. Egger and weighted median were added from three variants, and heterogeneity was tested from two.
+- **Multiple testing:** Bonferroni correction over the 20 primary tests (5 proteins × 4 outcomes).
+- **Direction check:** what a positive beta means depends on how each GWAS was coded. I checked each outcome against a variant of known effect: APOE ε4 (rs429358) has a positive beta in the parental-lifespan GWAS, so there positive means shorter life.
+
+## Results
+
+### Only PAI-1 showed a causal signal
+
+| Protein | Variants | Effect on parental lifespan | p |
+| --- | --- | --- | --- |
+| SERPINE1 | 1 | shorter (b = +0.070) | 0.0015 (Bonferroni 0.03) |
+| LEP | 1 | b = +0.045 | 0.14 |
+| ADM | 2 | b = +0.015 | 0.30 |
+| GDF15 | 2 | b = +0.009 | 0.69 |
+| CST3 | 6 | b = −0.001 | 0.82 |
+
+No other test of any protein on frailty or GrimAge acceleration reached p < 0.1. B2M and TIMP1 could not be tested: their only pQTL source here has about 1,000 people and gave no cis instruments.
+
+The PAI-1 direction matches the Amish carriers of a loss-of-function SERPINE1 variant, who live longer than non-carriers (Khan et al. 2017).
+
+### Follow-up of the PAI-1 instrument
+
+The instrument is rs2227631, a promoter variant 1 kb upstream of SERPINE1, with F = 61. Its G allele lowers PAI-1.
+
+- **Replication across protein studies.** The G allele lowered PAI-1 in Gilly 2020 (β = −0.10, p = 0.012) and, non-significantly, in Sun 2018 (β = −0.04, p = 0.15).
+- **No effect on GrimAge's methylation estimate of PAI-1** (McCartney 2021: β = +0.06, p = 0.45, n = 34,448). The surrogate does not follow the genetics of the measured protein. This fits part 1, where GrimAge's signal tracked smoking.
+- **PheWAS (p < 10⁻⁵, 9 associations):**
+  - PAI-1 itself, and tissue plasminogen activator, which is in the same pathway;
+  - expression of SERPINE1 and four other genes;
+  - small effects on pulse rate and red-cell count.
+
+  There were no associations with bleeding, lipids or BMI.
+
+### Colocalisation is inconclusive
+
+Colocalisation tests whether one shared variant drives both the PAI-1 signal and the lifespan signal (H4), or whether two different variants in linkage disequilibrium do (H3). Within ±250 kb of SERPINE1 (2,290 variants):
+
+| H0 no signal | H1 PAI-1 only | H2 lifespan only | H3 two variants | H4 one shared variant |
+| --- | --- | --- | --- | --- |
+| 0.00 | 0.83 | 0.00 | 0.04 | 0.13 |
+
+- **If there is a shared variant, it is the instrument:** rs2227631 carries 94% of the H4 probability.
+- **The lifespan GWAS has no strong signal at this locus.** Its strongest variant in the window, rs4268055 (70 kb upstream), reaches only p = 6 × 10⁻⁴. A signal this weak cannot push PP.H4 above the usual 0.8.
+- **The window matters.** A ±1 Mb window first gave PP.H3 = 0.19. That came from a lifespan signal (p = 4 × 10⁻⁵) outside the ±250 kb window, so it did not belong to SERPINE1.
+
+The MR result is Bonferroni-significant and directionally replicated, but colocalisation is underpowered, not contradictory.
+
+### GDF15: a null hiding a disagreement
+
+GDF15's two cis variants disagree with each other on three of the four outcomes (heterogeneity Q p = 0.008 for parental lifespan, 0.001 for both GrimAge entries). Its null IVW estimate is therefore an average of variants pulling in different directions, not two variants agreeing on no effect. One possibility is an assay artefact: a protein-altering variant can change antibody binding in an immunoassay without changing the protein level. Whether one of the two instruments is a missense variant is an open question.
+
+## What the MR evidence changed in the agent
+
+The causal results became an eighth evidence tool, `get_causal_evidence`, which returns short, citable facts per protein:
+
+- the instruments and their F-statistics;
+- the MR estimate for each outcome, with Bonferroni p;
+- a direction, given only when the result is significant;
+- heterogeneity checks, colocalisation, replication and the top PheWAS traits.
+
+Proteins without instruments are reported as "not tested", not as null. The prompt gained one rule. A significant MR result is the strongest evidence available for ageing relevance and direction. It is weighed with colocalisation (PP.H4 > 0.8 supports it, PP.H3 > 0.8 argues against it). A null is weak evidence against, and "not tested" is no evidence either way.
+
+Same model, same evidence otherwise, three runs per protein:
+
+| Protein | Version 2 score | Version 3 score, with MR | Version 3 recommendations | Version 3 modulation |
+| --- | --- | --- | --- | --- |
+| SERPINE1 | 3.37 | 3.37 | prioritise 2, consider 1 | inhibit |
+| ADM | 3.10 | 3.20 | consider 3 | unclear |
+| GDF15 | 2.70 | 2.70 | consider 3 | unclear |
+| B2M | 2.70 | 2.58 | consider 3 | unclear |
+| TIMP1 | 2.50 | 2.30 | deprioritise 2, consider 1 | unclear |
+| CST3 | 2.85 | 2.25 | deprioritise 3 | unclear |
+| LEP | 2.30 | 1.95 | deprioritise 3 | unclear |
+
+- **SERPINE1 gained a direction and a stronger recommendation.** Its overall score stayed the same: ageing relevance and mechanism rose to 4, but safety stayed at 2 because inhibiting PAI-1 carries a bleeding risk. The agent called colocalisation inconclusive and replication mixed. It noted that frailty and GrimAge were null and that one instrument cannot test pleiotropy. One run in three still said "consider".
+- **Well-powered nulls were penalised.** CST3, with six instruments from 438,000 people, dropped most (2.85 → 2.25). LEP dropped less, and its null rests on a single variant.
+- **Untested proteins were not penalised for the missing data.** B2M and TIMP1 listed the missing MR among their key uncertainties, and their scores barely moved.
+- **Citations: 264 of 265 matched.** The one mismatch was a reformatting: the agent condensed a list of MR results into one line, with correct values.
+- **An unchecked claim was right.** The agent wrote that GDF15's instruments showed "significant heterogeneity" without citing the fact. It was correct (see above), but it shows that rationale text is still only partly verified.
+- **The baseline stopped agreeing on ageing relevance (Spearman ρ = 0.00).** This is expected: the rule-based baseline does not read the MR results. It is the clearest sign that the agent now integrates evidence the fixed rules cannot.
+
+## Limitations
+
+- **One variant for PAI-1.** A single instrument cannot separate an effect through PAI-1 from pleiotropy at the locus. The PheWAS found expression effects on four other genes.
+- **Colocalisation is underpowered,** so it neither confirms nor refutes the shared variant.
+- **Parental lifespan is a proxy.** It measures the participants' parents and dilutes effects. GrimAge acceleration (n = 34,467) has far less power than lifespan (n = 389,166), so its null says little.
+- **One pQTL platform per protein.** SomaScan and Olink can give different instruments for the same protein. The PAI-1 result has not been tested with Olink instruments.
+- **Small, mixed sources for some proteins.** B2M and TIMP1 relied on a study of about 1,000 people, and CST3 on a clinical assay of cystatin C, which also reflects kidney function.
+
+## Next
+
+- **Test PAI-1 with Olink instruments,** for example from the UK Biobank Pharma Proteomics Project, and colocalise against a larger lifespan GWAS such as Timmers 2019 (one million parent lifespans) or the multivariate healthspan–lifespan–longevity scan (Timmers 2020).
+- **Check the LD between rs4268055 and rs2227631,** and whether either GDF15 instrument is a missense variant.
+- **Scale up:** run cis-MR for every protein with cis instruments, filter with fixed rules in code, and send the top 50–200 to the agent. The seven GrimAge proteins tested the workflow; a proteome-wide screen is where it would find new targets.
+
+## References
+
+- Pilling LC, et al. (2017) Human longevity: 25 genetic loci associated in 389,166 UK biobank participants. *Aging*. [doi:10.18632/aging.101334](https://doi.org/10.18632/aging.101334)
+- Atkins JL, et al. (2021) A genome-wide association study of the frailty index highlights brain pathways in ageing. *Aging Cell*. [doi:10.1111/acel.13459](https://doi.org/10.1111/acel.13459)
+- McCartney DL, et al. (2021) Genome-wide association studies identify 137 genetic loci for DNA methylation biomarkers of aging. *Genome Biology* 22:194. [doi:10.1186/s13059-021-02398-9](https://doi.org/10.1186/s13059-021-02398-9)
+- Pietzner M, et al. (2020) Genetic architecture of host proteins involved in SARS-CoV-2 infection. *Nature Communications*. [doi:10.1038/s41467-020-19996-z](https://doi.org/10.1038/s41467-020-19996-z)
+- Folkersen L, et al. (2020) Genomic and drug target evaluation of 90 cardiovascular proteins in 30,931 individuals. *Nature Metabolism*. [doi:10.1038/s42255-020-00287-2](https://doi.org/10.1038/s42255-020-00287-2)
+- Suhre K, et al. (2017) Connecting genetic risk to disease end points through the human blood plasma proteome. *Nature Communications*. [doi:10.1038/ncomms14357](https://doi.org/10.1038/ncomms14357)
+- Sun BB, et al. (2018) Genomic atlas of the human plasma proteome. *Nature*. [doi:10.1038/s41586-018-0175-2](https://doi.org/10.1038/s41586-018-0175-2)
+- Gilly A, et al. (2020) Whole-genome sequencing analysis of the cardiometabolic proteome. *Nature Communications*. [doi:10.1038/s41467-020-20079-2](https://doi.org/10.1038/s41467-020-20079-2)
+- Khan SS, et al. (2017) A null mutation in SERPINE1 protects against biological aging in humans. *Science Advances*. [doi:10.1126/sciadv.aao1617](https://doi.org/10.1126/sciadv.aao1617)
+- Giambartolomei C, et al. (2014) Bayesian test for colocalisation between pairs of genetic association studies using summary statistics. *PLoS Genetics*. [doi:10.1371/journal.pgen.1004383](https://doi.org/10.1371/journal.pgen.1004383)
+- Hemani G, et al. (2018) The MR-Base platform supports systematic causal inference across the human phenome. *eLife*. [doi:10.7554/eLife.34408](https://doi.org/10.7554/eLife.34408)
+- Timmers PR, et al. (2019) Genomics of 1 million parent lifespans implicates novel pathways and common diseases and distinguishes survival chances. *eLife*. [doi:10.7554/eLife.39856](https://doi.org/10.7554/eLife.39856)
+- Timmers PR, et al. (2020) Multivariate genomic scan implicates novel loci and haem metabolism in human ageing. *Nature Communications*. [doi:10.1038/s41467-020-17312-3](https://doi.org/10.1038/s41467-020-17312-3)

@@ -1,0 +1,5 @@
+study,id,rsid,ea,nea,eaf,beta,se,p,n,protein,measure
+gilly2020,ebi-a-GCST90010245,rs2227631,G,A,0.563,-0.102431,0.0405257,0.0122583,1323,SERPINE1,protein
+dnam_pai1_mccartney,ebi-a-GCST90014291,rs2227631,G,A,0.4474,0.0556,0.0742,0.4533,34448,SERPINE1,DNAm surrogate
+pietzner2020_somascan,ebi-a-GCST90019422,rs2227631,G,A,0.4301,-0.064,0.0132,1.293e-06,10708,SERPINE1,protein
+sun2018_somascan,prot-a-2696,rs2227631,G,A,0.42379,-0.0363,0.0251,0.147911,3301,SERPINE1,protein

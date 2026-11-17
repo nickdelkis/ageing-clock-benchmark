@@ -1,0 +1,2 @@
+protein,outcome,exposure_id,outcome_id,region,flank_kb,nsnps,PP.H0.abf,PP.H1.abf,PP.H2.abf,PP.H3.abf,PP.H4.abf,top_snp,top_snp_pp_h4,outcome_top_snp,outcome_top_kb,outcome_min_p,exposure_top_snp
+SERPINE1,parental_longevity,ebi-a-GCST90019422,ebi-a-GCST006697,7:100520370-101032547,250,2290,3.95566373420889e-09,0.832075098273247,1.70202825377856e-10,0.0356699623836895,0.132254935217196,rs2227631,0.939106156007845,rs4268055,-70.056,0.000634901117506255,rs2227631

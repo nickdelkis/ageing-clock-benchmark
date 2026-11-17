@@ -27,6 +27,8 @@ EVIDENCE_TOOLS = {
     "get_disease_associations": "Open Targets disease associations, including age-related diseases, with scores.",
     "get_literature_counts": "Europe PMC publication counts for the target overall and with ageing, senescence and schizophrenia.",
     "get_project_context": "Why this target is on the list: findings from the epigenetic-clock project.",
+    "get_causal_evidence": ("Mendelian randomisation of the measured protein on ageing outcomes (parental lifespan, "
+                            "frailty, GrimAge acceleration), with colocalisation, replication and PheWAS of the instrument."),
 }
 
 _EVIDENCE_ITEM = {
@@ -88,6 +90,15 @@ Rules:
 - Compare the sources with each other (for example tractability labels against the clinical candidates list,
   literature against disease associations). Report every disagreement in source_conflicts and say which
   source you relied on; do not silently pick one. Use an empty list if there are none.
+- Causal evidence: Mendelian randomisation (MR) estimates the effect of genetically higher levels of the
+  measured protein on ageing outcomes; causal.outcome_coding says which sign of b means worse ageing.
+  A Bonferroni-significant MR effect is the strongest evidence here for ageing relevance and for the
+  modulation direction (higher protein -> worse ageing suggests inhibit). With one or two variants MR
+  cannot test pleiotropy, so weigh it with colocalisation (PP.H4 > 0.8 supports one shared causal variant,
+  PP.H3 > 0.8 suggests different variants in linkage disequilibrium, anything else is inconclusive),
+  replication of the instrument and its PheWAS. A null MR result is weak evidence against a causal role;
+  "not tested" is no evidence either way. MR of the measured protein is not a result about its
+  methylation surrogate.
 - Say whether you would inhibit or activate the target to slow ageing, or "unclear". If unclear, name in
   key_uncertainties the evidence that would resolve it.
 - Missing evidence lowers confidence; it is not evidence of safety or efficacy.

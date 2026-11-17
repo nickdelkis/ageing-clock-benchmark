@@ -11,7 +11,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from . import sources
+from . import causal, sources
 
 LITERATURE_TOPICS = {
     "ageing": "aging OR ageing OR longevity OR lifespan",
@@ -94,6 +94,8 @@ def facts(dossier: dict) -> dict:
     for key in LITERATURE_TOPICS:   # share of the target's literature on each topic: relevance, not popularity
         out[f"literature.{key}_share"] = round(lit.get(key, 0) / lit["any"], 4) if lit.get("any") else 0.0
     out["literature.search_terms"] = dossier["literature"].get("terms", [])
+    # Mendelian randomisation results from part 3, attached in memory by causal.attach()
+    out.update(dossier.get("causal") or causal.NOT_PROVIDED)
     return out
 
 
@@ -106,6 +108,7 @@ TOOL_SECTIONS = {
     "get_disease_associations": ("associations.",),
     "get_literature_counts": ("literature.",),
     "get_project_context": ("context.",),
+    "get_causal_evidence": ("causal.",),
 }
 
 

@@ -48,11 +48,13 @@ cached <- function(key, expr) {
 }
 
 # Gene coordinates on GRCh37, the build most OpenGWAS datasets use (check the `build` column).
+# Only the coordinates are cached; the window is computed on each call, so `flank` always applies.
 gene_region_grch37 <- function(symbol, flank = 1e6) {
-  cached(paste0("ensembl_grch37_", symbol), {
-    g <- jsonlite::fromJSON(sprintf(
+  g <- cached(paste0("ensembl_grch37_", symbol), {
+    j <- jsonlite::fromJSON(sprintf(
       "https://grch37.rest.ensembl.org/lookup/symbol/homo_sapiens/%s?content-type=application/json", symbol))
-    list(symbol = symbol, chr = as.character(g$seq_region_name), start = g$start, end = g$end,
-         from = max(1, g$start - flank), to = g$end + flank)
+    list(chr = as.character(j$seq_region_name), start = j$start, end = j$end)
   })
+  list(symbol = symbol, chr = g$chr, start = g$start, end = g$end,
+       from = max(1, g$start - flank), to = g$end + flank)
 }

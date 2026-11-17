@@ -163,7 +163,7 @@ def test_ranking_and_summary(adm):
     rk = evaluate.ranking(results, {"ADM": adm})
     assert rk.loc["ADM", "agent_overall"] == rubric.overall({d: _assessment()["scores"][d]["score"] for d in rubric.DIMENSIONS})
     rs = evaluate.run_summary(results)
-    assert rs.tool_coverage.iloc[0] == pytest.approx(1 / 7)
+    assert rs.tool_coverage.iloc[0] == pytest.approx(1 / len(agent.EVIDENCE_TOOLS))
 
 
 def _capture(response):

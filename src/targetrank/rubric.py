@@ -12,12 +12,13 @@ DIMENSIONS = {
     "ageing_relevance": (
         "Evidence that the target is involved in human ageing or age-related disease: "
         "the share of the target's papers on ageing/senescence (raw counts mostly reflect popularity), "
-        "associations with age-related diseases, and the project context. "
+        "associations with age-related diseases, Mendelian randomisation (genetic evidence that the protein causally "
+        "affects lifespan or ageing measures) and the project context. "
         "5 = strong, multi-source evidence; 1 = none."
     ),
     "mechanism": (
         "How well the target's biological function and its link to ageing are understood, and whether a "
-        "modulation direction (inhibit or activate) is clear. 5 = well-characterised with a clear direction; 1 = unknown."
+        "modulation direction (inhibit or activate) is clear, for example from the sign of a Mendelian randomisation effect. 5 = well-characterised with a clear direction; 1 = unknown."
     ),
     "tractability": (
         "Feasibility of modulating the target with a drug modality (small molecule, antibody, PROTAC, other), "

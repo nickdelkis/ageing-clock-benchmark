@@ -31,9 +31,19 @@ GrimAge is built from methylation surrogates of seven plasma proteins (ADM, B2M,
 
 ![Agent and rule-based ranking of the seven GrimAge proteins](results/fig5_target_ranking.png)
 
-*Overall priority score per protein: agent mean with range across three runs (blue), rule-based baseline (orange diamond). All 286 facts cited by the agent matched the evidence.*
+*Overall priority score per protein: agent mean with range across three runs (blue), rule-based baseline (orange diamond). Latest run, with the MR evidence from part 3: 264 of 265 cited facts matched the evidence.*
 
 The agent works with Anthropic, OpenAI or a local model (e.g. Ollama): copy `.env.example` to `.env` and fill in one option. Details and results: part 2 of [WRITEUP.md](WRITEUP.md).
+
+## Part 3: Mendelian randomisation
+
+The agent in part 2 could not say whether to inhibit or activate most proteins. Part 3 tests whether genetically higher levels of each protein cause shorter lifespan, more frailty or faster GrimAge ageing, using cis-Mendelian randomisation on public GWAS summary statistics (R, in `mr/`).
+
+- **Only PAI-1 (SERPINE1) showed a causal signal:** genetically higher PAI-1 meant shorter parental lifespan (p = 0.0015, Bonferroni-significant across 20 tests). The direction replicated in two other PAI-1 studies. Colocalisation was inconclusive because the lifespan GWAS is weak at this locus.
+- **The other four testable proteins were null;** B2M and TIMP1 had no usable instruments.
+- **The agent now reads these results** through an eighth tool. It changed its proposal for PAI-1 from "unclear" to "inhibit", recommended prioritising it in two of three runs, and lowered its scores for proteins with well-powered null results.
+
+Details: part 3 of [WRITEUP.md](WRITEUP.md). Setup and scripts: [mr/README.md](mr/README.md).
 
 ## Run it
 
@@ -46,6 +56,8 @@ docker compose up                          # open the http://127.0.0.1:8888 link
 ```
 
 Then run `notebooks/clock_benchmark.ipynb` (part 1) or `notebooks/target_ranking.ipynb` (part 2) top to bottom. The dataset downloads from GEO on the first run.
+
+Part 3 runs in a second container with RStudio and needs a free OpenGWAS token in `.env`. `docker compose up` starts it at http://127.0.0.1:8787; run the scripts in `mr/` in order, then the part 2 notebook picks up their results. See [mr/README.md](mr/README.md).
 
 ## References
 

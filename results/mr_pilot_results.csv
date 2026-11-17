@@ -1,0 +1,29 @@
+id.exposure,id.outcome,outcome,exposure,method,nsnp,b,se,pval,protein,harmful_sign,direction,primary,p_bonferroni
+ebi-a-GCST90011996,ebi-a-GCST006697,parental_longevity,ADM,Inverse variance weighted,2,0.0152848731581851,0.014706113577406,0.298639649102779,ADM,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011996,ebi-a-GCST90020053,frailty,ADM,Inverse variance weighted,2,0.025557946223773,0.0219161143351521,0.243545144406886,ADM,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011996,ebi-a-GCST90014288,grimage_accel_a,ADM,Inverse variance weighted,2,0.0377672788973672,0.200944603117342,0.850916858181923,ADM,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011996,ebi-a-GCST90014300,grimage_accel_b,ADM,Inverse variance weighted,2,0.0920300414861811,0.323013935257904,0.775712759589081,ADM,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90025945,ebi-a-GCST006697,parental_longevity,CST3,Inverse variance weighted,6,-0.00145986059623272,0.00631934318979359,0.817303452623854,CST3,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
+ebi-a-GCST90025945,ebi-a-GCST006697,parental_longevity,CST3,MR Egger,6,-0.00220037277187586,0.0109008432908508,0.849881395229716,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST006697,parental_longevity,CST3,Weighted median,6,-0.00191701218817833,0.00643730500436797,0.765857858968424,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90020053,frailty,CST3,Inverse variance weighted,6,-0.00550553258979399,0.00928002724480791,0.553002576076895,CST3,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
+ebi-a-GCST90025945,ebi-a-GCST90020053,frailty,CST3,MR Egger,6,-0.00795601412548184,0.0174612725052623,0.6722888447491,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90020053,frailty,CST3,Weighted median,6,-0.00658971442851115,0.00913025453110308,0.470451345834491,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90014288,grimage_accel_a,CST3,Inverse variance weighted,6,0.0405710545136786,0.0865529046487219,0.639253460038335,CST3,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90025945,ebi-a-GCST90014288,grimage_accel_a,CST3,MR Egger,6,-0.0340525381936396,0.157300559864164,0.839205379246105,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90014288,grimage_accel_a,CST3,Weighted median,6,0.0351328065606336,0.091797394844089,0.701926514396419,CST3,1,higher protein -> worse ageing (hypothesis: inhibit),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90014300,grimage_accel_b,CST3,Inverse variance weighted,3,-0.0254790982162246,0.0834381526024211,0.760088113897503,CST3,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
+ebi-a-GCST90025945,ebi-a-GCST90014300,grimage_accel_b,CST3,MR Egger,3,-0.212030430975383,0.180084380237469,0.448248144957702,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90025945,ebi-a-GCST90014300,grimage_accel_b,CST3,Weighted median,3,-0.0327226417412809,0.084528514037435,0.698667692539161,CST3,1,higher protein -> better ageing (hypothesis: activate),FALSE,
+ebi-a-GCST90019422,ebi-a-GCST006697,parental_longevity,SERPINE1,Wald ratio,1,0.0701702519379845,0.0220985465116279,0.00149664455749719,SERPINE1,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,0.0299328911499438
+ebi-a-GCST90019422,ebi-a-GCST90020053,frailty,SERPINE1,Wald ratio,1,0.0251937984496124,0.0329457364341085,0.444446702634924,SERPINE1,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90019422,ebi-a-GCST90014288,grimage_accel_a,SERPINE1,Wald ratio,1,0.0978682170542636,0.295542635658915,0.740533042945603,SERPINE1,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90019422,ebi-a-GCST90014300,grimage_accel_b,SERPINE1,Wald ratio,1,0.260571705426357,0.324771317829457,0.422365771971192,SERPINE1,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011998,ebi-a-GCST006697,parental_longevity,GDF15,Inverse variance weighted,2,0.00883626553926611,0.0222255879979093,0.690945900292252,GDF15,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011998,ebi-a-GCST90020053,frailty,GDF15,Inverse variance weighted,2,0.0230772867039141,0.0215094416939647,0.283320018433325,GDF15,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011998,ebi-a-GCST90014288,grimage_accel_a,GDF15,Inverse variance weighted,2,0.0710468521892768,0.379396804466759,0.851454703461181,GDF15,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90011998,ebi-a-GCST90014300,grimage_accel_b,GDF15,Inverse variance weighted,2,-0.0614153526810282,0.477627263095271,0.897686614149131,GDF15,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
+ebi-a-GCST90012076,ebi-a-GCST006697,parental_longevity,LEP,Wald ratio,1,0.0449386333771353,0.0304266754270696,0.13968943616953,LEP,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90012076,ebi-a-GCST90020053,frailty,LEP,Wald ratio,1,0.049934296977661,0.0446780551905388,0.263717761833697,LEP,1,higher protein -> worse ageing (hypothesis: inhibit),TRUE,1
+ebi-a-GCST90012076,ebi-a-GCST90014288,grimage_accel_a,LEP,Wald ratio,1,-0.400788436268068,0.420499342969777,0.340526740755191,LEP,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
+ebi-a-GCST90012076,ebi-a-GCST90014300,grimage_accel_b,LEP,Wald ratio,1,-0.233724047306176,0.602724047306176,0.698179195777122,LEP,1,higher protein -> better ageing (hypothesis: activate),TRUE,1
