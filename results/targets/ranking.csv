@@ -1,0 +1,8 @@
+,agent_overall,agent_min,agent_max,baseline_overall,recommendation,recommendation_counts,agent_rank,baseline_rank
+SERPINE1,3.3666666666666667,3.3,3.5,3.5,prioritise,"prioritise 2, consider 1",1,2
+ADM,3.1999999999999997,3.05,3.35,4.0,consider,consider 3,2,1
+GDF15,2.7000000000000006,2.7,2.7,3.45,consider,consider 3,3,3
+B2M,2.5833333333333335,2.35,2.7,2.3,consider,consider 3,4,7
+TIMP1,2.3,2.3,2.3,2.95,deprioritise,"deprioritise 2, consider 1",5,5
+CST3,2.25,2.25,2.25,3.35,deprioritise,deprioritise 3,6,4
+LEP,1.95,1.85,2.0,2.95,deprioritise,deprioritise 3,7,5

@@ -10,7 +10,7 @@ suppressPackageStartupMessages({
 
 PROJECT <- normalizePath(getwd())
 CACHE_DIR <- file.path(PROJECT, "mr", "cache")
-RESULTS_DIR <- file.path(PROJECT, "results")
+RESULTS_DIR <- file.path(PROJECT, "results", "mr")
 dir.create(CACHE_DIR, showWarnings = FALSE, recursive = TRUE)
 dir.create(RESULTS_DIR, showWarnings = FALSE, recursive = TRUE)
 if (!file.exists(file.path(PROJECT, "docker-compose.yml"))) {

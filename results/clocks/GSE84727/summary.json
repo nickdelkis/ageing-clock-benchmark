@@ -1,0 +1,56 @@
+{
+ "dataset": "GSE84727",
+ "imputation": "sesame_450k",
+ "n_loaded": 847,
+ "n_no_usable_age": 182,
+ "implausible_ages": {},
+ "cpgs": 420374,
+ "model_input_cpgs": 22452,
+ "clocks_failed": {},
+ "sex_check": {
+  "probe_coverage": {
+   "X": 0.0,
+   "Y": 0.0
+  },
+  "ran": false,
+  "mismatches": []
+ },
+ "manual_exclusions": [],
+ "n_qc_passed": 665,
+ "most_negative_deviation": {
+  "Horvath": [
+   "GSM2250463",
+   -11.8
+  ],
+  "Hannum": [
+   "GSM2250326",
+   -12.5
+  ],
+  "PhenoAge": [
+   "GSM2250441",
+   -14.5
+  ],
+  "GrimAge2": [
+   "GSM2250340",
+   -11.2
+  ],
+  "DunedinPACE": [
+   "GSM2250407",
+   -0.3
+  ],
+  "CausAge": [
+   "GSM2250811",
+   -9.0
+  ]
+ },
+ "n": {
+  "all": {
+   "control": 405,
+   "schizophrenia": 260
+  },
+  "QC-passed": {
+   "control": 405,
+   "schizophrenia": 260
+  }
+ }
+}

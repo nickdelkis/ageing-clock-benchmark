@@ -1,7 +1,7 @@
 [project]
-name = "clockbench"
+name = "agetarget"
 version = "0.1.0"
-description = "Ageing clocks, LLM target triage and cis-Mendelian randomisation on public data"
+description = "Ageing target discovery on public data: epigenetic clocks, LLM target triage and Mendelian randomisation"
 requires-python = ">=3.10"
 
 [tool.pytest.ini_options]

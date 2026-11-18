@@ -1,21 +1,23 @@
 services:
-  clocks:
+  # Python: the pipeline (python -m agetarget ...), tests, and Jupyter for the display notebooks
+  py:
     build:
       context: .
       args:
         UID: ${UID:-1000}
         GID: ${GID:-1000}
-    image: ageing-clock-benchmark:latest
+    image: ageing-target-discovery:latest
     # Only this project folder is visible inside the container.
     volumes:
       - ./:/work
     # Jupyter is reachable from this machine only, never from the network.
     ports:
       - "127.0.0.1:8888:8888"
-    # A 450K dataset of ~100 samples needs a few GB; this caps runaway jobs.
+    # The largest cohort (847 samples x 420k CpGs, float32) needs a few GB; this caps runaway jobs.
     mem_limit: 12g
-    # LLM settings for notebooks/target_ranking.ipynb, read from .env (see .env.example)
     environment:
+      - PYTHONPATH=/work/src
+      # LLM settings for `python -m agetarget agent`, read from .env (see .env.example)
       - LLM_PROVIDER=${LLM_PROVIDER:-}
       - LLM_MODEL=${LLM_MODEL:-}
       - LLM_BASE_URL=${LLM_BASE_URL:-}
@@ -33,8 +35,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mr
-    image: ageing-clock-benchmark-mr:latest
-    # Same project folder, so R results land next to the Python ones
+    image: ageing-target-discovery-mr:latest
+    # Same project folder, so R results land in results/mr/ next to the Python ones
     volumes:
       - ./:/home/rstudio/work
     # RStudio at http://127.0.0.1:8787, reachable from this machine only;

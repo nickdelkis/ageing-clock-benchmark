@@ -1,4 +1,4 @@
-# Small, self-contained environment for the clock benchmark.
+# Python environment for the pipeline, the tests and the display notebooks.
 # Everything the analysis touches lives in the project folder, mounted at /work.
 FROM python:3.11-slim
 

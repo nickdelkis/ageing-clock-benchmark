@@ -10,7 +10,7 @@ load_token()
 suppressPackageStartupMessages(library(coloc))
 
 PROTEIN     <- "SERPINE1"
-OUTCOME     <- "parental_longevity"   # name as in 01_cis_mr_pilot.R
+OUTCOME     <- "parental_longevity"   # name as in 01_cis_mr.R
 EXPOSURE_ID <- "ebi-a-GCST90019422"   # PAI-1, Pietzner 2020 (SomaScan)
 OUTCOME_ID  <- "ebi-a-GCST006697"     # parental longevity, Pilling 2017
 N_EXP <- 10708
@@ -69,7 +69,7 @@ print(head(as.data.table(res$results)[order(-SNP.PP.H4), .(snp, SNP.PP.H4 = roun
 # coloc::sensitivity(res, rule = "H4 > 0.5")
 
 top_h4 <- as.data.table(res$results)[which.max(SNP.PP.H4)]
-# One summary row, read by the agent's get_causal_evidence tool (src/targetrank/causal.py)
+# One summary row, read by the agent's get_causal_evidence tool (src/agetarget/targets/causal.py)
 summary_row <- cbind(
   data.table(protein = PROTEIN, outcome = OUTCOME, exposure_id = EXPOSURE_ID, outcome_id = OUTCOME_ID,
              region = region, flank_kb = FLANK / 1000),

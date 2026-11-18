@@ -8,7 +8,7 @@ import json
 import pandas as pd
 import pytest
 
-from targetrank import agent, causal, dossier as ds, evaluate, llm
+from agetarget.targets import agent, causal, checks, evidence, llm
 
 
 @pytest.fixture
@@ -19,10 +19,10 @@ def mr_dir(tmp_path):
         {"protein": "B2M", "exposure_id": "prot-c-3485_28_2", "study": "Suhre 2017 (prot-c-3485_28_2, n = 1,000)",
          "n_genome_wide": 2, "n_cis": 0},
         {"protein": "LEP", "exposure_id": None, "study": None, "n_genome_wide": 0, "n_cis": 0},
-    ]).to_csv(tmp_path / "mr_pilot_exposures.csv", index=False)
+    ]).to_csv(tmp_path / "mr_exposures.csv", index=False)
     pd.DataFrame([{"SNP": "rs2227631", "exposure": "SERPINE1", "effect_allele.exposure": "A",
                    "other_allele.exposure": "G", "beta.exposure": 0.103, "se.exposure": 0.0132, "F_stat": 61.2}]
-                 ).to_csv(tmp_path / "mr_pilot_instruments.csv", index=False)
+                 ).to_csv(tmp_path / "mr_instruments.csv", index=False)
     rows = []
     for outcome, b, se, p in [("parental_longevity", 0.070, 0.0221, 0.0015), ("frailty", 0.01, 0.03, 0.74),
                               ("grimage_accel_a", -0.2, 0.5, 0.69)]:
@@ -31,7 +31,7 @@ def mr_dir(tmp_path):
                      "harmful_sign": 1, "primary": "TRUE", "p_bonferroni": min(1, p * 20),
                      "direction": "higher protein -> worse ageing (hypothesis: inhibit)" if b > 0
                      else "higher protein -> better ageing (hypothesis: activate)"})
-    pd.DataFrame(rows).to_csv(tmp_path / "mr_pilot_results.csv", index=False)
+    pd.DataFrame(rows).to_csv(tmp_path / "mr_results.csv", index=False)
     pd.DataFrame([
         {"protein": "SERPINE1", "outcome": "parental_longevity", "exposure_id": "ebi-a-GCST90019422",
          "outcome_id": "ebi-a-GCST006697", "region": "7:100520370-101032547", "flank_kb": 250, "nsnps": 2290,
@@ -98,13 +98,13 @@ def test_untested_targets_are_not_nulls(mr_dir):
 
 
 def test_tool_returns_causal_facts_and_citations_check(mr_dir, monkeypatch, tmp_path):
-    from test_targetrank import ScriptedLLM, _assessment, fake_transport
-    from targetrank import http
+    from test_targets import ScriptedLLM, _assessment, fake_transport
+    from agetarget.targets import http
     monkeypatch.setattr(http, "TRANSPORT", fake_transport)
-    adm = ds.load_or_fetch("ADM", tmp_path / "ev", context="x")
+    adm = evidence.load_or_fetch("ADM", tmp_path / "ev", context="x")
     dossiers = {"ADM": adm}
     causal.attach(dossiers, mr_dir)
-    assert ds.section(adm, "get_causal_evidence") == causal.NOT_PROVIDED      # no MR row for ADM in the fixture
+    assert evidence.section(adm, "get_causal_evidence") == causal.NOT_PROVIDED      # no MR row for ADM in the fixture
 
     adm["causal"] = causal.load(mr_dir)["SERPINE1"]                           # pretend, to test the round trip
     a = _assessment()
@@ -116,14 +116,14 @@ def test_tool_returns_causal_facts_and_citations_check(mr_dir, monkeypatch, tmp_
     assert r.tools_called == ["get_causal_evidence"]
     shown = json.loads(next(m for m in script.seen[1] if m["role"] == "tool")["content"])
     assert shown["causal.mr_significant_outcomes"] == ["parental_longevity"]
-    cc = evaluate.citation_check([r], dossiers).set_index("fact_id")
+    cc = checks.citation_check([r], dossiers).set_index("fact_id")
     assert cc.loc["causal.mr_direction", "status"] == "match"
 
 
 def test_cached_dossier_json_is_not_changed_by_attach(mr_dir, monkeypatch, tmp_path):
-    from test_targetrank import fake_transport
-    from targetrank import http
+    from test_targets import fake_transport
+    from agetarget.targets import http
     monkeypatch.setattr(http, "TRANSPORT", fake_transport)
-    d = ds.load_or_fetch("ADM", tmp_path / "ev", context="x")
+    d = evidence.load_or_fetch("ADM", tmp_path / "ev", context="x")
     causal.attach({"ADM": d}, mr_dir)
     assert "causal" not in json.loads((tmp_path / "ev" / "ADM.json").read_text())

@@ -1,19 +1,14 @@
-# Container home: Biolearn download cache, Jupyter state
-.home/
-
-# Raw or cached data never goes in the repo
+# Downloads and caches: never committed
 data/
+.home/
+mr/cache/
 
-# Generated outputs (commit the figures you want to show, not the whole folder)
-results/*
-!results/.gitkeep
-
-__pycache__/
-.ipynb_checkpoints/
-.pytest_cache/
+# Lookup tables written by mr/00_check_setup.R
+results/mr/opengwas_*_candidates.csv
 
 # API keys
 .env
 
-# MR download cache
-mr/cache/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/

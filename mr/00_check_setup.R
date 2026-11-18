@@ -1,5 +1,5 @@
 # Step 0: check the setup and find which OpenGWAS datasets to use.
-# Run once, top to bottom. Nothing here is analysis; it writes two lookup tables to results/.
+# Run once, top to bottom. Nothing here is analysis; it writes two lookup tables to results/mr/.
 
 source("mr/R/setup.R")
 
@@ -18,7 +18,7 @@ outcome_pattern <- "lifespan|longevity|healthspan|frailty|grimage|phenoage|hannu
 outcomes <- info[grepl(outcome_pattern, trait, ignore.case = TRUE, perl = TRUE), ..keep_cols]
 if ("sample_size" %in% names(outcomes)) setorder(outcomes, -sample_size)
 fwrite(outcomes, file.path(RESULTS_DIR, "opengwas_outcome_candidates.csv"))
-cat("\nOutcome candidates:", nrow(outcomes), "-> results/opengwas_outcome_candidates.csv\n")
+cat("\nOutcome candidates:", nrow(outcomes), "-> results/mr/opengwas_outcome_candidates.csv\n")
 print(head(outcomes[, intersect(c("id", "trait", "author", "year", "sample_size", "build"), keep_cols), with = FALSE], 25))
 
 # 4. Candidate EXPOSURE datasets: pQTL studies for the seven GrimAge proteins
@@ -28,7 +28,7 @@ protein_pattern <- paste(c("adrenomedullin", "\\bADM\\b", "beta-2-microglobulin"
                            "TIMP-?1", "metalloproteinase inhibitor 1"), collapse = "|")
 exposures <- info[grepl(protein_pattern, trait, ignore.case = TRUE, perl = TRUE), ..keep_cols]
 fwrite(exposures, file.path(RESULTS_DIR, "opengwas_pqtl_candidates.csv"))
-cat("\npQTL candidates:", nrow(exposures), "-> results/opengwas_pqtl_candidates.csv\n")
+cat("\npQTL candidates:", nrow(exposures), "-> results/mr/opengwas_pqtl_candidates.csv\n")
 print(exposures[, intersect(c("id", "trait", "author", "year", "sample_size", "build"), keep_cols), with = FALSE])
 
 # 5. Which pQTL collections exist? (look for batch ids starting with "prot-")
@@ -36,4 +36,4 @@ batches <- as.data.table(cached("batches", ieugwasr::batches()))
 print(batches[apply(batches, 1, function(r) any(grepl("prot", r, ignore.case = TRUE)))])
 
 cat("\nNext: open the two CSVs, pick one pQTL id per protein and the outcome ids,",
-    "\nand paste them into the settings at the top of mr/01_cis_mr_pilot.R\n")
+    "\nand paste them into the settings at the top of mr/01_cis_mr.R\n")

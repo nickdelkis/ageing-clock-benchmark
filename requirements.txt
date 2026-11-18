@@ -1,5 +1,5 @@
 # Left unpinned so pip can resolve Biolearn's own constraints.
-# The notebook writes the exact versions it ran with to results/environment.txt.
+# `python -m agetarget clocks` writes the exact versions to results/clocks/<cohort>/environment.txt.
 biolearn
 jupyterlab>=4
 nbconvert

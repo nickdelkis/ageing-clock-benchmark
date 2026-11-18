@@ -1,4 +1,4 @@
-# Step 2: follow-up of the one pilot signal, PAI-1 (SERPINE1) -> shorter parental lifespan.
+# Step 2: follow-up of the one significant result, PAI-1 (SERPINE1) -> shorter parental lifespan.
 # Instrument: rs2227631, a promoter variant ~800 bp upstream of SERPINE1 (allele G lowers PAI-1).
 #   a) Does the variant show the same direction in other PAI-1 studies, including the DNAm surrogate?
 #   b) What else is the variant associated with? (pleiotropy, and an early look at on-target effects)
@@ -21,7 +21,7 @@ lookup[, study := names(PAI1_IDS)[match(id, PAI1_IDS)]]
 cols <- intersect(c("study", "id", "rsid", "ea", "nea", "eaf", "beta", "se", "p", "n"), names(lookup))
 cat("\n== rs2227631 in PAI-1 studies (same direction = beta has the same sign for the same allele)\n")
 print(lookup[, ..cols])
-# Saved for the agent (src/targetrank/causal.py), which puts every effect on the same allele
+# Saved for the agent (src/agetarget/targets/causal.py), which puts every effect on the same allele
 replication <- lookup[, ..cols]
 replication[, `:=`(protein = PROTEIN,
                    measure = fifelse(study == "dnam_pai1_mccartney", "DNAm surrogate", "protein"))]
@@ -34,4 +34,4 @@ setorder(phewas, p)
 cat("\n== PheWAS of", SNP, ":", nrow(phewas), "associations at p < 1e-5 (top 40)\n")
 print(head(phewas[, ..cols], 40))
 fwrite(phewas, file.path(RESULTS_DIR, paste0("phewas_", SNP, ".csv")))
-cat("\nFull list: results/phewas_", SNP, ".csv\n", sep = "")
+cat("\nFull list: results/mr/phewas_", SNP, ".csv\n", sep = "")
